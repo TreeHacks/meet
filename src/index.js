@@ -10,14 +10,10 @@ function Main() {
   return (
     <BrowserRouter>
       <div>
-        <ul>
-          <li>
-            <Link to="/">Table</Link>
-          </li>
-          <li>
-            <Link to="/form">Form</Link>
-          </li>
-        </ul>
+        <div id="page-elems">
+          <Link to="/">table</Link>
+          <Link to="/form">form</Link>
+        </div>
         <Switch>
           <Route path="/form">
             <MeetForm />

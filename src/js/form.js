@@ -24,10 +24,12 @@ const log = (type) => console.log.bind(console, type);
 class MeetForm extends React.Component {
   render() {
     return (
-      <Form schema={schema}
-        onChange={log("changed")}
-        onSubmit={log("submitted")}
-        onError={log("errors")} />
+      <div id="form">
+        <Form schema={schema}
+          onChange={log("changed")}
+          onSubmit={log("submitted")}
+          onError={log("errors")} />
+      </div>
     );
   }
 }

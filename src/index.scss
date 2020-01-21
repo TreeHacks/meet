@@ -8,6 +8,35 @@ body {
   color: $text-color;
   font-family: $base-font-family;
   font-size: $base-font-size;
+
+  #page-elems {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    z-index: 101;
+
+    height: 80px;
+    width: 100vw;
+
+    box-shadow: 0 5px 30px -5px rgba(0,0,0,0.2);
+
+    a {
+      margin: 0 $navbar-margin;
+      padding: $navbar-padding 0;
+      font-size: $medium-font-size;
+      transition: 0.2s;
+      cursor: pointer;
+
+      &:hover, &.active {
+        color: $primary-color;
+        text-decoration: none;
+      }
+    }
+  }
 }
 
 a {
@@ -19,5 +48,6 @@ a {
   }
 }
 
-//@import "sass/form";
+
+@import "sass/form";
 @import "sass/table";

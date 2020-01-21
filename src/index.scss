@@ -1,0 +1,23 @@
+@import "sass/themes/pink_palm_tree";
+@import "sass/global";
+
+body {
+  text-align: center;
+  margin: 0;
+  background-color: $background-color;
+  color: $text-color;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+//@import "sass/form";
+@import "sass/table";

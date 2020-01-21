@@ -1,0 +1,26 @@
+#table {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .entry {
+    background-color: $box-color;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px 0 #e4e4e4;
+    width: 50vw;
+  }
+
+  input {
+    border-radius: 8px;
+    font-size: $base-font-size;
+    height: $base-font-size;
+    width: 300px;
+  }
+
+  .main-button {
+    margin-top: 15px;
+  }
+}

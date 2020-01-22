@@ -1,11 +1,15 @@
 import React from 'react';
+import API from "@aws-amplify/api";
 
 class Table extends React.Component {
   constructor(props) {
     super(props);
-    fetch("https://api.treehacks.com/users", function(error, meta, body) {
-      console.log(body.toString());
-    });
+  }
+
+  async componentDidMount() {
+    console.log("hi");
+    const body = await API.get("treehacks", '/users', {})
+    console.log(body);
   }
 
   render() {
@@ -13,6 +17,7 @@ class Table extends React.Component {
       <div id="table">
         <div className="content">
           <Entry first_name="Foo" last_name="Bar"/>
+          user id is {this.props.user && this.props.user.username}
         </div>
       </div>
     );

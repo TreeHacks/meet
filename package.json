@@ -1,8 +1,10 @@
 {
-  "name": "submit",
+  "name": "meet",
   "version": "0.1.0",
   "private": true,
+  "main": "src/index.js",
   "dependencies": {
+    "@aws-amplify/api": "^1.3.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -12,6 +14,7 @@
     "fetch": "^1.1.0",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
+    "query-string": "^5.1.1",
     "react": "^16.12.0",
     "react-bootstrap-typeahead": "^3.4.7",
     "react-dom": "^16.12.0",

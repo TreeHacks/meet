@@ -7,12 +7,10 @@ class Table extends React.Component {
   }
 
   async componentDidMount() {
-    console.log("hi");
     const body = await API.get("treehacks", '/users', {})
     console.log(body);
     const meet_info = await API.get("treehacks", `/users/${this.props.user.username}/meet_info`, {});
     console.log(meet_info);
-
   }
 
   render() {

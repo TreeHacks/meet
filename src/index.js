@@ -97,7 +97,7 @@ function Main() {
         </div>
         <Switch>
           <Route path="/form">
-            <MeetForm />
+            <MeetForm user={user} />
           </Route>
           <Route path="/">
             <Table user={user} />

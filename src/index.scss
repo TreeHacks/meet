@@ -14,14 +14,12 @@ body {
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
-
+    background-color: $box-color;
     position: fixed;
     top: 0;
     z-index: 101;
-
     height: 80px;
     width: 100vw;
-
     box-shadow: 0 5px 30px -5px rgba(0,0,0,0.2);
 
     a {

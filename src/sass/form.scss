@@ -1,7 +1,92 @@
 #form {
-  height: 100vh;
+  margin-top: 100px;
+  height: calc(100vh - 100px);
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+
+  #root {
+    border: none;
+    border-radius: 12px;
+
+    .field-string label {
+      display: none;
+    }
+
+    .field-boolean label {
+      span {
+        padding-left: 5px;
+      }
+    }
+
+    .checkboxes {
+      column-count: 2;
+      margin: 10px 0px;
+    }
+
+    .checkbox {
+        font-size: 16px;
+        input {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          margin-bottom: -2px;
+          width: 16px;
+          height: 16px;
+          background-color: $box-color;
+          transition: .2s;
+          border: 1px solid $primary-color;
+          &:checked {
+              background-color: $primary-color;
+              color: $primary-color;
+          }
+      }
+    }
+
+    #root__title {
+      font-size: 20px;
+      margin-bottom: $small-space;
+      color: $primary-color;
+    }
+
+    .control-label {
+      margin: 5px;
+    }
+
+    .form-group {
+      margin-bottom: $small-space;
+    }
+
+    .form-control,
+    .field-array {
+      background-color: $box-color;
+      color: $text-color;
+      border-width: 0px;
+      border-radius: 5px;
+      box-shadow: 0 0 0 1px #ced4da;
+      padding: 6px 10px 3px;
+      font-size: 20px;
+      line-height: 1.5;
+      transition: $transition-speed;
+      width: 70vw;
+      max-width: 800px;
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $primary-color;
+      }
+    }
+
+    .field-array {
+      text-align: left;
+      .control-label {
+        color: #aaa;
+      }
+
+      span {
+        padding-left: 5px;
+      }
+    }
+  }
 }

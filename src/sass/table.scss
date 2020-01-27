@@ -1,26 +1,79 @@
 #table {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  .content {
+    margin: 150px 0;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header {
+    padding: 10px;
+    color: $primary-color;
+  }
+
+  .gallery {
+    width: 100%;
+
+    @media screen and (min-width: 768px) {
+      width: 750px;
+    }
+
+    @media screen and (min-width: 992px) {
+      width: 970px;
+    }
+
+    @media screen and (min-width: 1200px) {
+      width: 1170px;
+    }
+  }
+
+  .entry-wrapper {
+    background-color: $background-color;
+    width: 100%;
+    padding: 15px 0px;
+
+    @media screen and (min-width: 768px) {
+      width: 50%;
+    }
+
+    @media screen and (min-width: 992px) {
+      width: 33.3333%;
+    }
+
+    @media screen and (min-width: 1200px) {
+      width: 25%;
+    }
+
+  }
 
   .entry {
+    width: 90%;
     background-color: $box-color;
-    padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 15px 0 #e4e4e4;
-    width: 50vw;
+    transition: $transition-speed;
+    padding: 5px 0;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
-  input {
-    border-radius: 8px;
-    font-size: $base-font-size;
-    height: $base-font-size;
-    width: 300px;
+  .name {
+    color: $primary-color;
   }
 
-  .main-button {
-    margin-top: 15px;
+  .idea {
+    padding: 0 10px;
+  }
+
+  .tags {
+    padding: 0 10px;
+  }
+
+  .contact {
+    padding: 0 10px;
   }
 }

@@ -3,7 +3,7 @@ import Form from "react-jsonschema-form";
 import API from "@aws-amplify/api";
 
 const schema = {
-  title: "Profile",
+  title: "Post your ideas for other hackers to see!",
   type: "object",
   required: [],
   properties: {

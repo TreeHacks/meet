@@ -93,10 +93,10 @@ function Main() {
       <div>
         <div id="page-elems">
           <Link to="/">table</Link>
-          <Link to="/form">form</Link>
+          <Link to="/profile">profile</Link>
         </div>
         <Switch>
-          <Route path="/form">
+          <Route path="/profile">
             {user && <MeetForm user={user} />}
           </Route>
           <Route path="/">

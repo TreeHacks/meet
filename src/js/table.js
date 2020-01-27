@@ -55,9 +55,6 @@ class Table extends React.Component {
       <div className="entry-wrapper">
         <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
       </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
       </>
     );
     const style = {

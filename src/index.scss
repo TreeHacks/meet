@@ -1,6 +1,14 @@
 @import "sass/themes/pink_palm_tree";
 @import "sass/global";
 
+$navbar-logo-font-size: 36px;
+$navbar-logo-image-width: 45px;
+$navbar-logo-image-height: 40px;
+$navbar-font-size: $base-font-size * 1.18;
+$navbar-margin: 0.5vw;
+$navbar-horizontal-padding: 15px;
+$heavy-font-weight: 700;
+
 body {
   text-align: center;
   margin: 0;
@@ -9,29 +17,61 @@ body {
   font-family: $base-font-family;
   font-size: $base-font-size;
 
-  #page-elems {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    background-color: $box-color;
-    position: fixed;
-    top: 0;
-    z-index: 101;
-    height: 80px;
+  #menu {
+    position: absolute;
     width: 100vw;
+    height: 80px;
+    background-color: $box-color;
     box-shadow: 0 5px 30px -5px rgba(0,0,0,0.2);
+    z-index: 101;
 
-    a {
-      margin: 0 $navbar-margin;
-      padding: $navbar-padding 0;
-      font-size: $medium-font-size;
-      transition: 0.2s;
-      cursor: pointer;
+    #page-elems {
+      margin: 0 auto;
+      max-width: 1300px;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      padding-right: $navbar-horizontal-padding;
 
-      &:hover, &.active {
-        color: $primary-color;
-        text-decoration: none;
+      li {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      a {
+        margin: 0 $navbar-margin;
+        padding: $navbar-padding $navbar-padding;
+        font-size: $medium-font-size;
+        transition: 0.2s;
+        cursor: pointer;
+        color: $text-color;
+
+        &:hover, &.active {
+          color: $primary-color;
+          text-decoration: none;
+        }
+      }
+
+      #navbar-logo {
+        margin-top: 2px;
+        flex-grow: 1;
+        display: flex;
+        flex-flow: row nowrap;
+        padding: 0 $navbar-horizontal-padding 0 $navbar-horizontal-padding;
+
+        a {
+          color: $primary-color;
+          font-size: $navbar-logo-font-size;
+          display: flex;
+          flex-flow: row nowrap;
+        }
+
+        img {
+          padding-right: $navbar-horizontal-padding;
+          width: $navbar-logo-image-width;
+          height: $navbar-logo-image-height;
+        }
       }
     }
   }
@@ -46,6 +86,9 @@ a {
   }
 }
 
+.logo-text-hacks {
+  font-weight: $heavy-font-weight;
+}
 
 @import "sass/form";
 @import "sass/table";

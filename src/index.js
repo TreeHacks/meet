@@ -7,6 +7,7 @@ import MeetForm from './js/form';
 import * as serviceWorker from './js/serviceWorker';
 import API from "@aws-amplify/api";
 import queryString from "query-string";
+import logo from './svg/logo.svg';
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_URL;
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
@@ -90,8 +91,17 @@ function Main() {
 
   return (
     <BrowserRouter>
-      <div>
+      <div id="menu">
         <div id="page-elems">
+          <li id="navbar-logo">
+            <a href="/">
+              <img src={logo} alt="treehacks small logo" />
+              <div id="title">
+                <span className="logo-text-tree">tree</span>
+                <span className="logo-text-hacks">hacks</span>
+              </div>
+            </a>
+          </li>
           <Link to="/">table</Link>
           <Link to="/profile">profile</Link>
         </div>

@@ -13,7 +13,7 @@ class Table extends React.Component {
     console.log(body["results"]);
     var user_list = [];
     body["results"].map((user_json, index) =>
-      user_json["forms"]["meet_info"] && user_list.push(user_json["forms"])
+      user_json["forms"]["meet_info"] && user_list.push(user_json)
     );
     console.log(user_list);
     this.setState({user_json: user_list});
@@ -80,10 +80,14 @@ class Table extends React.Component {
 class Entry extends React.Component {
   constructor(props) {
     super(props);
-    this.first_name = props.json["application_info"]["first_name"];
-    this.last_letter = props.json["application_info"]["last_name"].charAt(0);
-    this.idea = props.json["meet_info"]["idea"];
-    this.verticals = props.json["meet_info"]["verticals"];
+    this.first_name = props.json["forms"]["application_info"]["first_name"];
+    var firstLetter = this.first_name.charAt(0);
+    this.first_name = firstLetter.toUpperCase() + this.first_name.substring(1);
+    this.last_letter = props.json["forms"]["application_info"]["last_name"].charAt(0).toUpperCase();
+    this.idea = props.json["forms"]["meet_info"]["idea"];
+    this.verticals = props.json["forms"]["meet_info"]["verticals"];
+    this.id = props.json["user"]["id"];
+    this.contact_url = "https://root.dev.treehacks.com/api/users/" + this.id + "/contact"
   }
 
   render() {
@@ -103,7 +107,7 @@ class Entry extends React.Component {
           </p>
         </div>
         <div className="contact">
-          <p>contact: foobar</p>
+          <a href={this.contact_url}>contact</a>
         </div>
       </div>
     );

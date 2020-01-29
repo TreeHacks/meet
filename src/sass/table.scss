@@ -1,6 +1,7 @@
 #table {
   .content {
-    margin: 150px 0;
+    margin-top: 50px;
+    margin-bottom: 150px;
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -25,14 +26,16 @@
     }
 
     @media screen and (min-width: 1200px) {
-      width: 1170px;
+      width: 1135px;
     }
   }
 
   .entry-wrapper {
     background-color: $background-color;
     width: 100%;
-    padding: 15px 0px;
+    padding: 20px 0px;
+    display: flex;
+    justify-content: center;
 
     @media screen and (min-width: 768px) {
       width: 50%;
@@ -54,7 +57,8 @@
     border-radius: 8px;
     box-shadow: 0 0 15px 0 #e4e4e4;
     transition: $transition-speed;
-    padding: 5px 0;
+    padding-top: 5px;
+    padding-bottom: 15px;
 
     &:hover {
       transform: scale(1.05);

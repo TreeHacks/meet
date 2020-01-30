@@ -7,21 +7,22 @@ const schema = {
   type: "object",
   required: [],
   properties: {
+    idea: {type: "string", title: "Challenge ideas"},
     verticals: {
+      "title": "challenges",
       "type": "array",
       "uniqueItems": true,
       "items": {"type": "string", enum:["education", "medical access", "voice assistance", "iot", "ar/vr", "geospatial"] }
     },
-    idea: {type: "string", title: "Challenge ideas"},
     showProfile: {type: "boolean", title: "Yes! Show my profile and allow other hackers to contact me.", default: false}
   }
 };
 
 const uiSchema = {
+  idea: {"ui:widget": "textarea", "ui:placeholder": "Pitch an idea and/or tell other hackers about yourself! (150 words max)"},
   verticals: {
     "ui:widget": "checkboxes"
-  },
-  idea: {"ui:widget": "textarea", "ui:placeholder": "Pitch an idea and/or tell other hackers about yourself! (150 words max)"}
+  }
 }
 
 const log = (type) => console.log.bind(console, type);
@@ -50,7 +51,8 @@ class MeetForm extends React.Component {
     const form = {body: e.formData}
     console.log("Data submitted: ", form);
     const resp = await API.put("treehacks", `/users/${this.props.user.username}/forms/meet_info`, form);
-    console.log(resp)
+    console.log(resp);
+    window.location = "/";
   }
 
   render() {

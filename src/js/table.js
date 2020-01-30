@@ -2,6 +2,8 @@ import React from 'react';
 import API from "@aws-amplify/api";
 import Masonry from 'react-masonry-component';
 
+const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
+
 class Table extends React.Component {
   constructor(props) {
     super(props);
@@ -22,36 +24,6 @@ class Table extends React.Component {
   render() {
     const childElements = this.state.user_json.map((single_json, index) =>
       <>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
-      <div className="entry-wrapper">
-        <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
-      </div>
       <div className="entry-wrapper">
         <Entry key={index} json={single_json} first_name="foo" last_name="bar"/>
       </div>
@@ -90,6 +62,15 @@ class Entry extends React.Component {
     this.contact_url = "https://root.dev.treehacks.com/api/users/" + this.id + "/contact"
   }
 
+  getColorNum(vertical) {
+    if (vertical.charAt(0) < 'f') {
+      return 0;
+    } else if (vertical.charAt(0) < 'j') {
+      return 1;
+    }
+    return 2;
+  }
+
   render() {
     return (
       <div className="entry">
@@ -97,14 +78,14 @@ class Entry extends React.Component {
           <h3>{this.first_name} {this.last_letter}</h3>
         </div>
         <div className="idea">
-          <p>{this.idea}</p>
+           <p>{this.idea}</p>
         </div>
         <div className="tags">
-          <p>relevant challenges:
-          {this.verticals.map(vertical =>
-            <> {vertical}</>
+          {this.verticals.map((vertical, index) =>
+            <div className="tag" style={{backgroundColor: colors[this.getColorNum(vertical)]}}>
+              {vertical}
+            </div>
           )}
-          </p>
         </div>
         <div className="contact">
           <a href={this.contact_url}>contact</a>

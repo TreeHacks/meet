@@ -52,6 +52,10 @@
   }
 
   .entry {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     width: 90%;
     background-color: $box-color;
     border-radius: 8px;
@@ -67,14 +71,64 @@
 
   .name {
     color: $primary-color;
+    margin: 0;
   }
 
   .idea {
+    margin-top: -20px;
+    max-height: 150px;
     padding: 0 10px;
+    overflow: auto;
+    background: /* Shadow covers */
+    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
+    radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+    background: /* Shadow covers */
+    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+    /* Opera doesn't support this in the shorthand */
+    background-attachment: local, local, scroll, scroll;
   }
 
   .tags {
-    padding: 0 10px;
+    padding: 10px 10px;
+
+    .tag {
+      display: inline-block;
+      position: relative;
+      color: $box-color;
+      background-color: $primary-color;
+      font-size: 14px;
+      padding: 2px 5px 3px 16px;
+      margin: 5px 10px;
+      font-weight: bold;
+      border-radius: 5px;
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -11px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 11px 11px 11px 0;
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        top: 8.5px;
+        left: 6px;
+        float: left;
+        width: 5px;
+        height: 5px;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        background: $box-color;
+      }
+    }
   }
 
   .contact {

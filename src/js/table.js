@@ -93,8 +93,9 @@ class Entry extends React.Component {
 
   render() {
     const props = this.props;
-    let first_name_orig = props.json["forms"]["application_info"]["first_name"];
-    var firstLetter = (first_name_orig || "").charAt(0);
+    let first_name_orig =
+      props.json["forms"]["application_info"]["first_name"] || "";
+    var firstLetter = first_name_orig.charAt(0);
     let first_name = firstLetter.toUpperCase() + first_name_orig.substring(1);
     let last_letter = (
       props.json["forms"]["application_info"]["last_name"] || ""

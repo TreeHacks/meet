@@ -50,17 +50,6 @@ class Table extends React.Component {
 }
 
 class Entry extends React.Component {
-  constructor(props) {
-    super(props);
-    this.first_name = props.json["forms"]["application_info"]["first_name"];
-    var firstLetter = this.first_name.charAt(0);
-    this.first_name = firstLetter.toUpperCase() + this.first_name.substring(1);
-    this.last_letter = props.json["forms"]["application_info"]["last_name"].charAt(0).toUpperCase();
-    this.idea = props.json["forms"]["meet_info"]["idea"];
-    this.verticals = props.json["forms"]["meet_info"]["verticals"];
-    this.id = props.json["user"]["id"];
-    this.contact_url = "https://root.dev.treehacks.com/api/users/" + this.id + "/contact"
-  }
 
   getColorNum(vertical) {
     if (vertical.charAt(0) < 'f') {
@@ -72,23 +61,32 @@ class Entry extends React.Component {
   }
 
   render() {
+    const props = this.props;
+    let first_name_orig = props.json["forms"]["application_info"]["first_name"];
+    var firstLetter = first_name_orig.charAt(0);
+    let first_name = firstLetter.toUpperCase() + first_name_orig.substring(1);
+    let last_letter = props.json["forms"]["application_info"]["last_name"].charAt(0).toUpperCase();
+    let idea = props.json["forms"]["meet_info"]["idea"];
+    let verticals = props.json["forms"]["meet_info"]["verticals"];
+    let id = props.json["user"]["id"];
+    let contact_url = "https://root.dev.treehacks.com/api/users/" + id + "/contact";
     return (
       <div className="entry">
         <div className="name">
-          <h3>{this.first_name} {this.last_letter}</h3>
+          <h3>{first_name} {last_letter}</h3>
         </div>
         <div className="idea">
-           <p>{this.idea}</p>
+           <p>{idea}</p>
         </div>
         <div className="tags">
-          {this.verticals.map((vertical, index) =>
+          {verticals && verticals.length && verticals.map((vertical, index) =>
             <div className="tag" style={{backgroundColor: colors[this.getColorNum(vertical)]}}>
               {vertical}
             </div>
           )}
         </div>
         <div className="contact">
-          <a href={this.contact_url}>contact</a>
+          <a href={contact_url}>contact</a>
         </div>
       </div>
     );

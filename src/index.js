@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-import './index.scss';
-import Table from './js/table';
-import MeetForm from './js/form';
-import * as serviceWorker from './js/serviceWorker';
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import "./index.scss";
+import Table from "./js/table";
+import MeetForm from "./js/form";
+import * as serviceWorker from "./js/serviceWorker";
 import API from "@aws-amplify/api";
 import queryString from "query-string";
-import logo from './svg/logo.svg';
+import logo from "./svg/logo.svg";
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_URL;
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
 
 export const custom_header = async () => {
-  return { Authorization: await localStorage.getItem("jwt") }
-}
+  return { Authorization: await localStorage.getItem("jwt") };
+};
 API.configure({
   endpoints: [
     {
@@ -26,13 +26,13 @@ API.configure({
 });
 
 export function parseJwt(token) {
-  var base64UrlSplit = token.split('.');
+  var base64UrlSplit = token.split(".");
   if (!base64UrlSplit) return null;
   const base64Url = base64UrlSplit[1];
   if (!base64Url) return null;
-  const base64 = base64Url.replace('-', '+').replace('_', '/');
+  const base64 = base64Url.replace("-", "+").replace("_", "/");
   return JSON.parse(window.atob(base64));
-};
+}
 
 function getCurrentUser() {
   const jwt = getJwt();
@@ -41,15 +41,18 @@ function getCurrentUser() {
     const parsed = parseJwt(jwt);
     if (!parsed) {
       console.log("JWT invalid");
-    }
-    else if (new Date().getTime() / 1000 >= parseInt(parsed.exp)) {
+    } else if (new Date().getTime() / 1000 >= parseInt(parsed.exp)) {
       console.log("JWT expired");
       // TODO: add refresh token logic if we want here.
-    }
-    else {
-      let attributes = { "name": parsed["name"], "email": parsed["email"], "email_verified": parsed["email_verified"], "cognito:groups": parsed["cognito:groups"] };
+    } else {
+      let attributes = {
+        name: parsed["name"],
+        email: parsed["email"],
+        email_verified: parsed["email_verified"],
+        "cognito:groups": parsed["cognito:groups"]
+      };
       return {
-        "username": parsed["sub"],
+        username: parsed["sub"],
         attributes
       };
     }
@@ -77,14 +80,12 @@ if (hash && hash.jwt) {
   window.location.hash = "";
 }
 
-
 function Main() {
   const [user, setUser] = useState(null);
   useEffect(() => {
     try {
       setUser(getCurrentUser());
-    }
-    catch(e) {
+    } catch (e) {
       login();
     }
   }, []);
@@ -102,13 +103,11 @@ function Main() {
               </div>
             </a>
           </li>
-          <Link to="/">table</Link>
+          <Link to="/">browse</Link>
           <Link to="/profile">profile</Link>
         </div>
         <Switch>
-          <Route path="/profile">
-            {user && <MeetForm user={user} />}
-          </Route>
+          <Route path="/profile">{user && <MeetForm user={user} />}</Route>
           <Route path="/">
             <Table user={user} />
           </Route>
@@ -118,7 +117,7 @@ function Main() {
   );
 }
 
-ReactDOM.render(<Main />, document.getElementById('root'));
+ReactDOM.render(<Main />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

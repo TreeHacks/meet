@@ -22,10 +22,11 @@ body {
     width: 100vw;
     height: 80px;
     background-color: $box-color;
-    box-shadow: 0 5px 30px -5px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 30px -5px rgba(0, 0, 0, 0.2);
     z-index: 101;
 
     #page-elems {
+      height: 80px;
       margin: 0 auto;
       max-width: 1300px;
       display: flex;
@@ -47,7 +48,8 @@ body {
         cursor: pointer;
         color: $text-color;
 
-        &:hover, &.active {
+        &:hover,
+        &.active {
           color: $primary-color;
           text-decoration: none;
         }
@@ -71,6 +73,12 @@ body {
           padding-right: $navbar-horizontal-padding;
           width: $navbar-logo-image-width;
           height: $navbar-logo-image-height;
+        }
+
+        @media screen and (max-width: 500px) {
+          #title {
+            display: none;
+          }
         }
       }
     }

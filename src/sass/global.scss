@@ -18,3 +18,7 @@
     transform: scale($transform-scale);
   }
 }
+
+* {
+  font-family: $base-font-family;
+}

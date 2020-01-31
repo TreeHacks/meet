@@ -1,8 +1,9 @@
 #table {
   .content {
-    margin-top: 50px;
+    margin-top: calc(min(4%, 30px));
     margin-bottom: 150px;
-    width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,6 +13,8 @@
   .header {
     padding: 10px;
     color: $primary-color;
+    width: 500px;
+    max-width: 80vw;
   }
 
   .gallery {
@@ -48,7 +51,6 @@
     @media screen and (min-width: 1200px) {
       width: 25%;
     }
-
   }
 
   .entry {
@@ -61,7 +63,6 @@
     border-radius: 8px;
     box-shadow: 0 0 15px 0 #e4e4e4;
     transition: $transition-speed;
-    padding-top: 5px;
     padding-bottom: 15px;
 
     &:hover {
@@ -71,7 +72,7 @@
 
   .name {
     color: $primary-color;
-    margin: 0;
+    margin: 0 0 5px;
   }
 
   .idea {
@@ -79,17 +80,51 @@
     max-height: 150px;
     padding: 0 10px;
     overflow: auto;
-    background: /* Shadow covers */
-    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
-    radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
-    background: /* Shadow covers */
-    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
-    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+    background: /* Shadow covers */ linear-gradient(
+        white 30%,
+        rgba(255, 255, 255, 0)
+      ),
+      linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+      /* Shadows */
+        radial-gradient(
+          50% 0,
+          farthest-side,
+          rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0)
+        ),
+      radial-gradient(
+          50% 100%,
+          farthest-side,
+          rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0)
+        )
+        0 100%;
+    background: /* Shadow covers */ linear-gradient(
+        white 30%,
+        rgba(255, 255, 255, 0)
+      ),
+      linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+      /* Shadows */
+        radial-gradient(
+          farthest-side at 50% 0,
+          rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0)
+        ),
+      radial-gradient(
+          farthest-side at 50% 100%,
+          rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0)
+        )
+        0 100%;
     background-repeat: no-repeat;
     background-color: white;
     background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
     /* Opera doesn't support this in the shorthand */
     background-attachment: local, local, scroll, scroll;
+
+    p {
+      margin: 0;
+    }
   }
 
   .tags {
@@ -102,7 +137,7 @@
       background-color: $primary-color;
       font-size: 14px;
       padding: 2px 5px 3px 16px;
-      margin: 5px 10px;
+      margin: 5px 5px;
       font-weight: bold;
       border-radius: 5px;
 
@@ -133,5 +168,27 @@
 
   .contact {
     padding: 0 10px;
+  }
+
+  .search {
+    width: 400px;
+    display: flex;
+    margin: 0 auto 1em;
+    background-color: rgb(255, 255, 255);
+    padding: 1em 1.5em;
+    position: relative;
+    box-shadow: rgba(69, 77, 93, 0.25) 0px 0px 2.1rem;
+    border-radius: 10px;
+    max-width: 90vw;
+    box-sizing: border-box;
+    z-index: 998;
+
+    input {
+      border: 0px;
+      outline: 0px;
+      font-size: 20px;
+      width: 100%;
+      transition: all 0.5s ease-in-out 0s;
+    }
   }
 }

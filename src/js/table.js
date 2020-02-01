@@ -50,7 +50,7 @@ class Table extends React.Component {
 
     const childElements = results.map(single_json => (
       <div className="entry-wrapper" key={single_json._id}>
-        <Entry json={single_json} first_name="foo" last_name="bar" />
+        <Entry json={single_json} />
       </div>
     ));
 

@@ -182,13 +182,18 @@
     max-width: 90vw;
     box-sizing: border-box;
     z-index: 998;
+    transition: $transition-speed;
 
     input {
+      color: $text-color;
       border: 0px;
       outline: 0px;
       font-size: 20px;
       width: 100%;
       transition: all 0.5s ease-in-out 0s;
+    }
+    &:hover {
+      transform: scale(1.05);
     }
   }
 }

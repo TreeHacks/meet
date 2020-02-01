@@ -14,6 +14,7 @@
     "fetch": "^1.1.0",
     "fuse.js": "^3.4.6",
     "lodash": "^4.17.15",
+    "lodash.debounce": "^4.0.8",
     "node-sass": "^4.13.1",
     "query-string": "^5.1.1",
     "react": "^16.12.0",

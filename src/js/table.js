@@ -50,7 +50,7 @@ class Table extends React.Component {
 
     const childElements = results.map(single_json => (
       <div className="entry-wrapper" key={single_json._id}>
-        <Entry json={single_json} first_name="foo" last_name="bar" />
+        <Entry json={single_json} />
       </div>
     ));
 
@@ -105,13 +105,14 @@ class Entry extends React.Component {
     let idea = props.json["forms"]["meet_info"]["idea"];
     let verticals = props.json["forms"]["meet_info"]["verticals"];
     let id = props.json["user"]["id"];
+    let pronouns = props.json["forms"]["meet_info"]["pronouns"];
     let contact_url =
       "https://root.dev.treehacks.com/api/users/" + id + "/contact";
     return (
       <div className="entry">
         <div className="name">
           <h3>
-            {first_name} {last_letter}
+            {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}
           </h3>
         </div>
         <div className="idea">

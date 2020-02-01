@@ -24,6 +24,7 @@ const schema = {
         ]
       }
     },
+    pronouns: { type: "string", title: "Pronouns" },
     showProfile: {
       type: "boolean",
       title: "Yes! Show my profile and allow other hackers to contact me.",
@@ -37,6 +38,10 @@ const uiSchema = {
     "ui:widget": "textarea",
     "ui:placeholder":
       "Pitch an idea and/or tell other hackers about yourself! (150 words max)"
+  },
+  pronouns: {
+    "ui:placeholder":
+      "Gender pronouns (optional)"
   },
   verticals: {
     "ui:widget": "checkboxes"

@@ -3,6 +3,7 @@ import API from "@aws-amplify/api";
 import Masonry from "react-masonry-component";
 import Fuse from "fuse.js";
 import Loading from "./loading";
+import debounce from "lodash.debounce";
 
 const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
 
@@ -17,7 +18,13 @@ const shuffle = a => {
 class Table extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user_json: [], query: "" };
+    this.state = {
+      query: "",
+      user_json: [],
+      results: []
+    };
+    this._search = this._search.bind(this);
+    this.search = debounce(this._search, 800);
   }
 
   async componentDidMount() {
@@ -30,6 +37,14 @@ class Table extends React.Component {
         user_list.push(user_json)
     );
     console.log(user_list);
+
+    // For testing with many users
+    // for (let i = 1; user_list.length < 500; i++) {
+    //   user_list = user_list.concat(
+    //     user_list.map(e => ({ ...e, _id: e._id + i }))
+    //   );
+    // }
+
     var fuse = new Fuse(user_list, {
       keys: [
         "forms.meet_info.idea",
@@ -37,10 +52,10 @@ class Table extends React.Component {
         "forms.application_info.first_name"
       ]
     });
-    this.setState({ user_json: user_list, fuse });
+    this.setState({ user_json: user_list, fuse }, () => this._search());
   }
 
-  render() {
+  _search() {
     let results;
     if (this.state.query) {
       results = this.state.fuse.search(this.state.query);
@@ -48,6 +63,11 @@ class Table extends React.Component {
       results = this.state.user_json;
       shuffle(results);
     }
+    this.setState({ results });
+  }
+
+  render() {
+    let { results } = this.state;
 
     const childElements = results.map(single_json => (
       <div className="entry-wrapper" key={single_json._id}>
@@ -56,7 +76,6 @@ class Table extends React.Component {
     ));
 
     const style = {};
-    console.log("json", this.state.user_json.length)
     if (this.state.user_json.length == 0) {
       return <Loading />;
     }
@@ -73,8 +92,10 @@ class Table extends React.Component {
             <div className="search">
               <input
                 type="text"
-                value={this.state.query}
-                onChange={e => this.setState({ query: e.target.value })}
+                value={this.state.query || ""}
+                onChange={e =>
+                  this.setState({ query: e.target.value }, () => this.search())
+                }
                 placeholder="Search for anything..."
               />
             </div>
@@ -98,12 +119,19 @@ class Entry extends React.Component {
     return 2;
   }
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.json !== this.props.json;
+  }
+
   render() {
     const props = this.props;
-    let first_name_orig = props.json["forms"]["application_info"]["first_name"];
+    let first_name_orig =
+      props.json["forms"]["application_info"]["first_name"] || "";
     var firstLetter = first_name_orig.charAt(0);
     let first_name = firstLetter.toUpperCase() + first_name_orig.substring(1);
-    let last_letter = props.json["forms"]["application_info"]["last_name"]
+    let last_letter = (
+      props.json["forms"]["application_info"]["last_name"] || ""
+    )
       .charAt(0)
       .toUpperCase();
     let idea = props.json["forms"]["meet_info"]["idea"];

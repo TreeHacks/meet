@@ -16,6 +16,12 @@ const shuffle = a => {
   return a;
 };
 
+const LinkDecorator = (href, text, key) => {
+    return <a href={href} key={key} target="_blank">
+        {text}
+    </a>;
+}
+
 class Table extends React.Component {
   constructor(props) {
     super(props);
@@ -149,7 +155,7 @@ class Entry extends React.Component {
           </h3>
         </div>
         <div className="idea">
-          <Linkify>
+          <Linkify componentDecorator={LinkDecorator}>
             <p>{idea}</p>
           </ Linkify>
         </div>

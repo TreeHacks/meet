@@ -4,6 +4,7 @@ import Masonry from "react-masonry-component";
 import Fuse from "fuse.js";
 import Loading from "./loading";
 import debounce from "lodash.debounce";
+import Linkify from "react-linkify";
 
 const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
 
@@ -148,7 +149,9 @@ class Entry extends React.Component {
           </h3>
         </div>
         <div className="idea">
-          <p>{idea}</p>
+          <Linkify>
+            <p>{idea}</p>
+          </ Linkify>
         </div>
         <div className="tags">
           {verticals &&

@@ -87,7 +87,6 @@ class MeetForm extends React.Component {
   }
 
   render() {
-    console.log("idea", this.state.formSchema);
     if (!this.state.dataFetched) {
       return <Loading />;
     }

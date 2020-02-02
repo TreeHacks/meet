@@ -6,6 +6,7 @@ import Loading from "./loading";
 import debounce from "lodash.debounce";
 import Linkify from "react-linkify";
 
+const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
 const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
 
 const shuffle = a => {
@@ -36,6 +37,7 @@ class Table extends React.Component {
 
   async componentDidMount() {
     const body = await API.get("treehacks", "/users_meet", {});
+    console.log(body);
     let user_list = [];
     body["results"].map(
       user_json =>
@@ -146,7 +148,7 @@ class Entry extends React.Component {
     let id = props.json["user"]["id"];
     let pronouns = props.json["forms"]["meet_info"]["pronouns"];
     let contact_url =
-      "https://root.dev.treehacks.com/api/users/" + id + "/contact";
+      ENDPOINT_URL + "/users/" + id + "/contact";
     return (
       <div className="entry">
         <div className="name">

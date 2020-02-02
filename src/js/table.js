@@ -35,7 +35,7 @@ class Table extends React.Component {
   }
 
   async componentDidMount() {
-    const body = await API.get("treehacks", "/users", {});
+    const body = await API.get("treehacks", "/users_meet", {});
     let user_list = [];
     body["results"].map(
       user_json =>
@@ -56,7 +56,7 @@ class Table extends React.Component {
       keys: [
         "forms.meet_info.idea",
         "forms.meet_info.verticals",
-        "forms.application_info.first_name"
+        "forms.meet_info.first_name"
       ]
     });
     this.setState({ user_json: user_list, fuse }, () => this._search());
@@ -133,11 +133,11 @@ class Entry extends React.Component {
   render() {
     const props = this.props;
     let first_name_orig =
-      props.json["forms"]["application_info"]["first_name"] || "";
+      props.json["forms"]["meet_info"]["first_name"] || "";
     var firstLetter = first_name_orig.charAt(0);
     let first_name = firstLetter.toUpperCase() + first_name_orig.substring(1);
     let last_letter = (
-      props.json["forms"]["application_info"]["last_name"] || ""
+      props.json["forms"]["meet_info"]["last_initial"] || ""
     )
       .charAt(0)
       .toUpperCase();

@@ -149,7 +149,7 @@ class Entry extends React.Component {
           </h3>
         </div>
         <div className="idea">
-          <Linkify>
+          <Linkify properties={{target: "_blank"}}>
             <p>{idea}</p>
           </ Linkify>
         </div>

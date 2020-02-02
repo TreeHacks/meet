@@ -2,7 +2,9 @@ import React from "react";
 import API from "@aws-amplify/api";
 import Masonry from "react-masonry-component";
 import Fuse from "fuse.js";
+import Loading from "./loading";
 import debounce from "lodash.debounce";
+import Linkify from "react-linkify";
 
 const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
 
@@ -75,31 +77,36 @@ class Table extends React.Component {
     ));
 
     const style = {};
-    return (
-      <div id="table">
-        <div className="content">
-          <div className="header">
-            <p>
-              Welcome to TreeHacks Meet! Use this page to find potential
-              teammates. To add yourself, use the “profile” link above.
-            </p>
+    if (this.state.user_json.length == 0) {
+      return <Loading />;
+    }
+    else {
+      return (
+        <div id="table">
+          <div className="content">
+            <div className="header">
+              <p>
+                Welcome to TreeHacks Meet! Use this page to find potential
+                teammates. To add yourself, use the “profile” link above.
+              </p>
+            </div>
+            <div className="search">
+              <input
+                type="text"
+                value={this.state.query || ""}
+                onChange={e =>
+                  this.setState({ query: e.target.value }, () => this.search())
+                }
+                placeholder="Search for anything..."
+              />
+            </div>
+            <Masonry className={"gallery"} options={style}>
+              {childElements}
+            </Masonry>
           </div>
-          <div className="search">
-            <input
-              type="text"
-              value={this.state.query || ""}
-              onChange={e =>
-                this.setState({ query: e.target.value }, () => this.search())
-              }
-              placeholder="Search for anything..."
-            />
-          </div>
-          <Masonry className={"gallery"} options={style}>
-            {childElements}
-          </Masonry>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
@@ -142,7 +149,9 @@ class Entry extends React.Component {
           </h3>
         </div>
         <div className="idea">
-          <p>{idea}</p>
+          <Linkify>
+            <p>{idea}</p>
+          </ Linkify>
         </div>
         <div className="tags">
           {verticals &&

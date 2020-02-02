@@ -100,6 +100,7 @@ function Main() {
               <div id="title">
                 <span className="logo-text-tree">tree</span>
                 <span className="logo-text-hacks">hacks</span>
+                <span className="logo-text-meet">meet</span>
               </div>
             </a>
           </li>

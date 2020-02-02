@@ -1,0 +1,29 @@
+@import "themes/pink_palm_tree";
+@import "global";
+
+.treehacks-error-container {
+    position: fixed;
+    top: 10%;
+    left: 20%;
+}
+
+.treehacks-loading-container {
+    width: 100%;
+    height: 100%;
+    //background: rgba(0,0,0,.35);
+    //position: fixed;
+    top: 0; // For auth bar.
+    left: 0;
+    z-index: 100;
+
+    .treehacks-loading {
+        fill: $primary-color;
+        height: 100px;
+        width: 100px;
+        margin-left: -50px;
+        position: fixed;
+        top: calc(50% - 50px);
+        left: 50%;
+        z-index: 99;
+    }
+}

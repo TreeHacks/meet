@@ -2,6 +2,7 @@ import React from "react";
 import API from "@aws-amplify/api";
 import Masonry from "react-masonry-component";
 import Fuse from "fuse.js";
+import Loading from "./loading";
 
 const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
 
@@ -55,29 +56,35 @@ class Table extends React.Component {
     ));
 
     const style = {};
-    return (
-      <div id="table">
-        <div className="content">
-          <div className="header">
-            <p>
-              Welcome to TreeHacks Meet! Use this page to find potential
-              teammates. To add yourself, use the “profile” link above.
-            </p>
+    console.log("json", this.state.user_json.length)
+    if (this.state.user_json.length == 0) {
+      return <Loading />;
+    }
+    else {
+      return (
+        <div id="table">
+          <div className="content">
+            <div className="header">
+              <p>
+                Welcome to TreeHacks Meet! Use this page to find potential
+                teammates. To add yourself, use the “profile” link above.
+              </p>
+            </div>
+            <div className="search">
+              <input
+                type="text"
+                value={this.state.query}
+                onChange={e => this.setState({ query: e.target.value })}
+                placeholder="Search for anything..."
+              />
+            </div>
+            <Masonry className={"gallery"} options={style}>
+              {childElements}
+            </Masonry>
           </div>
-          <div className="search">
-            <input
-              type="text"
-              value={this.state.query}
-              onChange={e => this.setState({ query: e.target.value })}
-              placeholder="Search for anything..."
-            />
-          </div>
-          <Masonry className={"gallery"} options={style}>
-            {childElements}
-          </Masonry>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

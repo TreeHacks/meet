@@ -29,7 +29,7 @@ const schema = {
     showProfile: {
       type: "boolean",
       title: "Yes! Show my profile and allow other hackers to contact me.",
-      default: false
+      default: true
     }
   }
 };

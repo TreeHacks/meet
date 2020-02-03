@@ -5,6 +5,10 @@ import Fuse from "fuse.js";
 import Loading from "./loading";
 import debounce from "lodash.debounce";
 import Linkify from "react-linkify";
+import ReactGA from 'react-ga';
+
+ReactGA.initialize("UA-157661562-1");
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
 const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
@@ -132,6 +136,13 @@ class Entry extends React.Component {
     return nextProps.json !== this.props.json;
   }
 
+  contactTracker () {
+    ReactGA.event({
+      category: 'User',
+      action: 'Contacted user'
+    });
+  }
+
   render() {
     const props = this.props;
     let first_name_orig =
@@ -175,7 +186,12 @@ class Entry extends React.Component {
             ))}
         </div>
         <div className="contact">
-          <a href={contact_url}>contact</a>
+          <ReactGA.OutboundLink
+            eventLabel="Contact"
+            to={contact_url}
+          >
+            contact
+          </ReactGA.OutboundLink>
         </div>
       </div>
     );

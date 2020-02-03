@@ -58,6 +58,8 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    word-break: break-word;
+    hyphens: auto;
     width: 90%;
     background-color: $box-color;
     border-radius: 8px;

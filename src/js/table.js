@@ -163,7 +163,7 @@ class Entry extends React.Component {
         </div>
         <div className="tags">
           {verticals &&
-            verticals.length &&
+            verticals.length > 0 &&
             verticals.map(vertical => (
               <div
                 className="tag"

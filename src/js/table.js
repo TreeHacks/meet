@@ -160,9 +160,11 @@ class Entry extends React.Component {
     let pronouns = props.json["forms"]["meet_info"]["pronouns"];
     let contact_url =
       ENDPOINT_URL + "/users/" + id + "/contact";
+    let profilePictureLink = props.json["forms"]["meet_info"]["profilePicture"];
     return (
       <div className="entry">
-        <div className="name">
+        <div className="header">
+          <img src={profilePictureLink} alt="profile picture" />
           <h3>
             {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}
           </h3>

@@ -72,9 +72,25 @@
     }
   }
 
-  .name {
-    color: $primary-color;
-    margin: 0 0 5px;
+  .header {
+    width: calc(100% - 20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    $image-width: 40px;
+    margin: 0 auto 10px auto;
+
+    img {
+      float: left;
+      height: $image-width;
+      width: $image-width;
+      margin-right: 15px;
+      border-radius: 50%;
+    }
+
+    h3 {
+      color: $primary-color;
+    }
   }
 
   .idea {

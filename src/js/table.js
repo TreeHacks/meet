@@ -5,6 +5,10 @@ import Fuse from "fuse.js";
 import Loading from "./loading";
 import debounce from "lodash.debounce";
 import Linkify from "react-linkify";
+import ReactGA from 'react-ga';
+
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
 const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
@@ -132,6 +136,13 @@ class Entry extends React.Component {
     return nextProps.json !== this.props.json;
   }
 
+  contactTracker () {
+    ReactGA.event({
+      category: 'User',
+      action: 'Contacted user'
+    });
+  }
+
   render() {
     const props = this.props;
     let first_name_orig =
@@ -149,9 +160,11 @@ class Entry extends React.Component {
     let pronouns = props.json["forms"]["meet_info"]["pronouns"];
     let contact_url =
       ENDPOINT_URL + "/users/" + id + "/contact";
+    let profilePictureLink = props.json["forms"]["meet_info"]["profilePicture"];
     return (
       <div className="entry">
-        <div className="name">
+        <div className="header">
+          <img src={profilePictureLink} alt="profile picture" />
           <h3>
             {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}
           </h3>
@@ -175,7 +188,12 @@ class Entry extends React.Component {
             ))}
         </div>
         <div className="contact">
-          <a href={contact_url}>contact</a>
+          <ReactGA.OutboundLink
+            eventLabel="Contact"
+            to={contact_url}
+          >
+            contact
+          </ReactGA.OutboundLink>
         </div>
       </div>
     );

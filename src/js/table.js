@@ -164,7 +164,7 @@ class Entry extends React.Component {
     return (
       <div className="entry">
         <div className="header">
-          <img src={profilePictureLink} alt="profile picture" />
+          {profilePictureLink && <img src={profilePictureLink} alt="profile picture" />}
           <h3>
             {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}
           </h3>

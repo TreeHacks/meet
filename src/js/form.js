@@ -108,7 +108,7 @@ class MeetForm extends React.Component {
             onSubmit={e => this.submitForm(e)}
             onError={log("errors")}
           />
-          {this.state.redirect && <Redirect to="/" />};
+          {this.state.redirect && <Redirect to="/" />}
         </div>
       );
     }

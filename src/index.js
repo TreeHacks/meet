@@ -105,7 +105,7 @@ function Main() {
             </a>
           </li>
           <Link to="/">browse</Link>
-          <Link to="/profile">profile</Link>
+          <Link to="/profile">profile</Link>                                                                                                        
           <Link to="/logout" onClick={logout}>log out</Link>
         </div>
         <Switch>

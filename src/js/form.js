@@ -4,7 +4,6 @@ import API from "@aws-amplify/api";
 import Loading from "./loading";
 import { Redirect } from "react-router";
 //TODO: modify schema to split up profile and ideas
-//TODO: Change schema for timezone for strings instead of numbers
 const schema = {
   title: "Tell us about yourself!",
   type: "object",
@@ -183,7 +182,6 @@ class MeetForm extends React.Component {
     console.log(meet_info);
     if (meet_info) {
       for (const index in meet_info) {
-        //alert(index);
         if (!(index in this.state.formSchema["properties"])) continue;
         this.state.formSchema["properties"][index]["default"] =
           meet_info[index];
@@ -203,7 +201,6 @@ class MeetForm extends React.Component {
       `/users/${this.props.user.username}/forms/meet_info`,
       form
     );
-    alert(resp);
     console.log(resp);
     this.setState({ redirect: true });
   }

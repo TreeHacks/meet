@@ -3,7 +3,7 @@ import Form from "react-jsonschema-form";
 import API from "@aws-amplify/api";
 import Loading from "./loading";
 import { Redirect } from "react-router";
-//TODO: modify schema to split up profile and ideas
+
 const schema = {
   title: "Tell us about yourself!",
   type: "object",

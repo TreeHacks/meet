@@ -62,46 +62,7 @@ const schema = {
     timezoneOffset: {
       title: "Timezone",
       type: "string",
-      enum: [
-        "UTC−12:00",
-        "UTC−11:00",
-        "UTC−10:00",
-        "UTC−09:30",
-        "UTC−09:00",
-        "UTC−08:00",
-        "UTC−07:00",
-        "UTC−06:00",
-        "UTC−05:00",
-        "UTC−04:00",
-        "UTC−03:30",
-        "UTC−03:00",
-        "UTC−02:00",
-        "UTC−01:00",
-        "UTC±00:00",
-        "UTC+01:00",
-        "UTC+02:00",
-        "UTC+03:00",
-        "UTC+03:30",
-        "UTC+04:00",
-        "UTC+04:30",
-        "UTC+05:00",
-        "UTC+05:30",
-        "UTC+05:45",
-        "UTC+06:00",
-        "UTC+06:30",
-        "UTC+07:00",
-        "UTC+08:00",
-        "UTC+08:45",
-        "UTC+09:00",
-        "UTC+09:30",
-        "UTC+10:00",
-        "UTC+10:30",
-        "UTC+11:00",
-        "UTC+12:00",
-        "UTC+12:45",
-        "UTC+13:00",
-        "UTC+14:00"
-      ]
+      default: getTimezoneOffset()
     },
     githubLink: { type: "string", title: "GitHub Link" },
     devpostLink: { type: "string", title: "Devpost Link" },
@@ -137,7 +98,7 @@ const uiSchema = {
     "ui:widget": "checkboxes"
   },
   timezoneOffset: {
-    "ui:description": "What is your timezone?"
+    "ui:description": "Enter your timezone in GMT e.g GMT +0230, GMT -1100"
   },
   commitment: {
     "ui:description": "What is your commitment level for TreeHacks 2021?"
@@ -153,7 +114,7 @@ const uiSchema = {
   },
   portfolioLink: {
     "ui:placeholder":
-      "Portfolio Liink"
+      "Portfolio Link"
   },
   linkedinLink: {
     "ui:placeholder":
@@ -162,6 +123,20 @@ const uiSchema = {
 };
 
 const log = type => console.log.bind(console, type);
+
+// // Automatically calculate GMT timezone
+function getTimezoneOffset() {
+  function z(n){return (n<10? '0' : '') + n}
+  var offset = new Date().getTimezoneOffset();
+  var sign = offset < 0? '+' : '-';
+  offset = Math.abs(offset);
+  return "GMT " + sign + z(offset/60 | 0) + z(offset%60);
+}
+
+function isValidGMT(userInp) {
+  var re = /^(GMT )[+|-][0-1][0-9][0-5][0-9]$/;
+  return re.exec(userInp);
+}
 
 class MeetForm extends React.Component {
   constructor(props) {
@@ -186,6 +161,7 @@ class MeetForm extends React.Component {
         this.state.formSchema["properties"][index]["default"] =
           meet_info[index];
       }
+
       this.setState({
         formSchema: this.state.formSchema,
         dataFetched: true
@@ -195,14 +171,18 @@ class MeetForm extends React.Component {
 
   async submitForm(e) {
     const form = { body: e.formData };
-    console.log("Data submitted: ", form);
-    const resp = await API.put(
-      "treehacks",
-      `/users/${this.props.user.username}/forms/meet_info`,
-      form
-    );
-    console.log(resp);
-    this.setState({ redirect: true });
+    if (isValidGMT(form["body"]["timezoneOffset"]) == null) {
+      alert("Please enter your GMT timezone in a valid format (e.g GMT +0800, GMT -1130)");
+    } else {
+      console.log("Data submitted: ", form);
+      const resp = await API.put(
+        "treehacks",
+        `/users/${this.props.user.username}/forms/meet_info`,
+        form
+      );
+      console.log(resp);
+      this.setState({ redirect: true });
+    }
   }
 
   render() {

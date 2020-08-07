@@ -5,13 +5,14 @@ import Loading from "./loading";
 import { Redirect } from "react-router";
 
 const schema = {
-  title: "Post your ideas for other hackers to see!",
+  title: "Tell us about yourself!",
   type: "object",
   required: [],
   properties: {
+    profileDesc: { type: "string", title: "Profile Description" },
     idea: { type: "string", title: "Challenge ideas" },
     verticals: {
-      title: "challenges i'm interested in",
+      title: "Challenges I'm interested in",
       type: "array",
       uniqueItems: true,
       items: {
@@ -27,6 +28,46 @@ const schema = {
       }
     },
     pronouns: { type: "string", title: "Pronouns" },
+    skills: {
+      title: "My Skills",
+      type: "array",
+      uniqueItems: true,
+      items: {
+        type: "string",
+        enum: [
+          "AI",
+          "Data Mining",
+          "NLP",
+          "Web Development",
+          "IOS",
+          "Android",
+          "Pitching",
+          "Marketing",
+          "Design",
+          "AR/VR",
+          "Game Development",
+          "Systems"
+        ]
+      }
+    },
+    commitment: {
+      title: "Commitment Level",
+      type: "string",
+      enum: [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    timezoneOffset: {
+      title: "Timezone",
+      type: "string",
+      default: getTimezoneOffset()
+    },
+    githubLink: { type: "string", title: "GitHub Link" },
+    devpostLink: { type: "string", title: "Devpost Link" },
+    portfolioLink: { type: "string", title: "Portfolio Link" },
+    linkedinLink: { type: "string", title: "Linkedin Link" },
     showProfile: {
       type: "boolean",
       title: "Yes! Show my profile and allow other hackers to contact me.",
@@ -36,10 +77,15 @@ const schema = {
 };
 
 const uiSchema = {
+  profileDesc: {
+    "ui:widget": "textarea",
+    "ui:placeholder":
+      "Tell other hackers about yourself! (150 words max)"
+  },
   idea: {
     "ui:widget": "textarea",
     "ui:placeholder":
-      "Pitch an idea and/or tell other hackers about yourself! (150 words max)"
+      "Pitch an idea that interests you! (150 words max)"
   },
   pronouns: {
     "ui:placeholder":
@@ -47,10 +93,50 @@ const uiSchema = {
   },
   verticals: {
     "ui:widget": "checkboxes"
-  }
+  },
+  skills: {
+    "ui:widget": "checkboxes"
+  },
+  timezoneOffset: {
+    "ui:description": "Enter your timezone in GMT e.g GMT +0230, GMT -1100"
+  },
+  commitment: {
+    "ui:description": "What is your commitment level for TreeHacks 2021?"
+  },
+  githubLink: {
+    "ui:description": "Social Media Links:",
+    "ui:placeholder":
+      "GitHub Profile"
+  },
+  devpostLink: {
+    "ui:placeholder":
+      "Devpost Profile"
+  },
+  portfolioLink: {
+    "ui:placeholder":
+      "Portfolio Link"
+  },
+  linkedinLink: {
+    "ui:placeholder":
+      "Linkedin Profile"
+  },
 };
 
 const log = type => console.log.bind(console, type);
+
+// // Automatically calculate GMT timezone
+function getTimezoneOffset() {
+  function z(n){return (n<10? '0' : '') + n}
+  var offset = new Date().getTimezoneOffset();
+  var sign = offset < 0? '+' : '-';
+  offset = Math.abs(offset);
+  return "GMT " + sign + z(offset/60 | 0) + z(offset%60);
+}
+
+function isValidGMT(userInp) {
+  var re = /^(GMT )[+|-][0-1][0-9][0-5][0-9]$/;
+  return re.exec(userInp);
+}
 
 class MeetForm extends React.Component {
   constructor(props) {
@@ -75,6 +161,7 @@ class MeetForm extends React.Component {
         this.state.formSchema["properties"][index]["default"] =
           meet_info[index];
       }
+
       this.setState({
         formSchema: this.state.formSchema,
         dataFetched: true
@@ -84,14 +171,18 @@ class MeetForm extends React.Component {
 
   async submitForm(e) {
     const form = { body: e.formData };
-    console.log("Data submitted: ", form);
-    const resp = await API.put(
-      "treehacks",
-      `/users/${this.props.user.username}/forms/meet_info`,
-      form
-    );
-    console.log(resp);
-    this.setState({ redirect: true });
+    if (isValidGMT(form["body"]["timezoneOffset"]) == null) {
+      alert("Please enter your GMT timezone in a valid format (e.g GMT +0800, GMT -1130)");
+    } else {
+      console.log("Data submitted: ", form);
+      const resp = await API.put(
+        "treehacks",
+        `/users/${this.props.user.username}/forms/meet_info`,
+        form
+      );
+      console.log(resp);
+      this.setState({ redirect: true });
+    }
   }
 
   render() {

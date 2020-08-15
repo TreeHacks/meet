@@ -1,6 +1,7 @@
 import React from "react";
 import API from "@aws-amplify/api";
 import Loading from "./loading";
+import ReactGA from 'react-ga';
 
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
 
@@ -36,7 +37,10 @@ class UserProfile extends React.Component {
     }
     return (
       <div className="user-profile">
-        <UserProfileHeader userInfo={this.state.userInfo} />
+        <UserProfileHeader 
+          userInfo={this.state.userInfo} 
+          userId={this.props.match.params.userId}
+        />
         <UserProfileSummary userInfo={this.state.userInfo} />
         <UserProfileProject userInfo={this.state.userInfo} />
         <UserProfileExperience userInfo={this.state.userInfo} />
@@ -51,10 +55,25 @@ class UserProfileHeader extends React.Component {
     return nextProps.userInfo !== this.props.userInfo;
   }
 
+  // TO DO: Display user's information and edit design.
   render() {
+    let contact_url =
+      ENDPOINT_URL + "/users/" + this.props.userId + "/contact";
     return (
       <div className="user-profile-header">
-        User Profile Header
+        <div className="full-name"> 
+          Full Name
+        </div>
+        <div className="contact">
+          <ReactGA.OutboundLink
+            eventLabel="Contact"
+            to={contact_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            contact
+          </ReactGA.OutboundLink>
+        </div>
       </div>
     );
   }
@@ -65,10 +84,16 @@ class UserProfileSummary extends React.Component {
     return nextProps.userInfo !== this.props.userInfo;
   }
 
+  // TO DO: Display user's information and edit design.
   render() {
     return (
       <div className="user-profile-summary">
-        User Profile Summary
+        <div className="field-name"> 
+          Summary
+        </div>
+        <div className="field-text"> 
+          This information is not available.
+        </div>
       </div>
     );
   }
@@ -79,10 +104,16 @@ class UserProfileProject extends React.Component {
     return nextProps.userInfo !== this.props.userInfo;
   }
 
+  // TO DO: Display user's information and edit design.
   render() {
     return (
       <div className="user-profile-project">
-        User Profile Project
+        <div className="field-name"> 
+          TreeHacks Project
+        </div>
+        <div className="field-text"> 
+          This information is not available.
+        </div>
       </div>
     );
   }
@@ -93,10 +124,16 @@ class UserProfileExperience extends React.Component {
     return nextProps.userInfo !== this.props.userInfo;
   }
 
+  // TO DO: Display user's information and edit design.
   render() {
     return (
       <div className="user-profile-experience">
-        User Profile Experience
+        <div className="field-name"> 
+          Experience
+        </div>
+        <div className="field-text"> 
+          This information is not available.
+        </div>
       </div>
     );
   }
@@ -107,10 +144,16 @@ class UserProfileOtherInfo extends React.Component {
     return nextProps.userInfo !== this.props.userInfo;
   }
 
+  // TO DO: Display user's information and edit design.
   render() {
     return (
       <div className="user-profile-other-info">
-        User Profile Other Info
+        <div className="field-name"> 
+          Other Information
+        </div>
+        <div className="field-text"> 
+          This information is not available.
+        </div>
       </div>
     );
   }

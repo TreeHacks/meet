@@ -50,113 +50,83 @@ class UserProfile extends React.Component {
   }
 }
 
-class UserProfileHeader extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.userInfo !== this.props.userInfo;
-  }
-
+function UserProfileHeader(props) {
   // TO DO: Display user's information and edit design.
-  render() {
-    let contact_url =
-      ENDPOINT_URL + "/users/" + this.props.userId + "/contact";
-    return (
-      <div className="user-profile-header">
-        <div className="full-name"> 
-          Full Name
-        </div>
-        <div className="contact">
-          <ReactGA.OutboundLink
-            eventLabel="Contact"
-            to={contact_url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            contact
-          </ReactGA.OutboundLink>
-        </div>
+  let contact_url =
+    ENDPOINT_URL + "/users/" + props.userId + "/contact";
+  return (
+    <div className="user-profile-header">
+      <div className="full-name"> 
+        Full Name
       </div>
-    );
-  }
+      <div className="contact">
+        <ReactGA.OutboundLink
+          eventLabel="Contact"
+          to={contact_url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          contact
+        </ReactGA.OutboundLink>
+      </div>
+    </div>
+  );
 }
 
-class UserProfileSummary extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.userInfo !== this.props.userInfo;
-  }
-
+function UserProfileSummary(props) {
   // TO DO: Display user's information and edit design.
-  render() {
-    return (
-      <div className="user-profile-summary">
-        <div className="field-name"> 
-          Summary
-        </div>
-        <div className="field-text"> 
-          This information is not available.
-        </div>
+  return (
+    <div className="user-profile-summary">
+      <div className="field-name"> 
+        Summary
       </div>
-    );
-  }
+      <div className="field-text"> 
+        This information is not available.
+      </div>
+    </div>
+  );
 }
 
-class UserProfileProject extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.userInfo !== this.props.userInfo;
-  }
-
+function UserProfileProject(props) {
   // TO DO: Display user's information and edit design.
-  render() {
-    return (
-      <div className="user-profile-project">
-        <div className="field-name"> 
-          TreeHacks Project
-        </div>
-        <div className="field-text"> 
-          This information is not available.
-        </div>
+  return (
+    <div className="user-profile-project">
+      <div className="field-name"> 
+        TreeHacks Project
       </div>
-    );
-  }
+      <div className="field-text"> 
+        This information is not available.
+      </div>
+    </div>
+  );
 }
 
-class UserProfileExperience extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.userInfo !== this.props.userInfo;
-  }
-
+function UserProfileExperience(props) {
   // TO DO: Display user's information and edit design.
-  render() {
-    return (
-      <div className="user-profile-experience">
-        <div className="field-name"> 
-          Experience
-        </div>
-        <div className="field-text"> 
-          This information is not available.
-        </div>
+  return (
+    <div className="user-profile-experience">
+      <div className="field-name"> 
+        Experience
       </div>
-    );
-  }
+      <div className="field-text"> 
+        This information is not available.
+      </div>
+    </div>
+  );
 }
 
-class UserProfileOtherInfo extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.userInfo !== this.props.userInfo;
-  }
-
+function UserProfileOtherInfo(props) {
   // TO DO: Display user's information and edit design.
-  render() {
-    return (
-      <div className="user-profile-other-info">
-        <div className="field-name"> 
-          Other Information
-        </div>
-        <div className="field-text"> 
-          This information is not available.
-        </div>
+  return (
+    <div className="user-profile-other-info">
+      <div className="field-name"> 
+        Other Information
       </div>
-    );
-  }
+      <div className="field-text"> 
+        This information is not available.
+      </div>
+    </div>
+  );
 }
 
 export default UserProfile;

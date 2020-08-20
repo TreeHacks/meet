@@ -60,7 +60,7 @@ class Table extends React.Component {
 
     var fuse = new Fuse(user_list, {
       keys: [
-        "forms.meet_info.profileDesc",
+        "forms.meet_info.idea",
         "forms.meet_info.verticals",
         "forms.meet_info.first_name"
       ]
@@ -98,8 +98,7 @@ class Table extends React.Component {
           <div className="content">
             <div className="header">
               <p>
-                Welcome to TreeHacks Meet! Use this page to find potential
-                teammates. To add yourself, use the “profile” link above.
+                Welcome to TreeHacks Meet! Use this page to find ideas you might want to work on!.
               </p>
             </div>
             <div className="search">
@@ -154,7 +153,7 @@ class Entry extends React.Component {
     )
       .charAt(0)
       .toUpperCase();
-    let idea = props.json["forms"]["meet_info"]["profileDesc"];
+    let idea = props.json["forms"]["meet_info"]["idea"];
     let verticals = props.json["forms"]["meet_info"]["verticals"];
     let id = props.json["user"]["id"];
     let pronouns = props.json["forms"]["meet_info"]["pronouns"];

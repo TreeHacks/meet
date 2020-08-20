@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import "./index.scss";
 import Table from "./js/table";
 import MeetForm from "./js/form";
+import IdeasPage from "./js/ideas.js"
 import * as serviceWorker from "./js/serviceWorker";
 import API from "@aws-amplify/api";
 import queryString from "query-string";
@@ -104,12 +105,14 @@ function Main() {
               </div>
             </a>
           </li>
-          <Link to="/">browse</Link>
+          <Link to="/">people</Link>
+          <Link to="/ideas">ideas</Link>
           <Link to="/profile">profile</Link>                                                                                                        
           <Link to="/logout" onClick={logout}>log out</Link>
         </div>
         <Switch>
           <Route path="/profile">{user && <MeetForm user={user} />}</Route>
+          <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
           <Route path="/">
             <Table user={user} />
           </Route>

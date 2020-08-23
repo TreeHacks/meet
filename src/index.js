@@ -8,7 +8,6 @@ import * as serviceWorker from "./js/serviceWorker";
 import API from "@aws-amplify/api";
 import queryString from "query-string";
 import logo from "./svg/logo.svg";
-import UserProfile from "./js/userProfile";
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_URL;
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
@@ -90,8 +89,7 @@ function Main() {
       login();
     }
   }, []);
-  let user_url = user && user.username ? "/users/" + user.username : "/";
-  
+
   return (
     <BrowserRouter>
       <div id="menu">
@@ -107,16 +105,11 @@ function Main() {
             </a>
           </li>
           <Link to="/">browse</Link>
-          <Link to="/profile">profile</Link>  
-          <Link to={user_url}>account</Link>                                                                                                        
+          <Link to="/profile">profile</Link>                                                                                                        
           <Link to="/logout" onClick={logout}>log out</Link>
         </div>
         <Switch>
           <Route path="/profile">{user && <MeetForm user={user} />}</Route>
-          <Route path="/users/:userId" render={ props => 
-            <UserProfile {...props} />}
-          >
-          </Route>
           <Route path="/">
             <Table user={user} />
           </Route>

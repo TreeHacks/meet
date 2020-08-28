@@ -60,7 +60,7 @@ class Table extends React.Component {
 
     var fuse = new Fuse(user_list, {
       keys: [
-        "forms.meet_info.profileDesc",
+        "forms.meet_info.idea",
         "forms.meet_info.verticals",
         "forms.meet_info.first_name"
       ]
@@ -98,8 +98,7 @@ class Table extends React.Component {
           <div className="content">
             <div className="header">
               <p>
-                Welcome to TreeHacks Meet! Use this page to find potential
-                teammates. To add yourself, use the “profile” link above.
+                Welcome to TreeHacks Meet! Use this page to find ideas you might want to work on!.
               </p>
             </div>
             <div className="search">
@@ -154,28 +153,20 @@ class Entry extends React.Component {
     )
       .charAt(0)
       .toUpperCase();
-    let idea = props.json["forms"]["meet_info"]["profileDesc"];
+    let idea = props.json["forms"]["meet_info"]["idea"];
     let verticals = props.json["forms"]["meet_info"]["verticals"];
     let id = props.json["user"]["id"];
     let pronouns = props.json["forms"]["meet_info"]["pronouns"];
     let contact_url =
       ENDPOINT_URL + "/users/" + id + "/contact";
-    let profile_url = "/users/" + id;
     let profilePictureLink = props.json["forms"]["meet_info"]["profilePicture"];
     return (
       <div className="entry">
         <div className="header">
           {profilePictureLink && <img src={profilePictureLink} alt="profile picture" />}
-          <ReactGA.OutboundLink
-            eventLabel="User Profile"
-            to={profile_url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h3>
-              {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}
-            </h3>
-          </ReactGA.OutboundLink>
+          <h3>
+            {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}
+          </h3>
         </div>
         <div className="idea">
           <Linkify componentDecorator={LinkDecorator}>
@@ -199,8 +190,6 @@ class Entry extends React.Component {
           <ReactGA.OutboundLink
             eventLabel="Contact"
             to={contact_url}
-            target="_blank"
-            rel="noopener noreferrer"
           >
             contact
           </ReactGA.OutboundLink>

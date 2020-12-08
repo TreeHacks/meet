@@ -173,19 +173,19 @@ class Entry extends React.Component {
             <p>{idea}</p>
           </ Linkify>
         </div>
-        <div className="tags">
-          {verticals &&
-            verticals.length > 0 &&
-            verticals.map(vertical => (
-              <div
-                className="tag"
-                key={vertical}
-                style={{ backgroundColor: colors[this.getColorNum(vertical)] }}
-              >
-                {vertical}
-              </div>
-            ))}
-        </div>
+        {/* <div className="tags"> */}
+        {/*   {verticals && */}
+        {/*     verticals.length > 0 && */}
+        {/*     verticals.map(vertical => ( */}
+        {/*       <div */}
+        {/*         className="tag" */}
+        {/*         key={vertical} */}
+        {/*         style={{ backgroundColor: colors[this.getColorNum(vertical)] }} */}
+        {/*       > */}
+        {/*         {vertical} */}
+        {/*       </div> */}
+        {/*     ))} */}
+        {/* </div> */}
         <div className="contact">
           <ReactGA.OutboundLink
             eventLabel="Contact"

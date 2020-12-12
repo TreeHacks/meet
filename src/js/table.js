@@ -41,15 +41,14 @@ class Table extends React.Component {
 
   async componentDidMount() {
     const body = await API.get("treehacks", "/users_meet", {});
-    console.log(body);
     let user_list = [];
     body["results"].map(
       user_json =>
         user_json.forms.meet_info &&
         user_json.forms.meet_info.showProfile &&
+        user_json.forms.meet_info.profileDesc &&
         user_list.push(user_json)
     );
-    console.log(user_list);
 
     // For testing with many users
     // for (let i = 1; user_list.length < 500; i++) {

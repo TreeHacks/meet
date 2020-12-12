@@ -1,20 +1,18 @@
-/* Color Palette */
-$background-color: #FFFFFF;
-$background-color-light-border: #DCDCDC;
+@import "green_sprout";
 
-$primary-color: #888888;
-$secondary-color: #888888;
-$tertiary-color: #888888;
 $box-color: #FFFFFF;
 
-$text-gray: #ADADAD;
-$text-color: #000000;
-$secondary-text-color: #000000;
+$background-color: hsl(339, 77%, 99%);
+$background-color-light-border: #eeeeee;
+
+$primary-color: #0D9071;
+$secondary-color: #E83028;
+$tertiary-color: #FF730E;
+
+$text-color: #696E76;
+$secondary-text-color: #535152;
 $primary-btn-text-color: #FFFFFF;
 
-$light-gray: #DDD;
-$dark-gray: #535152;
-$gray: #888888;
 
 /* Fonts */
 $navbar-font-size: 16px * 1.18;

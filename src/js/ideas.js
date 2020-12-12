@@ -47,9 +47,9 @@ class Table extends React.Component {
       user_json =>
         user_json.forms.meet_info &&
         user_json.forms.meet_info.showProfile &&
+        user_json.forms.meet_info.idea &&
         user_list.push(user_json)
     );
-    console.log(user_list);
 
     // For testing with many users
     // for (let i = 1; user_list.length < 500; i++) {
@@ -61,7 +61,6 @@ class Table extends React.Component {
     var fuse = new Fuse(user_list, {
       keys: [
         "forms.meet_info.idea",
-        "forms.meet_info.verticals",
         "forms.meet_info.first_name"
       ]
     });
@@ -173,19 +172,19 @@ class Entry extends React.Component {
             <p>{idea}</p>
           </ Linkify>
         </div>
-        <div className="tags">
-          {verticals &&
-            verticals.length > 0 &&
-            verticals.map(vertical => (
-              <div
-                className="tag"
-                key={vertical}
-                style={{ backgroundColor: colors[this.getColorNum(vertical)] }}
-              >
-                {vertical}
-              </div>
-            ))}
-        </div>
+        {/* <div className="tags"> */}
+        {/*   {verticals && */}
+        {/*     verticals.length > 0 && */}
+        {/*     verticals.map(vertical => ( */}
+        {/*       <div */}
+        {/*         className="tag" */}
+        {/*         key={vertical} */}
+        {/*         style={{ backgroundColor: colors[this.getColorNum(vertical)] }} */}
+        {/*       > */}
+        {/*         {vertical} */}
+        {/*       </div> */}
+        {/*     ))} */}
+        {/* </div> */}
         <div className="contact">
           <ReactGA.OutboundLink
             eventLabel="Contact"

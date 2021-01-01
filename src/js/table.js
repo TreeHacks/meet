@@ -159,14 +159,22 @@ class Entry extends React.Component {
     let pronouns = props.json["forms"]["meet_info"]["pronouns"];
     let contact_url =
       ENDPOINT_URL + "/users/" + id + "/contact";
+    let profile_url = "/users/" + id;
     let profilePictureLink = props.json["forms"]["meet_info"]["profilePicture"];
     return (
       <div className="entry">
         <div className="header">
           {profilePictureLink && <img src={profilePictureLink} alt="profile picture" />}
-          <h3>
-            {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}
-          </h3>
+          <ReactGA.OutboundLink
+            eventLabel="User Profile"
+            to={profile_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h3>
+              {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}
+            </h3>
+          </ReactGA.OutboundLink>
         </div>
         <div className="idea">
           <Linkify componentDecorator={LinkDecorator}>

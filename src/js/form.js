@@ -53,10 +53,15 @@ const schema = {
     commitment: {
       title: "Commitment Level",
       type: "string",
-      enum: [
-        "Low",
+      enumNames: [
+        "High - Shooting for a prize, will spend majority of time hacking",
+        "Medium - Will submit a substantial project, but with long breaks (e.g lots of rest, workshops)",
+        "Low - Wants to submit something, but won't spend majority of time hacking"
+      ],
+      "enum": [
+        "High",
         "Medium",
-        "High"
+        "Low"
       ]
     },
     timezoneOffset: {

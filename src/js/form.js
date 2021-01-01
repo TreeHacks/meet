@@ -18,12 +18,12 @@ const schema = {
       items: {
         type: "string",
         enum: [
+          "healthcare",
           "education",
-          "medical access",
-          "voice assistance",
-          "iot",
-          "ar/vr",
-          "geospatial"
+          "civic engagement",
+          "sustainability",
+          "social (inter)connectivity",
+          "anything cool!"
         ]
       }
     },
@@ -80,12 +80,12 @@ const uiSchema = {
   profileDesc: {
     "ui:widget": "textarea",
     "ui:placeholder":
-      "Tell other hackers about yourself! (150 words max)"
+      "Tell other hackers about yourself!"
   },
   idea: {
     "ui:widget": "textarea",
     "ui:placeholder":
-      "Pitch an idea that interests you! (150 words max)"
+      "Pitch an idea that interests you!"
   },
   pronouns: {
     "ui:placeholder":

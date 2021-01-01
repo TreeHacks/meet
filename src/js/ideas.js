@@ -7,6 +7,7 @@ import debounce from "lodash.debounce";
 import Linkify from "react-linkify";
 import ReactGA from 'react-ga';
 
+
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
 
@@ -137,7 +138,7 @@ class Entry extends React.Component {
   contactTracker () {
     ReactGA.event({
       category: 'User',
-      action: 'Contacted user'
+      action: 'Viewed profile'
     });
   }
 
@@ -172,25 +173,25 @@ class Entry extends React.Component {
             <p>{idea}</p>
           </ Linkify>
         </div>
-        {/* <div className="tags"> */}
-        {/*   {verticals && */}
-        {/*     verticals.length > 0 && */}
-        {/*     verticals.map(vertical => ( */}
-        {/*       <div */}
-        {/*         className="tag" */}
-        {/*         key={vertical} */}
-        {/*         style={{ backgroundColor: colors[this.getColorNum(vertical)] }} */}
-        {/*       > */}
-        {/*         {vertical} */}
-        {/*       </div> */}
-        {/*     ))} */}
-        {/* </div> */}
+        <div className="tags">
+          {verticals &&
+            verticals.length > 0 &&
+            verticals.map(vertical => (
+              <div
+                className="tag"
+                key={vertical}
+                style={{ backgroundColor: colors[this.getColorNum(vertical)] }}
+              >
+                {vertical}
+              </div>
+            ))}
+        </div>
         <div className="contact">
           <ReactGA.OutboundLink
-            eventLabel="Contact"
-            to={contact_url}
+            eventLabel="viewProfile"
+            to={`/view_profile/${id}`}
           >
-            contact
+            view profile
           </ReactGA.OutboundLink>
         </div>
       </div>

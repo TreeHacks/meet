@@ -3,16 +3,20 @@ import Form from "react-jsonschema-form";
 import API from "@aws-amplify/api";
 import Loading from "./loading";
 import { Redirect } from "react-router";
+import ReactGA from 'react-ga';
+
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
+ReactGA.pageview(window.location.pathname + window.location.search);
+const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
 
 const schema = {
-  title: "Tell us about yourself!",
+  title: "Profile Page",
   type: "object",
-  required: [],
   properties: {
-    profileDesc: { type: "string", title: "Profile Description" },
-    idea: { type: "string", title: "Challenge ideas" },
+    profileDesc: { type: "string", title: "Profile Description", readOnly: true },
+    idea: { type: "string", title: "Challenge ideas", readOnly: true },
     verticals: {
-      title: "Challenges I'm interested in",
+      title: "Challenges user is interested in",
       type: "array",
       uniqueItems: true,
       items: {
@@ -26,10 +30,11 @@ const schema = {
           "anything cool!"
         ]
       }
+      , readOnly: true
     },
-    pronouns: { type: "string", title: "Pronouns" },
+    pronouns: { type: "string", title: "Pronouns", readOnly: true },
     skills: {
-      title: "My Skills",
+      title: "User's Skills",
       type: "array",
       uniqueItems: true,
       items: {
@@ -48,7 +53,7 @@ const schema = {
           "Game Development",
           "Systems"
         ]
-      }
+      }, readOnly: true
     },
     commitment: {
       title: "Commitment Level",
@@ -62,22 +67,17 @@ const schema = {
         "High",
         "Medium",
         "Low"
-      ]
+      ], readOnly: true
     },
     timezoneOffset: {
       title: "Timezone",
       type: "string",
-      default: getTimezoneOffset()
+      default: "Enter something", readOnly: true
     },
-    githubLink: { type: "string", title: "GitHub Link" },
-    devpostLink: { type: "string", title: "Devpost Link" },
-    portfolioLink: { type: "string", title: "Portfolio Link" },
-    linkedinLink: { type: "string", title: "Linkedin Link" },
-    showProfile: {
-      type: "boolean",
-      title: "Yes! Show my profile and allow other hackers to contact me.",
-      default: true
-    }
+    githubLink: { type: "string", title: "GitHub Link", readOnly: true },
+    devpostLink: { type: "string", title: "Devpost Link", readOnly: true },
+    portfolioLink: { type: "string", title: "Portfolio Link", readOnly: true },
+    linkedinLink: { type: "string", title: "Linkedin Link", readOnly: true }
   }
 };
 
@@ -85,16 +85,17 @@ const uiSchema = {
   profileDesc: {
     "ui:widget": "textarea",
     "ui:placeholder":
-      "Tell other hackers about yourself!"
+      "No profile description shared"
   },
   idea: {
     "ui:widget": "textarea",
     "ui:placeholder":
-      "Pitch an idea that interests you!"
+      "No ideas shared"
   },
   pronouns: {
+    "ui:description": "User's pronouns",
     "ui:placeholder":
-      "Gender pronouns (optional)"
+      "None specified"
   },
   verticals: {
     "ui:widget": "checkboxes"
@@ -103,45 +104,43 @@ const uiSchema = {
     "ui:widget": "checkboxes"
   },
   timezoneOffset: {
-    "ui:description": "Enter your timezone in GMT e.g GMT +0230, GMT -1100"
+    "ui:description": "User's timezone",
+    "ui:placeholder":
+      "None specified"
   },
   commitment: {
-    "ui:description": "What is your commitment level for TreeHacks 2021?"
+    "ui:description": "User's commitment level",
+    "ui:placeholder":
+      "None specified"
   },
   githubLink: {
     "ui:description": "Social Media Links:",
     "ui:placeholder":
-      "GitHub Profile"
+      "No GitHub profile specified"
   },
   devpostLink: {
     "ui:placeholder":
-      "Devpost Profile"
+      "No Devpost profile specified"
   },
   portfolioLink: {
     "ui:placeholder":
-      "Portfolio Link"
+      "No Portfolio specified"
   },
   linkedinLink: {
     "ui:placeholder":
-      "Linkedin Profile"
+      "No Linkedin profile specified"
   },
 };
 
-const log = type => console.log.bind(console, type);
-
-// // Automatically calculate GMT timezone
-function getTimezoneOffset() {
-  function z(n){return (n<10? '0' : '') + n}
-  var offset = new Date().getTimezoneOffset();
-  var sign = offset < 0? '+' : '-';
-  offset = Math.abs(offset);
-  return "GMT " + sign + z(offset/60 | 0) + z(offset%60);
-}
-
-function isValidGMT(userInp) {
-  var re = /^(GMT )[+|-][0-1][0-9][0-5][0-9]$/;
-  return re.exec(userInp);
-}
+// Change first names in the relevant portions of the schema
+function changeSchemaName(name) {
+  schema.title = name + "'s Profile Page";
+  schema.properties.verticals.title = "Challenges " + name + " is interested in";
+  schema.properties.skills.title = name + "'s Skills";
+  uiSchema.pronouns["ui:description"] = name + "'s pronouns";
+  uiSchema.timezoneOffset["ui:description"] = name + "'s timezone";
+  uiSchema.commitment["ui:description"] = name + "'s commitment level";
+} 
 
 class MeetForm extends React.Component {
   constructor(props) {
@@ -154,13 +153,27 @@ class MeetForm extends React.Component {
   }
 
   async componentDidMount() {
-    const meet_info = await API.get(
-      "treehacks",
-      `/users/${this.props.user.username}/forms/meet_info`,
-      {}
-    );
-    console.log(meet_info);
+    // Get appropriate user from databases
+    const user_id = this.props.match.params.id;
+    this.setState({id: user_id});
+    const body = await API.get("treehacks", "/users_meet", {});
+    var filteredResults = body.results.filter(function(item) { 
+       return item.user.id === user_id;  
+    });
+    var meet_info;
+
+    // Clean up JSON if possible
+    if (filteredResults.length) {
+      meet_info = filteredResults[0].forms.meet_info;
+    } else{
+      alert("No user found!");
+    }
+
+    // Set data appropriately
     if (meet_info) {
+      // this.setState({first_name: meet_info.first_name});
+
+      changeSchemaName(meet_info.first_name)
       for (const index in meet_info) {
         if (!(index in this.state.formSchema["properties"])) continue;
         this.state.formSchema["properties"][index]["default"] =
@@ -174,36 +187,29 @@ class MeetForm extends React.Component {
     }
   }
 
-  async submitForm(e) {
-    const form = { body: e.formData };
-    if (isValidGMT(form["body"]["timezoneOffset"]) == null) {
-      alert("Please enter your GMT timezone in a valid format (e.g GMT +0800, GMT -1130)");
-    } else {
-      console.log("Data submitted: ", form);
-      const resp = await API.put(
-        "treehacks",
-        `/users/${this.props.user.username}/forms/meet_info`,
-        form
-      );
-      console.log(resp);
-      this.setState({ redirect: true });
-    }
-  }
-
   render() {
     if (!this.state.dataFetched) {
       return <Loading />;
     }
     else {
+      let contact_url =
+      ENDPOINT_URL + "/users/" + this.state.id + "/contact";
       return (
         <div id="form">
           <Form
             schema={this.state.formSchema}
             uiSchema={uiSchema}
-            onChange={log("changed")}
-            onSubmit={e => this.submitForm(e)}
-            onError={log("errors")}
+            children={true}
           />
+
+          <div className="main-button white-text">
+            <ReactGA.OutboundLink eventLabel="Contact"
+                to={contact_url} target = "_blank"
+              >
+              Contact on Slack
+            </ReactGA.OutboundLink>
+          </div>
+
           {this.state.redirect && <Redirect to="/" />}
         </div>
       );

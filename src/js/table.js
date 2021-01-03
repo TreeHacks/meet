@@ -196,12 +196,10 @@ class Entry extends React.Component {
         </div>
         <div className="contact">
           <ReactGA.OutboundLink
-            eventLabel="Contact"
-            to={contact_url}
-            target="_blank"
-            rel="noopener noreferrer"
+            eventLabel="viewProfile"
+            to={`/view_profile/${id}`}
           >
-            contact
+            view profile
           </ReactGA.OutboundLink>
         </div>
       </div>

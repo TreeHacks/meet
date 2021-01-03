@@ -5,7 +5,7 @@
             "properties": {
                 "section1": {
                     "title": "your profile",
-                    "custom_description": "We’re so excited that you are coming to TreeHacks 2020! Let's create a profile for your meet.treehacks page!",
+                    "custom_description": "We’re so excited that you are coming to TreeHacks 2021! Let's create a profile for your meet.treehacks page!",
                     "type": "string"
                 },
                 "first_name": {
@@ -33,7 +33,7 @@
                 },
                 "section2": {
                     "title": "short answer questions",
-                    "custom_description": "We want meet.treehacks to be a place where you can find other hackers! Below you can post a little blurb about what you're looking for, what you want to worn on, and so on!",
+                    "custom_description": "We want meet.treehacks to be a place where you can find other hackers! Below you can post a little blurb about what you're looking for, what you want to work on, and so on!",
                     "type": "string"
                 },
                 "q1": {
@@ -64,7 +64,7 @@
                 "section4": {
                     "title": "Verticals",
                     "type": "string",
-                    "custom_description": "Treehacks 6 different verticals this year, ranging from Education to Geospatial Tech. What're you most excited for?"
+                    "custom_description": "Treehacks has 5 different verticals this year, ranging from Education to Civic Engagement. What're you most excited for?"
                 },
                 "verticals": {
                     "title": "Preferred Verticals",
@@ -72,20 +72,20 @@
                     "items": {
                         "type": "string",
                         "enum": [
-                            "Education",
-                            "Medical Access",
-                            "Voice Assistance",
-                            "Internet of Things",
-                            "AR/VR",
-                            "Geospatial"
+                            "healthcare",
+                              "education",
+                              "civic engagement",
+                              "sustainability",
+                              "social (inter)connectivity",
+                              "anything cool!"
                         ],
                         "enumNames": [
-                            "Education",
-                            "Medical Access",
-                            "Voice Assistance",
-                            "Internet of Things",
-                            "AR/VR",
-                            "Geospatial"
+                            "healthcare",
+                              "education",
+                              "civic engagement",
+                              "sustainability",
+                              "social (inter)connectivity",
+                              "anything cool!"
                         ]
                     },
                     "uniqueItems": true

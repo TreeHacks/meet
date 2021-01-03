@@ -5,6 +5,7 @@ import "./index.scss";
 import Table from "./js/table";
 import MeetForm from "./js/form";
 import IdeasPage from "./js/ideas.js"
+import ViewProfile from "./js/view_profile.js"
 import * as serviceWorker from "./js/serviceWorker";
 import API from "@aws-amplify/api";
 import queryString from "query-string";
@@ -120,6 +121,7 @@ function Main() {
            >
            </Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
+          <Route path="/view_profile/:id" component = {ViewProfile}>{user && <ViewProfile />}</Route>
           <Route path="/">
             <Table user={user} />
           </Route>

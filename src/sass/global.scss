@@ -21,6 +21,10 @@
   }
 }
 
+.main-button.white-text > *{
+  color: white;
+}
+
 * {
   font-family: $base-font-family;
 }

@@ -110,13 +110,14 @@ function Main() {
           </li>
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
-          <Link to="/profile">profile</Link>  
-          <Link to={user_url}>account</Link>                                                                                                                                                                                                                 
+          <Link to="/profile">profile</Link>
+          {/* TODO: is this necessary? */}
+          {/* <Link to={user_url}>account</Link> */}
           <Link to="/logout" onClick={logout}>log out</Link>
         </div>
         <Switch>
           <Route path="/profile">{user && <MeetForm user={user} />}</Route>
-          <Route path="/users/:userId" render={ props => 
+          <Route path="/users/:userId" render={ props =>
              <UserProfile {...props} />}
            >
            </Route>

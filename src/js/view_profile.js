@@ -162,6 +162,8 @@ class MeetForm extends React.Component {
     });
     var meet_info;
 
+    console.log(body);
+
     // Clean up JSON if possible
     if (filteredResults.length) {
       meet_info = filteredResults[0].forms.meet_info;
@@ -171,8 +173,6 @@ class MeetForm extends React.Component {
 
     // Set data appropriately
     if (meet_info) {
-      // this.setState({first_name: meet_info.first_name});
-
       changeSchemaName(meet_info.first_name)
       for (const index in meet_info) {
         if (!(index in this.state.formSchema["properties"])) continue;

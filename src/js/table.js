@@ -165,16 +165,9 @@ class Entry extends React.Component {
       <div className="entry">
         <div className="header">
           {profilePictureLink && <img src={profilePictureLink} alt="profile picture" />}
-          <ReactGA.OutboundLink
-            eventLabel="User Profile"
-            to={profile_url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
             <h3>
               {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}
             </h3>
-          </ReactGA.OutboundLink>
         </div>
         <div className="idea">
           <Linkify componentDecorator={LinkDecorator}>
@@ -198,6 +191,8 @@ class Entry extends React.Component {
           <ReactGA.OutboundLink
             eventLabel="viewProfile"
             to={`/view_profile/${id}`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             view profile
           </ReactGA.OutboundLink>

@@ -190,6 +190,8 @@ class Entry extends React.Component {
           <ReactGA.OutboundLink
             eventLabel="viewProfile"
             to={`/view_profile/${id}`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             view profile
           </ReactGA.OutboundLink>

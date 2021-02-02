@@ -111,7 +111,7 @@ function Main() {
           </li>
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
-          <Link to="/sponsers">sponsers</Link>
+          <Link to="/sponsors">sponsors</Link>
           <Link to="/profile">profile</Link>
           {/* TODO: is this necessary? */}
           {/* <Link to={user_url}>account</Link> */}
@@ -125,7 +125,7 @@ function Main() {
            </Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
           <Route path="/view_profile/:id" component = {ViewProfile}>{user && <ViewProfile />}</Route>
-          <Route path="/sponsers">{user && <JobsPage user={user} />}</Route>
+          <Route path="/sponsors">{user && <JobsPage user={user} />}</Route>
           <Route path="/">
             <Table user={user} />
           </Route>

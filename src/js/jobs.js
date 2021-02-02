@@ -68,7 +68,7 @@ class Table extends React.Component {
           <div className="content">
             <div className="header">
               <p>
-                Check back later to see our awesome sponsers!
+                Check back later to see our awesome sponsors!
               </p>
             </div>
           </div>
@@ -80,7 +80,7 @@ class Table extends React.Component {
           <div className="content">
             <div className="header">
               <p>
-                Check out our awesome sponsers!
+                Check out our awesome sponsors!
               </p>
             </div>
             <Masonry className={"gallery jobsPage"} options={style}>

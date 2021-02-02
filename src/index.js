@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import "./index.scss";
 import Table from "./js/table";
 import MeetForm from "./js/form";
+import JobsPage from "./js/jobs.js"
 import IdeasPage from "./js/ideas.js"
 import ViewProfile from "./js/view_profile.js"
 import * as serviceWorker from "./js/serviceWorker";
@@ -110,6 +111,7 @@ function Main() {
           </li>
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
+          <Link to="/sponsers">sponsers</Link>
           <Link to="/profile">profile</Link>
           {/* TODO: is this necessary? */}
           {/* <Link to={user_url}>account</Link> */}
@@ -123,6 +125,7 @@ function Main() {
            </Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
           <Route path="/view_profile/:id" component = {ViewProfile}>{user && <ViewProfile />}</Route>
+          <Route path="/sponsers">{user && <JobsPage user={user} />}</Route>
           <Route path="/">
             <Table user={user} />
           </Route>

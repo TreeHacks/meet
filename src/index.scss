@@ -25,6 +25,7 @@ body {
     box-shadow: 0 5px 30px -5px rgba(0, 0, 0, 0.2);
     z-index: 101;
 
+
     #page-elems {
       height: 80px;
       margin: 0 auto;
@@ -55,6 +56,21 @@ body {
         }
       }
 
+      @media screen and (max-width: 992px) {
+          #navbar-logo {
+            display: none !important;
+            background-color: red;
+          }
+
+          a {
+            font-size: $base-font-size;
+          }
+
+          a:last-of-type {
+            color: #f0163e;
+          }
+        }
+
       #navbar-logo {
         margin-top: 2px;
         flex-grow: 1;
@@ -73,12 +89,6 @@ body {
           padding-right: $navbar-horizontal-padding;
           width: $navbar-logo-image-width;
           height: $navbar-logo-image-height;
-        }
-
-        @media screen and (max-width: 500px) {
-          #title {
-            display: none;
-          }
         }
       }
     }

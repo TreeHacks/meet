@@ -17,6 +17,7 @@
     max-width: 80vw;
   }
 
+
   .gallery {
     width: 100%;
 
@@ -29,9 +30,38 @@
     }
 
     @media screen and (min-width: 1200px) {
-      width: 1135px;
+      width: 1200px;
     }
   }
+
+  .gallery.jobsPage {
+    width: 90%;
+    margin: 0;
+    padding: 0;
+
+    @media screen and (min-width: 1200px) {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+  }
+
+  .entry-wrapper.jobsPage {
+    width: 100%;
+
+    @media screen and (min-width: 768px) {
+      width: 50%;
+    }
+
+    @media screen and (min-width: 992px) {
+      width: 33.3333%;
+    }
+
+    @media screen and (min-width: 1200px) {
+      width: 30%;
+    }
+  }
+
 
   .entry-wrapper {
     background-color: $background-color;
@@ -90,6 +120,49 @@
 
     h3 {
       color: $primary-color;
+    }
+  }
+
+  .jobListing {
+    border-radius: none;
+    $logo-height: 60px;
+    padding-left: 10px;
+
+    .header {
+      flex-direction: column;
+      max-width: none;
+    } 
+
+    img {
+      display: inline-block;
+      float: none;
+      text-align: center;
+      position: relative;
+      height: $logo-height;
+      width: auto;
+      margin: 0;
+      border-radius: 0;
+      margin-top: 20px;
+    }
+
+    h3 {
+      margin: 0;
+      text-align: left;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    span {
+      font-size: 12px;
+      text-align: left;
+      width: 100%;
+      font-style: italic;
+      color: $primary-color;
+    }
+
+    .idea {
+      text-align: left;
+      max-height: none;
     }
   }
 

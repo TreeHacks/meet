@@ -160,6 +160,7 @@ class Entry extends React.Component {
     let contact_url =
       ENDPOINT_URL + "/users/" + id + "/contact";
     let profilePictureLink = props.json["forms"]["meet_info"]["profilePicture"];
+    let commitment = props.json["forms"]["meet_info"]["commitment"];
     return (
       <div className="entry">
         <div className="header">
@@ -174,6 +175,14 @@ class Entry extends React.Component {
           </ Linkify>
         </div>
         <div className="tags">
+          {commitment &&
+            <div
+              className="tag"
+              style={{ backgroundColor: "#309071" }}
+            >
+              Commitment: {commitment}
+            </div>
+          }
           {verticals &&
             verticals.length > 0 &&
             verticals.map(vertical => (

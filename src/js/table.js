@@ -11,7 +11,7 @@ ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
-const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
+const colors = ["#FDEE6E", "#C490E8", "#F8806C"];
 
 const shuffle = a => {
   for (let i = a.length - 1; i > 0; i--) {
@@ -179,7 +179,7 @@ class Entry extends React.Component {
           {commitment && 
             <div
               className="tag"
-              style={{ backgroundColor: "#309071" }}
+              style={{ backgroundColor: "#0CB08A" }}
             >
               Commitment: {commitment}
             </div>

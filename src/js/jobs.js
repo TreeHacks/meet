@@ -10,7 +10,7 @@ ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
-const colors = ["#34b2cb", "#E51B5D", "#F46E20"];
+const colors = ["#FDEE6E", "#C490E8", "#F8806C"];
 
 const LinkDecorator = (href, text, key) => {
     return <a href={href} key={key} target="_blank">

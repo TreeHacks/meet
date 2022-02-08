@@ -8,7 +8,7 @@ import Linkify from "react-linkify";
 import ReactGA from 'react-ga';
 
 
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
+// ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;

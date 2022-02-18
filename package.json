@@ -31,6 +31,10 @@
     "react-show-more-text": "^1.3.0",
     "typescript": "^3.7.5"
   },
+  "engines": {
+    "npm": "6.14.10",
+    "node": "14.15.4"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

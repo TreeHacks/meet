@@ -23,10 +23,10 @@ const schema = {
         type: "string",
         enum: [
           "healthcare",
-          "education",
-          "civic engagement",
+          "privacy, security, & safety",
+          "web 3.0",
           "sustainability",
-          "social (inter)connectivity",
+          "accessibility",
           "anything cool!"
         ]
       }

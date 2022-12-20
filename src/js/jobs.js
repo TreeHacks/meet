@@ -60,7 +60,8 @@ class Table extends React.Component {
     ));
 
     const style = {};
-    if (companies.length == 0) {
+    // if (companies.length == 0) {
+    if (false) {
       return <Loading />;
     } else if (childElements.length == 0) {
       return (

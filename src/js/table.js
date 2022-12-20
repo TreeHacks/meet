@@ -6,6 +6,7 @@ import Loading from "./loading";
 import debounce from "lodash.debounce";
 import Linkify from "react-linkify";
 import ReactGA from 'react-ga';
+import { getUserMeetMock } from "../mock/usersMeet";
 
 // ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -40,7 +41,7 @@ class Table extends React.Component {
   }
 
   async componentDidMount() {
-    const body = await API.get("treehacks", "/users_meet", {});
+    const body = getUserMeetMock();
     let user_list = [];
     body["results"].map(
       user_json =>

@@ -190,10 +190,10 @@ class MeetForm extends React.Component {
   }
 
   render() {
-    // if (!this.state.dataFetched) {
-    //   return <Loading />;
-    // }
-    // else {
+    if (!this.state.dataFetched) {
+      return <Loading />;
+    }
+    else {
       return (
         <div id="form">
           <Form
@@ -206,7 +206,7 @@ class MeetForm extends React.Component {
           {this.state.redirect && <Redirect to="/" />}
         </div>
       );
-    // }
+    }
   }
 }
 

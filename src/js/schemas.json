@@ -5,7 +5,7 @@
             "properties": {
                 "section1": {
                     "title": "your profile",
-                    "custom_description": "We’re so excited that you are coming to TreeHacks 2021! Let's create a profile for your meet.treehacks page!",
+                    "custom_description": "We’re so excited that you are coming to TreeHacks 2023! Let's create a profile for your meet.treehacks page!",
                     "type": "string"
                 },
                 "first_name": {

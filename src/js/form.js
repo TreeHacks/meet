@@ -18,12 +18,12 @@ const schema = {
       items: {
         type: "string",
         enum: [
-          "healthcare",
-          "education",
-          "civic engagement",
-          "sustainability",
-          "social (inter)connectivity",
-          "anything cool!"
+          "Healthcare",
+          "New Froniers",
+          "Web 3.0 and Fintech",
+          "Sustainability",
+          "Education",
+          "Privacy and Safety"
         ]
       }
     },
@@ -70,9 +70,9 @@ const schema = {
       default: getTimezoneOffset()
     },
     githubLink: { type: "string", title: "GitHub Link" },
+    linkedinLink: { type: "string", title: "Linkedin Link" },
     devpostLink: { type: "string", title: "Devpost Link" },
     portfolioLink: { type: "string", title: "Portfolio Link" },
-    linkedinLink: { type: "string", title: "Linkedin Link" },
     showProfile: {
       type: "boolean",
       title: "Yes! Show my profile and allow other hackers to contact me.",
@@ -106,12 +106,16 @@ const uiSchema = {
     "ui:description": "Enter your timezone in GMT e.g GMT +0230, GMT -1100"
   },
   commitment: {
-    "ui:description": "What is your commitment level for TreeHacks 2021?"
+    "ui:description": "What is your commitment level for TreeHacks 2023?"
   },
   githubLink: {
     "ui:description": "Social Media Links:",
     "ui:placeholder":
       "GitHub Profile"
+  },
+  linkedinLink: {
+    "ui:placeholder":
+      "Linkedin Profile"
   },
   devpostLink: {
     "ui:placeholder":
@@ -120,10 +124,6 @@ const uiSchema = {
   portfolioLink: {
     "ui:placeholder":
       "Portfolio Link"
-  },
-  linkedinLink: {
-    "ui:placeholder":
-      "Linkedin Profile"
   },
 };
 
@@ -190,10 +190,10 @@ class MeetForm extends React.Component {
   }
 
   render() {
-    if (!this.state.dataFetched) {
-      return <Loading />;
-    }
-    else {
+    // if (!this.state.dataFetched) {
+    //   return <Loading />;
+    // }
+    // else {
       return (
         <div id="form">
           <Form
@@ -206,7 +206,7 @@ class MeetForm extends React.Component {
           {this.state.redirect && <Redirect to="/" />}
         </div>
       );
-    }
+    // }
   }
 }
 

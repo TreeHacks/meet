@@ -7,6 +7,10 @@ import debounce from "lodash.debounce";
 import Linkify from "react-linkify";
 import ReactGA from 'react-ga';
 import { getUserMeetMock } from "../mock/usersMeet";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 // ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -28,13 +32,41 @@ const LinkDecorator = (href, text, key) => {
     </a>;
 }
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
 class Table extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       query: "",
       user_json: [],
-      results: []
+      results: [],
+      tabSelection: 0,
     };
     this._search = this._search.bind(this);
     this.search = debounce(this._search, 800);
@@ -80,6 +112,10 @@ class Table extends React.Component {
     this.setState({ results });
   }
 
+  handleChange = (event, newValue) => {
+    this.setState({tabSelection: newValue});
+  };
+
   render() {
     let { results } = this.state;
 
@@ -100,8 +136,8 @@ class Table extends React.Component {
           <div className="content">
             <div className="header">
               <p>
-                Welcome to TreeHacks Meet! Use this page to find potential
-                teammates. To add yourself, use the “profile” link above.
+                Welcome to TreeHacks Meet! Use this page to find other
+                hackers and mentors attending TreeHacks 2023.
               </p>
             </div>
             <div className="search">
@@ -114,9 +150,28 @@ class Table extends React.Component {
                 placeholder="Search for anything..."
               />
             </div>
-            <Masonry className={"gallery"} options={style}>
-              {childElements}
-            </Masonry>
+
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs value={this.state.tabSelection} onChange={this.handleChange} aria-label="basic tabs example">
+                <Tab label="All" {...a11yProps(0)} />
+                <Tab label="Mentors" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <TabPanel value={this.state.tabSelection} index={0}> 
+              {/* Need to clear all filters */}
+              <Masonry className={"gallery"} options={style}>
+                {childElements}
+              </Masonry>
+            </TabPanel>
+
+            <TabPanel value={this.state.tabSelection} index={1}>
+              {/* Need to filter just mentors */}
+              <Masonry className={"gallery"} options={style}>
+                {childElements}
+              </Masonry>
+            </TabPanel>
+
+            
           </div>
         </div>
       );

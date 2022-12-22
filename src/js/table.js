@@ -143,6 +143,7 @@ class Table extends React.Component {
       tabSelection: 0,
     };
     this._search = this._search.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.search = debounce(this._search, 800);
   }
 
@@ -186,7 +187,7 @@ class Table extends React.Component {
     this.setState({ results });
   }
 
-  handleChange = (event, newValue) => {
+  handleChange(event, newValue) {
     this.setState({tabSelection: newValue});
   };
 
@@ -249,7 +250,7 @@ class Table extends React.Component {
                   </TabPanel>
                 </div>
 
-                <div id="form">
+                <div id="form" className="filter">
                   <Form
                     schema={filterSchema}
                     uiSchema={uiFilterSchema}

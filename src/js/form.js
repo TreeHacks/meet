@@ -50,6 +50,19 @@ const schema = {
         ]
       }
     },
+    userType: {
+      title: "Profile Type",
+      type: "string",
+      default: "Hacker",
+      enumNames: [
+        "Hacker",
+        "Mentor",
+      ],
+      "enum": [
+        "Hacker",
+        "Mentor",
+      ]
+    },
     commitment: {
       title: "Commitment Level",
       type: "string",
@@ -104,6 +117,9 @@ const uiSchema = {
   },
   timezoneOffset: {
     "ui:description": "Enter your timezone in GMT e.g GMT +0230, GMT -1100"
+  },
+  userType: {
+    "ui:description": "Are you a hacker vs mentor?",
   },
   commitment: {
     "ui:description": "What is your commitment level for TreeHacks 2023?"

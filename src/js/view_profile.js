@@ -22,12 +22,12 @@ const schema = {
       items: {
         type: "string",
         enum: [
-          "healthcare",
-          "privacy, security, & safety",
-          "web 3.0",
-          "sustainability",
-          "accessibility",
-          "anything cool!"
+          "Healthcare",
+          "New Froniers",
+          "Web 3.0 and Fintech",
+          "Sustainability",
+          "Education",
+          "Privacy and Safety"
         ]
       }
       , readOnly: true
@@ -55,6 +55,19 @@ const schema = {
         ]
       }, readOnly: true
     },
+    userType: {
+      title: "Profile Type",
+      type: "string",
+      default: "Hacker",
+      enumNames: [
+        "Hacker",
+        "Mentor",
+      ],
+      "enum": [
+        "Hacker",
+        "Mentor",
+      ]
+    },
     commitment: {
       title: "Commitment Level",
       type: "string",
@@ -75,9 +88,9 @@ const schema = {
       default: "Enter something", readOnly: true
     },
     githubLink: { type: "string", title: "GitHub Link", readOnly: true },
+    linkedinLink: { type: "string", title: "Linkedin Link", readOnly: true },
     devpostLink: { type: "string", title: "Devpost Link", readOnly: true },
     portfolioLink: { type: "string", title: "Portfolio Link", readOnly: true },
-    linkedinLink: { type: "string", title: "Linkedin Link", readOnly: true }
   }
 };
 
@@ -108,6 +121,9 @@ const uiSchema = {
     "ui:placeholder":
       "None specified"
   },
+  userType: {
+    "ui:description": "Are you a hacker vs mentor?",
+  },
   commitment: {
     "ui:description": "User's commitment level",
     "ui:placeholder":
@@ -118,6 +134,10 @@ const uiSchema = {
     "ui:placeholder":
       "No GitHub profile specified"
   },
+  linkedinLink: {
+    "ui:placeholder":
+      "No Linkedin profile specified"
+  },
   devpostLink: {
     "ui:placeholder":
       "No Devpost profile specified"
@@ -125,10 +145,6 @@ const uiSchema = {
   portfolioLink: {
     "ui:placeholder":
       "No Portfolio specified"
-  },
-  linkedinLink: {
-    "ui:placeholder":
-      "No Linkedin profile specified"
   },
 };
 

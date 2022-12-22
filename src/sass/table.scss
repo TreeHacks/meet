@@ -8,6 +8,21 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    #form {
+      display: contents;
+      margin-top: 100px;
+
+      .checkboxes {
+        column-count: 1;
+        margin: 10px 0px;
+      }
+
+      .field-array {
+        width: 10vw;
+        max-width: 800px;
+      }
+    }
   }
 
   .header {
@@ -15,6 +30,10 @@
     color: $primary-color;
     width: 500px;
     max-width: 80vw;
+  }
+
+  .directory-container {
+    display: flex;
   }
 
 

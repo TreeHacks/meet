@@ -142,10 +142,13 @@ class Table extends React.Component {
       results: [],
       tabSelection: 0,
       filters: [],
+      filterFormData: {},
     };
     this._search = this._search.bind(this);
     this._filter = this._filter.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+
     this.search = debounce(this._search, 800);
     this.filter = debounce(this._filter, 800);
   }
@@ -212,19 +215,19 @@ class Table extends React.Component {
         this.state.filters.skills.forEach(filterQuery => {
           results = [...results, ...this.state.user_json.filter(user => user.forms.meet_info.skills == filterQuery)];
         });
-      }
+      };
 
       if (this.state.filters.verticals) {
         this.state.filters.verticals.forEach(filterQuery => {
           results = [...results, ...this.state.user_json.filter(user => user.forms.meet_info.verticals == filterQuery)];
         });
-      }
+      };
 
       if (this.state.filters.commitment) {
         this.state.filters.commitment.forEach(filterQuery => {
           results = [...results, ...this.state.user_json.filter(user => user.forms.meet_info.commitment == filterQuery)];
         });
-      }
+      };
 
       this.setState({ results });
     } else {
@@ -233,7 +236,7 @@ class Table extends React.Component {
     this.setState({ results });
   }
 
-  handleChange(event, newValue) {
+  handleTabChange(event, newValue) {
     this.setState({tabSelection: newValue});
 
     let results = this.state.user_json;
@@ -246,14 +249,12 @@ class Table extends React.Component {
     this.setState({ results });
   };
 
+  handleFilterChange(formState) {
+    this.setState({ filterFormData: formState.formData });
+  };
+
   async submitForm(e) {
     const filters = { ...e.formData };
-
-    // if (filters.skills) filters.skills.forEach(element => {payload = [...payload, `=${element}`]});
-    // if (filters.verticals) filters.verticals.forEach(element => {payload = [...payload, `=${element}`]});
-    // if (filters.commitment) filters.commitment.forEach(element => {payload = [...payload, `=${element}`]});
-
-    // payload = payload.join("|")
     
     this.setState({ filters }, () => this._filter());
   };
@@ -294,7 +295,7 @@ class Table extends React.Component {
             </div>
 
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs value={this.state.tabSelection} onChange={this.handleChange} aria-label="basic tabs example">
+              <Tabs value={this.state.tabSelection} onChange={this.handleTabChange} aria-label="basic tabs example">
                 <Tab label="All" {...a11yProps(0)} />
                 <Tab label="Mentors" {...a11yProps(1)} />
               </Tabs>
@@ -321,9 +322,10 @@ class Table extends React.Component {
                   <Form
                     schema={filterSchema}
                     uiSchema={uiFilterSchema}
-                    onChange={log("changed")}
+                    onChange={this.handleFilterChange}
                     onSubmit={e => {this.submitForm(e)}}
                     onError={log("errors")}
+                    formData={this.state.filterFormData}
                   />
                 </div>
             </div>

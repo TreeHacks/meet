@@ -4,7 +4,7 @@ const occupations = [
   "designer",
   "business student",
 ];
-const interests = ["music", "art", "design", "business"];
+const interests = ["Healthcare", "Privacy and Safety"];
 const firstNames = ["John", "Jane", "Bob", "Alice"];
 const lastNames = ["Doe", "Robertson", "King", "Price"];
 const skills = ["AI", "Data Mining", "NLP", "Web Development", "IOS", "Android", "Pitching", "Marketing", "Design", "AR/VR", "Game Development", "Systems"];

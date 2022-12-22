@@ -141,10 +141,13 @@ class Table extends React.Component {
       user_json: [],
       results: [],
       tabSelection: 0,
+      filters: [],
     };
     this._search = this._search.bind(this);
+    this._filter = this._filter.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.search = debounce(this._search, 800);
+    this.filter = debounce(this._filter, 800);
   }
 
   async componentDidMount() {
@@ -169,9 +172,9 @@ class Table extends React.Component {
     var fuse = new Fuse(user_list, {
       keys: [
         "forms.meet_info.profileDesc",
-        "forms.meet_info.verticals",
-        "forms.meet_info.first_name"
-      ]
+        "forms.meet_info.first_name",
+      ],
+      useExtendedSearch: true
     });
     this.setState({ user_json: user_list, fuse }, () => this._search());
   }
@@ -179,7 +182,7 @@ class Table extends React.Component {
   _search() {
     let results;
     if (this.state.query) {
-      results = this.state.fuse.search(this.state.query);
+      results = this.state.fuse.search(`=${this.state.query}`);
     } else {
       results = this.state.user_json;
       shuffle(results);
@@ -187,8 +190,59 @@ class Table extends React.Component {
     this.setState({ results });
   }
 
+  async _filter() {
+    let results = [];
+
+    if (this.state.filters) {
+      
+      if (this.state.filters.skills) {
+        this.state.filters.skills.forEach(filterQuery => {
+          results = [...results, ...this.state.user_json.filter(user => user.forms.meet_info.skills == filterQuery)];
+        });
+      }
+
+      if (this.state.filters.verticals) {
+        this.state.filters.verticals.forEach(filterQuery => {
+          results = [...results, ...this.state.user_json.filter(user => user.forms.meet_info.verticals == filterQuery)];
+        });
+      }
+
+      if (this.state.filters.commitment) {
+        this.state.filters.commitment.forEach(filterQuery => {
+          results = [...results, ...this.state.user_json.filter(user => user.forms.meet_info.commitment == filterQuery)];
+        });
+      }
+
+      this.setState({ results });
+    } else {
+      shuffle(results);
+    }
+    this.setState({ results });
+  }
+
   handleChange(event, newValue) {
     this.setState({tabSelection: newValue});
+
+    let results = this.state.user_json;
+
+    if (newValue == 1) {
+      results = results.filter(user => user.forms.meet_info.isMentor);
+    } else {
+      shuffle(results);
+    }
+    this.setState({ results });
+  };
+
+  async submitForm(e) {
+    const filters = { ...e.formData };
+
+    // if (filters.skills) filters.skills.forEach(element => {payload = [...payload, `=${element}`]});
+    // if (filters.verticals) filters.verticals.forEach(element => {payload = [...payload, `=${element}`]});
+    // if (filters.commitment) filters.commitment.forEach(element => {payload = [...payload, `=${element}`]});
+
+    // payload = payload.join("|")
+    
+    this.setState({ filters }, () => this._filter());
   };
 
   render() {

@@ -175,10 +175,10 @@ class MeetForm extends React.Component {
     const body = await API.get("treehacks", "/users_meet", {});
     var filteredResults = body.results.filter(function(item) { 
        return item.user.id === user_id;  
-    });
+    }).map((data) => ({...data, forms: {...data?.forms, meet_info: {...data?.forms?.meet_info, isMentor: data?.forms?.meet_info?.userType === "Mentor"}}}))
     var meet_info;
 
-    console.log(body);
+    console.log("Here", body);
 
     // Clean up JSON if possible
     if (filteredResults.length) {

@@ -11,10 +11,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Form from "react-jsonschema-form";
 
 // ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -61,7 +58,80 @@ function a11yProps(index) {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
-}
+};
+
+const filterSchema = {
+  title: "Filter",
+  type: "object",
+  required: [],
+  properties: {
+    verticals: {
+      title: "Challenges",
+      type: "array",
+      uniqueItems: true,
+      items: {
+        type: "string",
+        enum: [
+          "Healthcare",
+          "New Froniers",
+          "Web 3.0 and Fintech",
+          "Sustainability",
+          "Education",
+          "Privacy and Safety"
+        ]
+      }
+    },
+    skills: {
+      title: "Skills",
+      type: "array",
+      uniqueItems: true,
+      items: {
+        type: "string",
+        enum: [
+          "AI",
+          "Data Mining",
+          "NLP",
+          "Web Development",
+          "IOS",
+          "Android",
+          "Pitching",
+          "Marketing",
+          "Design",
+          "AR/VR",
+          "Game Development",
+          "Systems"
+        ]
+      }
+    },
+    commitment: {
+      title: "Commitment Level",
+      type: "array",
+      uniqueItems: true,
+      items: {
+        type: "string",
+        enum: [
+          "High",
+          "Medium",
+          "Low"
+        ]
+      }
+    },
+  }
+};
+
+const uiFilterSchema = {
+  verticals: {
+    "ui:widget": "checkboxes"
+  },
+  skills: {
+    "ui:widget": "checkboxes"
+  },
+  commitment: {
+    "ui:widget": "checkboxes"
+  },
+};
+
+const log = type => console.log.bind(console, type);
 
 class Table extends React.Component {
   constructor(props) {
@@ -161,21 +231,34 @@ class Table extends React.Component {
                 <Tab label="Mentors" {...a11yProps(1)} />
               </Tabs>
             </Box>
-            <TabPanel value={this.state.tabSelection} index={0}> 
-              {/* Need to clear all filters */}
-              <Masonry className={"gallery"} options={style}>
-                {childElements}
-              </Masonry>
-            </TabPanel>
 
-            <TabPanel value={this.state.tabSelection} index={1}>
-              {/* Need to filter just mentors */}
-              <Masonry className={"gallery"} options={style}>
-                {childElements}
-              </Masonry>
-            </TabPanel>
+            <div class="directory-container">
+                <div>
+                  <TabPanel value={this.state.tabSelection} index={0}> 
+                    {/* Need to clear all filters */}
+                    <Masonry className={"gallery"} options={style}>
+                      {childElements}
+                    </Masonry>
+                  </TabPanel>
 
-            
+                  <TabPanel value={this.state.tabSelection} index={1}>
+                    {/* Need to filter just mentors */}
+                    <Masonry className={"gallery"} options={style}>
+                      {childElements}
+                    </Masonry>
+                  </TabPanel>
+                </div>
+
+                <div id="form">
+                  <Form
+                    schema={filterSchema}
+                    uiSchema={uiFilterSchema}
+                    onChange={log("changed")}
+                    onSubmit={e => this.submitForm(e)}
+                    onError={log("errors")}
+                  />
+                </div>
+            </div>
           </div>
         </div>
       );

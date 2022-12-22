@@ -176,13 +176,26 @@ class Table extends React.Component {
       ],
       useExtendedSearch: true
     });
+
     this.setState({ user_json: user_list, fuse }, () => this._search());
   }
 
   _search() {
     let results;
     if (this.state.query) {
-      results = this.state.fuse.search(`=${this.state.query}`);
+      if (this.state.filters) {
+        var filteredFuse = new Fuse(this.state.results, {
+          keys: [
+            "forms.meet_info.profileDesc",
+            "forms.meet_info.first_name",
+          ],
+          useExtendedSearch: true
+        });
+
+        results = filteredFuse.search(`=${this.state.query}`);
+      } else {
+        results = this.state.fuse.search(`=${this.state.query}`);
+      }
     } else {
       results = this.state.user_json;
       shuffle(results);
@@ -309,7 +322,7 @@ class Table extends React.Component {
                     schema={filterSchema}
                     uiSchema={uiFilterSchema}
                     onChange={log("changed")}
-                    onSubmit={e => this.submitForm(e)}
+                    onSubmit={e => {this.submitForm(e)}}
                     onError={log("errors")}
                   />
                 </div>

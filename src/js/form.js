@@ -191,14 +191,16 @@ class MeetForm extends React.Component {
   }
 
   async submitForm(e) {
-    const form = { body: e.formData };
-    if (isValidGMT(form["body"]["timezoneOffset"]) == null) {
+    const payload = { body: {...e.formData, isMentor: e.formData.userType === "Mentor"} }
+    delete payload["body"]["userType"];
+
+    if (isValidGMT(payload["body"]["timezoneOffset"]) == null) {
       alert("Please enter your GMT timezone in a valid format (e.g GMT +0800, GMT -1130)");
     } else {
       const resp = await API.put(
         "treehacks",
         `/users/${this.props.user.username}/forms/meet_info`,
-        form
+        payload
       );
       console.log(resp);
       this.setState({ redirect: true });

@@ -243,8 +243,15 @@ class Table extends React.Component {
     let results = this.state.user_json;
 
     if (newValue == 1) {
+      results = results.filter(user => {return user.forms.meet_info.isMentor != true && user.forms.meet_info.isOrganizer != true});
+    }
+    else if (newValue == 2) {
       results = results.filter(user => user.forms.meet_info.isMentor);
-    } else {
+    } 
+    else if (newValue == 3) {
+      results = results.filter(user => user.forms.meet_info.isOrganizer);
+    }
+    else {
       shuffle(results);
     }
     this.setState({ results });
@@ -280,8 +287,8 @@ class Table extends React.Component {
           <div className="content">
             <div className="header">
               <p>
-                Welcome to TreeHacks Meet! Use this page to find other
-                hackers and mentors attending TreeHacks 2023.
+                Welcome to TreeHacks Meet! Use this page to 
+                find others attending TreeHacks 2023.
               </p>
             </div>
             <div className="search">
@@ -298,14 +305,15 @@ class Table extends React.Component {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={this.state.tabSelection} onChange={this.handleTabChange} aria-label="basic tabs example">
                 <Tab label="All" {...a11yProps(0)} />
-                <Tab label="Mentors" {...a11yProps(1)} />
+                <Tab label="Hackers" {...a11yProps(1)} />
+                <Tab label="Mentors" {...a11yProps(2)} />
+                <Tab label="Organizers" {...a11yProps(3)} />
               </Tabs>
             </Box>
 
             <div class="directory-container">
                 <div>
                   <TabPanel value={this.state.tabSelection} index={0}> 
-                    {/* Need to clear all filters */}
                     <Masonry className={"gallery"} options={style}>
                       {childElements}
                       {childElements > 0 ? <>{childElements}</> : <p>No signups yet</p>}
@@ -313,7 +321,18 @@ class Table extends React.Component {
                   </TabPanel>
 
                   <TabPanel value={this.state.tabSelection} index={1}>
-                    {/* Need to filter just mentors */}
+                    <Masonry className={"gallery"} options={style}>
+                      {childElements}
+                    </Masonry>
+                  </TabPanel>
+
+                  <TabPanel value={this.state.tabSelection} index={2}>
+                    <Masonry className={"gallery"} options={style}>
+                      {childElements}
+                    </Masonry>
+                  </TabPanel>
+
+                  <TabPanel value={this.state.tabSelection} index={3}>
                     <Masonry className={"gallery"} options={style}>
                       {childElements}
                     </Masonry>

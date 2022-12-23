@@ -142,6 +142,7 @@ class Table extends React.Component {
       tabSelection: 0,
       filters: [],
       filterFormData: {},
+      loading: false,
     };
     this._search = this._search.bind(this);
     this._filter = this._filter.bind(this);
@@ -153,7 +154,9 @@ class Table extends React.Component {
   }
 
   async componentDidMount() {
+    this.setState({loading: true})
     const body = await API.get("treehacks", "/users_meet", {});
+    this.setState({loading: false})
     let user_list = [];
     body["results"].map(
       user_json =>
@@ -267,7 +270,7 @@ class Table extends React.Component {
     ));
 
     const style = {};
-    if (false) {
+    if (this.state.loading) {
     // if (this.state.user_json.length == 0) {
       return <Loading />;
     }
@@ -305,6 +308,7 @@ class Table extends React.Component {
                     {/* Need to clear all filters */}
                     <Masonry className={"gallery"} options={style}>
                       {childElements}
+                      {childElements > 0 ? <>{childElements}</> : <p>No signups yet</p>}
                     </Masonry>
                   </TabPanel>
 

@@ -6,7 +6,6 @@ import Loading from "./loading";
 import debounce from "lodash.debounce";
 import Linkify from "react-linkify";
 import ReactGA from 'react-ga';
-import { getUserMeetMock } from "../mock/usersMeet";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -154,8 +153,7 @@ class Table extends React.Component {
   }
 
   async componentDidMount() {
-    const body = getUserMeetMock();
-    // const body = await API.get("treehacks", "/users_meet", {});
+    const body = await API.get("treehacks", "/users_meet", {});
     let user_list = [];
     body["results"].map(
       user_json =>

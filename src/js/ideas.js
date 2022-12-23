@@ -89,8 +89,8 @@ class Table extends React.Component {
     ));
 
     const style = {};
-    if (false) {
-    // if (this.state.user_json.length == 0) {
+    //if (false) {
+    if (this.state.user_json.length == 0) {
       return <Loading />;
     }
     else {

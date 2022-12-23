@@ -32,8 +32,8 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    if (false) {
-    // if (!this.state.dataFetched) {
+    // if (false) {
+    if (!this.state.dataFetched) {
       return <Loading />;
     }
     return (

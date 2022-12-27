@@ -315,8 +315,7 @@ class Table extends React.Component {
                 <div>
                   <TabPanel value={this.state.tabSelection} index={0}> 
                     <Masonry className={"gallery"} options={style}>
-                      {childElements}
-                      {childElements > 0 ? <>{childElements}</> : <p>No signups yet</p>}
+                      {childElements ? (<>{childElements}</>) : (<p>No signups yet</p>)}
                     </Masonry>
                   </TabPanel>
 

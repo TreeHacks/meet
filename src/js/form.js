@@ -103,7 +103,7 @@ const uiSchema = {
   idea: {
     "ui:widget": "textarea",
     "ui:placeholder":
-      "Pitch an idea that interests you!"
+      "Pitch an idea that interests you! This will be shared on the ideas page."
   },
   pronouns: {
     "ui:placeholder":

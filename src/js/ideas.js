@@ -97,9 +97,11 @@ class Table extends React.Component {
       return (
         <div id="table">
           <div className="content">
-            <div className="header">
+            <div className="header" style={{width: '50%'}}>
               <p>
-                Welcome to TreeHacks Meet! Use this page to find ideas you might want to work on!.
+                Use this page to find ideas you might want to work on, contributed by your fellow hackers. If
+                you want to add an idea below, pitch it in your Meet profile! <br /><br />P.S. This page only shows hackers who have pitched
+                an idea - use the people tab to see a full list of people at TreeHacks 2023, including their interested tracks, commitment, and more!
               </p>
             </div>
             <div className="search">
@@ -109,7 +111,7 @@ class Table extends React.Component {
                 onChange={e =>
                   this.setState({ query: e.target.value }, () => this.search())
                 }
-                placeholder="Search for anything..."
+                placeholder="Search for ideas..."
               />
             </div>
             <Masonry className={"gallery"} options={style}>
@@ -172,29 +174,9 @@ class Entry extends React.Component {
         </div>
         <div className="idea">
           <Linkify componentDecorator={LinkDecorator}>
-            <p>{idea}</p>
+            <p><strong>Idea:</strong> {idea}</p>
           </ Linkify>
-        </div>
-        <div className="tags">
-          {commitment &&
-            <div
-              className="tag"
-              style={{ backgroundColor: "#0CB08A" }}
-            >
-              Commitment: {commitment}
-            </div>
-          }
-          {verticals &&
-            verticals.length > 0 &&
-            verticals.map(vertical => (
-              <div
-                className="tag"
-                key={vertical}
-                style={{ backgroundColor: colors[this.getColorNum(vertical)] }}
-              >
-                {vertical}
-              </div>
-            ))}
+          <br />
         </div>
         <div className="contact">
           <ReactGA.OutboundLink

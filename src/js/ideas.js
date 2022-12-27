@@ -62,8 +62,8 @@ class Table extends React.Component {
     var fuse = new Fuse(user_list, {
       keys: [
         "forms.meet_info.idea",
-        "forms.meet_info.first_name"
-      ]
+      ],
+      useExtendedSearch: true
     });
     this.setState({ user_json: user_list, fuse }, () => this._search());
   }
@@ -71,7 +71,7 @@ class Table extends React.Component {
   _search() {
     let results;
     if (this.state.query) {
-      results = this.state.fuse.search(this.state.query);
+      results = this.state.fuse.search(`=${this.state.query}`);
     } else {
       results = this.state.user_json;
       shuffle(results);

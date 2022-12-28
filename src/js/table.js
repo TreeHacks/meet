@@ -60,7 +60,7 @@ function a11yProps(index) {
 };
 
 const filterSchema = {
-  title: "",
+  title: "Filter Options",
   type: "object",
   required: [],
   properties: {
@@ -326,6 +326,20 @@ class Table extends React.Component {
             </Box>
 
             <div class="directory-container">
+                <div id="form" className="filter">
+                  <Form
+                    schema={filterSchema}
+                    uiSchema={uiFilterSchema}
+                    onChange={this.handleFilterChange}
+                    onSubmit={e => {this.submitForm(e)}}
+                    onError={log("errors")}
+                    formData={this.state.filterFormData}
+                  >
+                    <button type="submit" className='btn btn-success'>Filter</button> <br />
+                    <button className='btn-danger' onClick={this.clearFilterOptions} style={{marginTop: "0.25rem"}}>Clear Filter</button>
+                  </Form>
+                </div>
+
                 <div>
                   <TabPanel value={this.state.tabSelection} index={0}> 
                     <Masonry className={"gallery"} options={style}>
@@ -351,20 +365,7 @@ class Table extends React.Component {
                     </Masonry>
                   </TabPanel>
                 </div>
-
-                <div id="form" className="filter">
-                  <Form
-                    schema={filterSchema}
-                    uiSchema={uiFilterSchema}
-                    onChange={this.handleFilterChange}
-                    onSubmit={e => {this.submitForm(e)}}
-                    onError={log("errors")}
-                    formData={this.state.filterFormData}
-                  >
-                    <button type="submit" className='btn btn-success'>Filter</button> <br />
-                    <button className='btn-danger' onClick={this.clearFilterOptions} style={{marginTop: "0.25rem"}}>Clear Filter</button>
-                  </Form>
-                </div>
+                
             </div>
           </div>
         </div>

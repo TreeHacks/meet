@@ -23,6 +23,20 @@
         max-width: 800px;
       }
     }
+
+    .btn-danger {
+      font-weight: bold;
+      background-color: $secondary-color;
+      color: $primary-btn-text-color;
+      border: $border-style;
+      border-color: $primary-btn-text-color;
+      border-radius: 8px;
+      padding: $base-font-size / 2;
+      transition: $transition-speed;
+      font-size: $base-font-size;
+      font-family: $base-font-family;
+      line-height: 1;
+    }
   }
 
   .header {

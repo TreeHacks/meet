@@ -60,7 +60,7 @@ function a11yProps(index) {
 };
 
 const filterSchema = {
-  title: "Filter",
+  title: "",
   type: "object",
   required: [],
   properties: {
@@ -120,13 +120,16 @@ const filterSchema = {
 
 const uiFilterSchema = {
   verticals: {
-    "ui:widget": "checkboxes"
+    "ui:widget": "checkboxes",
+    'ui:column': 'is-4'
   },
   skills: {
-    "ui:widget": "checkboxes"
+    "ui:widget": "checkboxes",
+    'ui:column': 'is-4'
   },
   commitment: {
-    "ui:widget": "checkboxes"
+    "ui:widget": "checkboxes",
+    'ui:column': 'is-4'
   },
 };
 
@@ -146,6 +149,7 @@ class Table extends React.Component {
     };
     this._search = this._search.bind(this);
     this._filter = this._filter.bind(this);
+    this.clearFilterOptions = this.clearFilterOptions.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
 
@@ -210,7 +214,7 @@ class Table extends React.Component {
   async _filter() {
     let results = [];
 
-    if (this.state.filters) {
+    if (!Object.values(this.state.filters).every(x => !x.length)) {
       
       if (this.state.filters.skills) {
         this.state.filters.skills.forEach(filterQuery => {
@@ -232,9 +236,15 @@ class Table extends React.Component {
 
       this.setState({ results });
     } else {
+      results = this.state.user_json;
       shuffle(results);
+      this.setState({ results });
     }
-    this.setState({ results });
+  }
+
+  clearFilterOptions() {
+    const results = this.state.user_json;
+    this.setState({ results, filterFormData: {}, filters: [] });
   }
 
   handleTabChange(event, newValue) {
@@ -258,7 +268,11 @@ class Table extends React.Component {
   };
 
   handleFilterChange(formState) {
-    this.setState({ filterFormData: formState.formData });
+    if (Object.values(formState.formData).every(x => !x.length)) {
+      this.setState({ filterFormData: {}, filters: [] });
+    } else {
+      this.setState({ filterFormData: formState.formData });
+    }
   };
 
   async submitForm(e) {
@@ -346,7 +360,10 @@ class Table extends React.Component {
                     onSubmit={e => {this.submitForm(e)}}
                     onError={log("errors")}
                     formData={this.state.filterFormData}
-                  />
+                  >
+                    <button type="submit" className='btn btn-success'>Filter</button> <br />
+                    <button className='btn-danger' onClick={this.clearFilterOptions} style={{marginTop: "0.25rem"}}>Clear Filter</button>
+                  </Form>
                 </div>
             </div>
           </div>

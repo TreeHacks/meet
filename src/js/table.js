@@ -16,7 +16,8 @@ import Form from 'react-jsonschema-form';
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
-const colors = ['#FDEE6E', '#C490E8', '#F8806C']; // YELLOW, PURPLE, RED
+//const colors = ['#105E54', '#CBBEFF', '#513EC3']; // YELLOW, PURPLE, RED -> GREEN, PURPLE, BLACK
+const colors = ['#513EC3', '#513EC3', '#513EC3']; // PURPLE
 
 const shuffle = (a) => {
   for (let i = a.length - 1; i > 0; i--) {
@@ -493,7 +494,7 @@ class Entry extends React.Component {
           {commitment && (
             <div
               className='tag'
-              style={{ backgroundColor: '#0CB08A' }}>
+              style={{ backgroundColor: '#105E54' }}>
               Commitment: {commitment}
             </div>
           )}
@@ -503,7 +504,9 @@ class Entry extends React.Component {
               <div
                 className='tag'
                 key={vertical}
-                style={{ backgroundColor: colors[this.getColorNum(vertical)] }}>
+                style={{
+                  backgroundColor: colors[this.getColorNum(vertical)],
+                }}>
                 {vertical}
               </div>
             ))}

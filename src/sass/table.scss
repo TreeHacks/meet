@@ -8,6 +8,36 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    #form {
+      display: contents;
+      display: flex;
+      align-self: start;
+
+      .checkboxes {
+        column-count: 1;
+        margin: 10px 0px;
+      }
+
+      .field-array {
+        width: 11vw;
+        max-width: 800px;
+      }
+    }
+
+    .btn-danger {
+      font-weight: bold;
+      background-color: $secondary-color;
+      color: $primary-btn-text-color;
+      border: $border-style;
+      border-color: $primary-btn-text-color;
+      border-radius: 8px;
+      padding: $base-font-size / 2;
+      transition: $transition-speed;
+      font-size: $base-font-size;
+      font-family: $base-font-family;
+      line-height: 1;
+    }
   }
 
   .header {
@@ -15,6 +45,10 @@
     color: $primary-color;
     width: 500px;
     max-width: 80vw;
+  }
+
+  .directory-container {
+    display: flex;
   }
 
 
@@ -100,6 +134,10 @@
     &:hover {
       transform: scale(1.05);
     }
+  }
+
+  .organizerCard {
+    background: #E8FEF3 !important;
   }
 
   .header {

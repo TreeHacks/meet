@@ -1,23 +1,23 @@
-import React from "react";
-import API from "@aws-amplify/api";
-import Masonry from "react-masonry-component";
-import Fuse from "fuse.js";
-import Loading from "./loading";
-import debounce from "lodash.debounce";
-import Linkify from "react-linkify";
-import ReactGA from "react-ga";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Form from "react-jsonschema-form";
+import React from 'react';
+import API from '@aws-amplify/api';
+import Masonry from 'react-masonry-component';
+import Fuse from 'fuse.js';
+import Loading from './loading';
+import debounce from 'lodash.debounce';
+import Linkify from 'react-linkify';
+import ReactGA from 'react-ga';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Form from 'react-jsonschema-form';
 
 // ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
 //const colors = ['#105E54', '#CBBEFF', '#513EC3']; // YELLOW, PURPLE, RED -> GREEN, PURPLE, BLACK
-const colors = ["#513EC3", "#513EC3", "#513EC3"]; // PURPLE
+const colors = ['#513EC3', '#513EC3', '#513EC3']; // PURPLE
 
 const shuffle = (a) => {
   for (let i = a.length - 1; i > 0; i--) {
@@ -29,7 +29,10 @@ const shuffle = (a) => {
 
 const LinkDecorator = (href, text, key) => {
   return (
-    <a href={href} key={key} target="_blank">
+    <a
+      href={href}
+      key={key}
+      target='_blank'>
       {text}
     </a>
   );
@@ -40,12 +43,11 @@ function TabPanel(props) {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
+      {...other}>
       {value === index && (
         <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
@@ -58,60 +60,60 @@ function TabPanel(props) {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
 const filterSchema = {
-  title: "Filter Options",
-  type: "object",
+  title: 'Filter Options',
+  type: 'object',
   required: [],
   properties: {
     verticals: {
-      title: "Challenges",
-      type: "array",
+      title: 'Challenges',
+      type: 'array',
       uniqueItems: true,
       items: {
-        type: "string",
+        type: 'string',
         enum: [
-          "Healthcare",
-          "New Froniers",
-          "Web 3.0 and Fintech",
-          "Sustainability",
-          "Education",
-          "Privacy and Safety",
+          'Healthcare',
+          'New Froniers',
+          'Web 3.0 and Fintech',
+          'Sustainability',
+          'Education',
+          'Privacy and Safety',
         ],
       },
     },
     skills: {
-      title: "Skills",
-      type: "array",
+      title: 'Skills',
+      type: 'array',
       uniqueItems: true,
       items: {
-        type: "string",
+        type: 'string',
         enum: [
-          "AI",
-          "Data Mining",
-          "NLP",
-          "Web Development",
-          "IOS",
-          "Android",
-          "Pitching",
-          "Marketing",
-          "Design",
-          "AR/VR",
-          "Game Development",
-          "Systems",
+          'AI',
+          'Data Mining',
+          'NLP',
+          'Web Development',
+          'IOS',
+          'Android',
+          'Pitching',
+          'Marketing',
+          'Design',
+          'AR/VR',
+          'Game Development',
+          'Systems',
         ],
       },
     },
     commitment: {
-      title: "Commitment Level",
-      type: "array",
+      title: 'Commitment Level',
+      type: 'array',
       uniqueItems: true,
       items: {
-        type: "string",
-        enum: ["High", "Medium", "Low"],
+        type: 'string',
+        enum: ['High', 'Medium', 'Low'],
       },
     },
   },
@@ -119,16 +121,16 @@ const filterSchema = {
 
 const uiFilterSchema = {
   verticals: {
-    "ui:widget": "checkboxes",
-    "ui:column": "is-4",
+    'ui:widget': 'checkboxes',
+    'ui:column': 'is-4',
   },
   skills: {
-    "ui:widget": "checkboxes",
-    "ui:column": "is-4",
+    'ui:widget': 'checkboxes',
+    'ui:column': 'is-4',
   },
   commitment: {
-    "ui:widget": "checkboxes",
-    "ui:column": "is-4",
+    'ui:widget': 'checkboxes',
+    'ui:column': 'is-4',
   },
 };
 
@@ -138,7 +140,7 @@ class Table extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: "",
+      query: '',
       user_json: [],
       results: [],
       tabSelection: 0,
@@ -158,10 +160,10 @@ class Table extends React.Component {
 
   async componentDidMount() {
     this.setState({ loading: true });
-    const body = await API.get("treehacks", "/users_meet", {});
+    const body = await API.get('treehacks', '/users_meet', {});
     this.setState({ loading: false });
     let user_list = [];
-    body["results"].map(
+    body['results'].map(
       (user_json) =>
         user_json.forms.meet_info &&
         user_json.forms.meet_info.showProfile &&
@@ -177,7 +179,7 @@ class Table extends React.Component {
     // }
 
     var fuse = new Fuse(user_list, {
-      keys: ["forms.meet_info.profileDesc", "forms.meet_info.first_name"],
+      keys: ['forms.meet_info.profileDesc', 'forms.meet_info.first_name'],
       useExtendedSearch: true,
     });
 
@@ -189,7 +191,7 @@ class Table extends React.Component {
     if (this.state.query) {
       if (this.state.filters) {
         var filteredFuse = new Fuse(this.state.results, {
-          keys: ["forms.meet_info.profileDesc", "forms.meet_info.first_name"],
+          keys: ['forms.meet_info.profileDesc', 'forms.meet_info.first_name'],
           useExtendedSearch: true,
         });
 
@@ -294,7 +296,9 @@ class Table extends React.Component {
     let { results } = this.state;
 
     const childElements = results.map((single_json) => (
-      <div className="entry-wrapper" key={single_json._id}>
+      <div
+        className='entry-wrapper'
+        key={single_json._id}>
         <Entry json={single_json} />
       </div>
     ));
@@ -305,40 +309,53 @@ class Table extends React.Component {
       return <Loading />;
     } else {
       return (
-        <div id="table">
-          <div className="content">
-            <div className="header">
+        <div id='table'>
+          <div className='content'>
+            <div className='header'>
               <p>
-                Welcome to TreeHacks Meet! Use this page to find others attending
-                TreeHacks 2023.
+                Welcome to TreeHacks Meet! Use this page to find others
+                attending TreeHacks 2023.
               </p>
             </div>
-            <div className="search">
+            <div className='search'>
               <input
-                type="text"
-                value={this.state.query || ""}
+                type='text'
+                value={this.state.query || ''}
                 onChange={(e) =>
                   this.setState({ query: e.target.value }, () => this.search())
                 }
-                placeholder="Search for anything..."
+                placeholder='Search for anything...'
               />
             </div>
 
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs
                 value={this.state.tabSelection}
                 onChange={this.handleTabChange}
-                aria-label="basic tabs example"
-              >
-                <Tab label="All" {...a11yProps(0)} />
-                <Tab label="Hackers" {...a11yProps(1)} />
-                <Tab label="Mentors" {...a11yProps(2)} />
-                <Tab label="Organizers" {...a11yProps(3)} />
+                aria-label='basic tabs example'>
+                <Tab
+                  label='All'
+                  {...a11yProps(0)}
+                />
+                <Tab
+                  label='Hackers'
+                  {...a11yProps(1)}
+                />
+                <Tab
+                  label='Mentors'
+                  {...a11yProps(2)}
+                />
+                <Tab
+                  label='Organizers'
+                  {...a11yProps(3)}
+                />
               </Tabs>
             </Box>
 
-            <div className="directory-container">
-              <div id="form" className="filter">
+            <div className='directory-container'>
+              <div
+                id='form'
+                className='filter'>
                 <Form
                   schema={filterSchema}
                   uiSchema={uiFilterSchema}
@@ -346,44 +363,64 @@ class Table extends React.Component {
                   onSubmit={(e) => {
                     this.submitForm(e);
                   }}
-                  onError={log("errors")}
-                  formData={this.state.filterFormData}
-                >
-                  <button type="submit" className="btn btn-success">
+                  onError={log('errors')}
+                  formData={this.state.filterFormData}>
+                  <button
+                    type='submit'
+                    className='btn btn-success'>
                     Filter
-                  </button>{" "}
+                  </button>{' '}
                   <br />
                   <button
-                    className="btn-danger"
+                    className='btn-danger'
                     onClick={this.clearFilterOptions}
-                    style={{ marginTop: "0.25rem" }}
-                  >
+                    style={{ marginTop: '0.25rem' }}>
                     Clear Filter
                   </button>
                 </Form>
               </div>
 
               <div>
-                <TabPanel value={this.state.tabSelection} index={0}>
-                  <Masonry className={"gallery"} options={style}>
-                    {childElements ? <>{childElements}</> : <p>No signups yet</p>}
+                <TabPanel
+                  value={this.state.tabSelection}
+                  index={0}>
+                  <Masonry
+                    className={'gallery'}
+                    options={style}>
+                    {childElements ? (
+                      <>{childElements}</>
+                    ) : (
+                      <p>No signups yet</p>
+                    )}
                   </Masonry>
                 </TabPanel>
 
-                <TabPanel value={this.state.tabSelection} index={1}>
-                  <Masonry className={"gallery"} options={style}>
+                <TabPanel
+                  value={this.state.tabSelection}
+                  index={1}>
+                  <Masonry
+                    className={'gallery'}
+                    options={style}>
                     {childElements}
                   </Masonry>
                 </TabPanel>
 
-                <TabPanel value={this.state.tabSelection} index={2}>
-                  <Masonry className={"gallery"} options={style}>
+                <TabPanel
+                  value={this.state.tabSelection}
+                  index={2}>
+                  <Masonry
+                    className={'gallery'}
+                    options={style}>
                     {childElements}
                   </Masonry>
                 </TabPanel>
 
-                <TabPanel value={this.state.tabSelection} index={3}>
-                  <Masonry className={"gallery"} options={style}>
+                <TabPanel
+                  value={this.state.tabSelection}
+                  index={3}>
+                  <Masonry
+                    className={'gallery'}
+                    options={style}>
                     {childElements}
                   </Masonry>
                 </TabPanel>
@@ -398,9 +435,9 @@ class Table extends React.Component {
 
 class Entry extends React.Component {
   getColorNum(vertical) {
-    if (vertical.charAt(0) < "J") {
+    if (vertical.charAt(0) < 'J') {
       return 0;
-    } else if (vertical.charAt(0) < "Q") {
+    } else if (vertical.charAt(0) < 'Q') {
       return 1;
     }
     return 2;
@@ -412,51 +449,60 @@ class Entry extends React.Component {
 
   contactTracker() {
     ReactGA.event({
-      category: "User",
-      action: "Contacted user",
+      category: 'User',
+      action: 'Contacted user',
     });
   }
 
   render() {
     const props = this.props;
-    let first_name_orig = props.json["forms"]["meet_info"]["first_name"] || "";
+    let first_name_orig = props.json['forms']['meet_info']['first_name'] || '';
     var firstLetter = first_name_orig.charAt(0);
     let first_name = firstLetter.toUpperCase() + first_name_orig.substring(1);
-    let last_letter = (props.json["forms"]["meet_info"]["last_initial"] || "")
+    let last_letter = (props.json['forms']['meet_info']['last_initial'] || '')
       .charAt(0)
       .toUpperCase();
-    let idea = props.json["forms"]["meet_info"]["profileDesc"];
-    let verticals = props.json["forms"]["meet_info"]["verticals"];
-    let id = props.json["user"]["id"];
-    let pronouns = props.json["forms"]["meet_info"]["pronouns"];
-    let contact_url = ENDPOINT_URL + "/users/" + id + "/contact";
-    let profile_url = "/users/" + id;
-    let profilePictureLink = props.json["forms"]["meet_info"]["profilePicture"];
-    let commitment = props.json["forms"]["meet_info"]["commitment"];
-    const isOrganizer = props.json["forms"]["meet_info"]["isOrganizer"];
+    let idea = props.json['forms']['meet_info']['profileDesc'];
+    let verticals = props.json['forms']['meet_info']['verticals'];
+    let id = props.json['user']['id'];
+    let pronouns = props.json['forms']['meet_info']['pronouns'];
+    let contact_url = ENDPOINT_URL + '/users/' + id + '/contact';
+    let profile_url = '/users/' + id;
+    let profilePictureLink = props.json['forms']['meet_info']['profilePicture'];
+    let commitment = props.json['forms']['meet_info']['commitment'];
+    const isOrganizer = props.json['forms']['meet_info']['isOrganizer'];
+
+    var slackURL = '';
+    if (props.json['forms']['meet_info']['slackURL']) {
+      slackURL = props.json['forms']['meet_info']['slackURL'];
+    } else {
+      slackURL = 'https://www.slack.com';
+    }
     return (
-      <div className={"entry " + (isOrganizer ? "organizerCard" : "")}>
-        <div className="header">
+      <div className={'entry ' + (isOrganizer ? 'organizerCard' : '')}>
+        <div className='header'>
           {profilePictureLink && (
             <img
               src={profilePictureLink}
-              alt="profile picture"
-              style={{ objectFit: "cover" }}
+              alt='profile picture'
+              style={{ objectFit: 'cover' }}
             />
           )}
           <h3>
-            {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}{" "}
-            {isOrganizer && "(Organizer)"}
+            {first_name} {last_letter} {pronouns && '(' + pronouns + ')'}{' '}
+            {isOrganizer && '(Organizer)'}
           </h3>
         </div>
-        <div className={"idea " + (isOrganizer ? "organizerCard" : "")}>
+        <div className={'idea ' + (isOrganizer ? 'organizerCard' : '')}>
           <Linkify componentDecorator={LinkDecorator}>
             <p>{idea}</p>
           </Linkify>
         </div>
-        <div className="tags">
+        <div className='tags'>
           {commitment && (
-            <div className="tag" style={{ backgroundColor: "#105E54" }}>
+            <div
+              className='tag'
+              style={{ backgroundColor: '#105E54' }}>
               Commitment: {commitment}
             </div>
           )}
@@ -464,23 +510,31 @@ class Entry extends React.Component {
             verticals.length > 0 &&
             verticals.map((vertical) => (
               <div
-                className="tag"
+                className='tag'
                 key={vertical}
                 style={{
                   backgroundColor: colors[this.getColorNum(vertical)],
-                }}
-              >
+                }}>
                 {vertical}
               </div>
             ))}
         </div>
-        <div className="contact">
+        {isOrganizer && (
+          <div style={{ marginBottom: '100' }}>
+            <a href={slackURL}>
+              <img
+                src={require('../assets/slackLogo.png')}
+                width='70'
+              />
+            </a>
+          </div>
+        )}
+        <div className='contact'>
           <ReactGA.OutboundLink
-            eventLabel="viewProfile"
+            eventLabel='viewProfile'
             to={`/view_profile/${id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+            target='_blank'
+            rel='noopener noreferrer'>
             view profile
           </ReactGA.OutboundLink>
         </div>

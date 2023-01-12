@@ -12,6 +12,7 @@ import API from "@aws-amplify/api";
 import queryString from "query-string";
 import logo from "./svg/logo.svg";
 import UserProfile from "./js/userProfile";
+import SponsorsPage from "./js/sponsors";
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_URL;
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
@@ -109,6 +110,7 @@ function Main() {
               </div>
             </a>
           </li>
+          <Link to="/sponsors">sponsors</Link>
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
           {/*<Link to="/sponsors">sponsors</Link>*/}
@@ -123,6 +125,7 @@ function Main() {
              <UserProfile {...props} />}
            >
            </Route>
+          <Route path="/sponsors">{user && <SponsorsPage/>}</Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
           <Route path="/view_profile/:id" component = {ViewProfile}>{user && <ViewProfile />}</Route>
           {/*<Route path="/sponsors">{user && <JobsPage user={user} />}</Route>*/}

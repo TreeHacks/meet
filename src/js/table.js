@@ -77,7 +77,7 @@ const filterSchema = {
         type: 'string',
         enum: [
           'Healthcare',
-          'New Froniers',
+          'New Frontiers',
           'Web 3.0 and Fintech',
           'Sustainability',
           'Education',
@@ -490,7 +490,6 @@ class Entry extends React.Component {
           )}
           <h3>
             {first_name} {last_letter} {pronouns && '(' + pronouns + ')'}{' '}
-            {isOrganizer && '(Organizer)'}
           </h3>
         </div>
         <div className={'idea ' + (isOrganizer ? 'organizerCard' : '')}>

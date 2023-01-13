@@ -19,7 +19,7 @@ const schema = {
         type: 'string',
         enum: [
           'Healthcare',
-          'New Froniers',
+          'New Frontiers',
           'Web 3.0 and Fintech',
           'Sustainability',
           'Education',

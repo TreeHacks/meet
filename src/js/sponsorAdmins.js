@@ -126,6 +126,7 @@ function SponsorUpdate({ user }) {
   });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
+  const [file, setFile] = React.useState();
 
   React.useEffect(() => {
     setLoading(true);
@@ -145,6 +146,19 @@ function SponsorUpdate({ user }) {
     e.preventDefault();
     setLoading(true);
     try {
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        await fetch(`http://localhost:9000/api/sponsor/logo?e=${user.attributes.email}`, {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `${localStorage.getItem("jwt")}`,
+          },
+        });
+      }
+
       await API.put("treehacks", "/sponsor", {
         body: {
           updated_by: user.attributes.email,
@@ -185,6 +199,17 @@ function SponsorUpdate({ user }) {
             onSubmit={handleSubmit}
           >
             <h3 style={{ fontSize: 24 }}>Update Sponsor Profile</h3>
+            <img
+              src={attributes.logo_url}
+              alt="company logo"
+              width="100%"
+              height="100%"
+            />
+            <input
+              type="file"
+              title="logo"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
             <input
               style={{
                 padding: 5,

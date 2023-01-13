@@ -283,9 +283,40 @@ function AdminDashboard({ user }) {
   const [sponsorUpdate, setUpdatePage] = React.useState(true);
   return (
     <>
-      <div>
-        <button onClick={() => setUpdatePage(true)}>Sponsor Account</button>
-        <button onClick={() => setUpdatePage(false)}>Hacker Interest</button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 10,
+        }}
+      >
+        <button
+          style={{
+            padding: 5,
+            fontSize: 20,
+            cursor: "pointer",
+            backgroundColor: "transparent",
+            border: "none",
+            borderBottom: sponsorUpdate ? "1px solid rgba(12, 176, 138, 0.75)" : "none",
+          }}
+          onClick={() => setUpdatePage(true)}
+        >
+          Sponsor Account
+        </button>
+        <button
+          style={{
+            padding: 5,
+            fontSize: 20,
+            cursor: "pointer",
+            backgroundColor: "transparent",
+            border: "none",
+            borderBottom: !sponsorUpdate ? "1px solid rgba(12, 176, 138, 0.75)" : "none",
+          }}
+          onClick={() => setUpdatePage(false)}
+        >
+          Hacker Interest
+        </button>
       </div>
 
       {sponsorUpdate ? <SponsorUpdate user={user} /> : <HackerInterest user={user} />}

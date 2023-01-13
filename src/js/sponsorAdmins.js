@@ -1,6 +1,8 @@
 import React from "react";
 import API from "@aws-amplify/api";
 
+import Loading from "./loading";
+
 const ADMIN_LOGIN_URL = `${process.env.REACT_APP_LOGIN_URL}?redirect=${window.location.origin}${window.location.pathname}`;
 
 function AdminRegister() {
@@ -41,52 +43,60 @@ function AdminRegister() {
             alignItems: "center",
           }}
         >
-          <form
-            style={{
-              marginTop: 50,
-              display: "flex",
-              flexDirection: "column",
-              width: "250px",
-              border: "1px solid rgba(12, 176, 138, 0.75)",
-              borderRadius: 5,
-              padding: 20,
-            }}
-            onSubmit={handleRegistration}
-          >
-            <h3>Create an Account</h3>
-            <input
+          {loading ? (
+            <Loading />
+          ) : (
+            <form
               style={{
-                padding: 5,
+                marginTop: 50,
+                display: "flex",
+                flexDirection: "column",
+                width: "250px",
                 border: "1px solid rgba(12, 176, 138, 0.75)",
+                borderRadius: 5,
+                padding: 20,
               }}
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              type="text"
-              placeholder="Email"
-            />
-            <div style={{ width: "100%", display: "flex", justifyContent: "right" }}>
-              <button
+              onSubmit={handleRegistration}
+            >
+              <h3 style={{ fontSize: 24 }}>Create an Account</h3>
+              <input
                 style={{
-                  marginTop: 10,
-                  width: 70,
-                  backgroundColor: "whitespace",
-                  border: "none",
-                  borderRadius: 5,
                   padding: 5,
-                  cursor: "pointer",
+                  border: "1px solid rgba(12, 176, 138, 0.75)",
+                  fontSize: 17,
                 }}
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                type="text"
+                placeholder="Email"
+              />
+              <div style={{ width: "100%", display: "flex", justifyContent: "right" }}>
+                <button
+                  style={{
+                    marginTop: 10,
+                    width: 70,
+                    backgroundColor: "whitespace",
+                    border: "none",
+                    borderRadius: 5,
+                    padding: 5,
+                    cursor: "pointer",
+                    fontSize: 15,
+                  }}
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       )}
 
-      <p>
-        Already have an account? Login <a href={ADMIN_LOGIN_URL}>here</a>
-      </p>
+      {!loading && (
+        <p>
+          Already have an account? Login <a href={ADMIN_LOGIN_URL}>here</a>
+        </p>
+      )}
     </>
   );
 }
@@ -207,6 +217,9 @@ function HackerInterest({ user }) {
 
 function AdminDashboard({ user }) {
   const [sponsorUpdate, setUpdatePage] = React.useState(true);
+  // todo drive loading and error state lower
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
 
   return (
     <>
@@ -214,7 +227,18 @@ function AdminDashboard({ user }) {
         <button onClick={() => setUpdatePage(true)}>Sponsor Account</button>
         <button onClick={() => setUpdatePage(false)}>Hacker Interest</button>
       </div>
-      {sponsorUpdate ? <SponsorUpdate user={user} /> : <HackerInterest user={user} />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {" "}
+          {sponsorUpdate ? (
+            <SponsorUpdate setLoading={setLoading} user={user} />
+          ) : (
+            <HackerInterest setLoading={setLoading} user={user} />
+          )}
+        </>
+      )}
     </>
   );
 }

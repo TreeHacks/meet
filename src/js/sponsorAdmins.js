@@ -253,12 +253,14 @@ function HackerInterest({ user }) {
 
   React.useEffect(() => {
     const getSponsor = async () => {
+      setLoading(true);
       const { data } = await API.get(
         "treehacks",
         `/sponsor/hackers?email=${user.attributes.email}`,
         {}
       );
       setHackers(data);
+      setLoading(false);
     };
     getSponsor();
   }, []);
@@ -266,15 +268,45 @@ function HackerInterest({ user }) {
   return (
     <>
       <h1>Hackers</h1>
-      {hackers.map((hacker) => (
-        <div>
-          <p>
-            {hacker.forms.application_info.first_name}{" "}
-            {hacker.forms.application_info.last_name}
-          </p>
-          <p>{hacker.user.email}</p>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ul
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              width: "80%",
+              justifyContent: "space-around",
+              listStyle: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {hackers.map((hacker) => (
+              <li key={`hacker-${hacker._id}`} style={{ width: 300 }}>
+                <p>
+                  <b>
+                    {" "}
+                    {hacker.forms.application_info.first_name}{" "}
+                    {hacker.forms.application_info.last_name}
+                  </b>
+                </p>
+                <p>
+                  <a href={`mailto:${hacker.user.email}`}>{hacker.user.email}</a>
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
-      ))}
+      )}
     </>
   );
 }

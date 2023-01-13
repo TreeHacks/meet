@@ -4,10 +4,8 @@ import API from "@aws-amplify/api";
 const ADMIN_LOGIN_URL = `${process.env.REACT_APP_LOGIN_URL}?redirect=${window.location.origin}${window.location.pathname}`;
 
 function AdminRegister() {
-  const [registerAttributes, setRegisterAttributes] = React.useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = React.useState("");
+  const [registered, setRegistered] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   const token = new URLSearchParams(window.location.search).get("tkn");
@@ -19,10 +17,10 @@ function AdminRegister() {
       const { data } = await API.post("treehacks", "/sponsor/admin", {
         body: {
           token,
-          ...registerAttributes,
+          email,
         },
       });
-      window.location.href = ADMIN_LOGIN_URL;
+      setRegistered(true);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -32,25 +30,20 @@ function AdminRegister() {
 
   return (
     <>
-      <form onSubmit={handleRegistration}>
-        <input
-          onChange={(e) =>
-            setRegisterAttributes({ ...registerAttributes, email: e.target.value })
-          }
-          value={registerAttributes.email}
-          type="text"
-          placeholder="Email"
-        />
-        <input
-          onChange={(e) =>
-            setRegisterAttributes({ ...registerAttributes, password: e.target.value })
-          }
-          value={registerAttributes.password}
-          type="password"
-          placeholder="Password"
-        />
-        <button type="submit">Submit</button>
-      </form>
+      {registered ? (
+        <p>Successfully registered! Please check your email</p>
+      ) : (
+        <form onSubmit={handleRegistration}>
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            type="text"
+            placeholder="Email"
+          />
+          <button type="submit">Submit</button>
+        </form>
+      )}
+
       <p>
         Already have an account? Login <a href={ADMIN_LOGIN_URL}>here</a>
       </p>
@@ -58,16 +51,139 @@ function AdminRegister() {
   );
 }
 
-function AdminDashboard({user}) {
-  return <div>test</div>;
+function SponsorPrize() {
+  return (
+    <form>
+      <input type="text" placeholder="prize name" />
+      <input type="text" placeholder="prize description" />
+      <input type="text" placeholder="prize image" />
+      <input type="text" placeholder="prize value" />
+      <input type="text" placeholder="prize quantity" />
+      <input type="text" placeholder="prize sponsor" />
+      <input type="text" placeholder="prize sponsor description" />
+      <input type="text" placeholder="prize sponsor logo" />
+    </form>
+  );
+}
+
+function SponsorUpdate({ user }) {
+  const [attributes, setAttributes] = React.useState({
+    name: "",
+    description: "",
+    logo_url: "",
+    website_url: "",
+    prizes: [],
+  });
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    const getSponsor = async () => {
+      const { data } = await API.get(
+        "treehacks",
+        `/sponsor?email=${user.attributes.email}`,
+        {}
+      );
+      setAttributes(data);
+    };
+    getSponsor();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await API.put("treehacks", "/sponsor", {
+        body: {
+          updated_by: user.attributes.email,
+          ...attributes,
+        },
+      });
+    } catch (err) {
+      setError();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        onChange={(e) => setAttributes({ ...attributes, name: e.target.value })}
+        value={attributes.name}
+        type="text"
+        placeholder="name"
+      />
+      <input
+        onChange={(e) => setAttributes({ ...attributes, description: e.target.value })}
+        value={attributes.description}
+        type="text"
+        placeholder="description"
+      />
+      <input
+        onChange={(e) => setAttributes({ ...attributes, website_url: e.target.value })}
+        value={attributes.website_url}
+        type="text"
+        placeholder="https://"
+      />
+      {/* <SponsorPrize /> */}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+function HackerInterest({ user }) {
+  const [hackers, setHackers] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    const getSponsor = async () => {
+      const { data } = await API.get(
+        "treehacks",
+        `/sponsor/hackers?email=${user.attributes.email}`,
+        {}
+      );
+      setHackers(data);
+    };
+    getSponsor();
+  }, []);
+
+  return (
+    <>
+      <h1>Hackers</h1>
+      {hackers.map((hacker) => (
+        <div>
+          <p>
+            {hacker.forms.application_info.first_name}{" "}
+            {hacker.forms.application_info.last_name}
+          </p>
+          <p>{hacker.user.email}</p>
+        </div>
+      ))}
+    </>
+  );
+}
+
+function AdminDashboard({ user }) {
+  const [sponsorUpdate, setUpdatePage] = React.useState(true);
+
+  return (
+    <>
+      <div>
+        <button onClick={() => setUpdatePage(true)}>Sponsor Account</button>
+        <button onClick={() => setUpdatePage(false)}>Hacker Interest</button>
+      </div>
+      {sponsorUpdate ? <SponsorUpdate user={user} /> : <HackerInterest user={user} />}
+    </>
+  );
 }
 
 export default function SponsorAdminPage({ user }) {
-  console.log("user", user);
   return (
     <div>
       <h1>Sponsor Admin Page</h1>
-      {user ? <AdminDashboard user={user}/> : <AdminRegister />}
+      {user ? <AdminDashboard user={user} /> : <AdminRegister />}
     </div>
   );
 }

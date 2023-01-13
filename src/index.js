@@ -129,7 +129,7 @@ function Main() {
              <UserProfile {...props} />}
            >
            </Route>
-          <Route path="/sponsors">{user && <SponsorsPage/>}</Route>
+          <Route path="/sponsors">{user && <SponsorsPage user={user}/>}</Route>
           <Route path="/admin">{<SponsorAdminPage user={user}/>}</Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
           <Route path="/view_profile/:id" component = {ViewProfile}>{user && <ViewProfile />}</Route>

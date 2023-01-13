@@ -67,7 +67,7 @@ function AdminRegister() {
                 }}
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                type="text"
+                type="email"
                 placeholder="Email"
               />
               <div style={{ width: "100%", display: "flex", justifyContent: "right" }}>
@@ -128,6 +128,7 @@ function SponsorUpdate({ user }) {
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
+    setLoading(true);
     const getSponsor = async () => {
       const { data } = await API.get(
         "treehacks",
@@ -135,6 +136,7 @@ function SponsorUpdate({ user }) {
         {}
       );
       setAttributes(data);
+      setLoading(false);
     };
     getSponsor();
   }, []);
@@ -157,28 +159,90 @@ function SponsorUpdate({ user }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        onChange={(e) => setAttributes({ ...attributes, name: e.target.value })}
-        value={attributes.name}
-        type="text"
-        placeholder="name"
-      />
-      <input
-        onChange={(e) => setAttributes({ ...attributes, description: e.target.value })}
-        value={attributes.description}
-        type="text"
-        placeholder="description"
-      />
-      <input
-        onChange={(e) => setAttributes({ ...attributes, website_url: e.target.value })}
-        value={attributes.website_url}
-        type="text"
-        placeholder="https://"
-      />
-      {/* <SponsorPrize /> */}
-      <button type="submit">Submit</button>
-    </form>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <form
+            style={{
+              marginTop: 50,
+              display: "flex",
+              flexDirection: "column",
+              width: "250px",
+              border: "1px solid rgba(12, 176, 138, 0.75)",
+              borderRadius: 5,
+              padding: 20,
+              gap: 10,
+            }}
+            onSubmit={handleSubmit}
+          >
+            <h3 style={{ fontSize: 24 }}>Update Sponsor Profile</h3>
+            <input
+              style={{
+                padding: 5,
+                border: "1px solid rgba(12, 176, 138, 0.75)",
+                fontSize: 17,
+              }}
+              onChange={(e) => setAttributes({ ...attributes, name: e.target.value })}
+              value={attributes.name}
+              type="text"
+              placeholder="company name"
+            />
+            <input
+              style={{
+                padding: 5,
+                border: "1px solid rgba(12, 176, 138, 0.75)",
+                fontSize: 17,
+              }}
+              onChange={(e) =>
+                setAttributes({ ...attributes, description: e.target.value })
+              }
+              value={attributes.description}
+              type="text"
+              placeholder="description"
+            />
+            <input
+              style={{
+                padding: 5,
+                border: "1px solid rgba(12, 176, 138, 0.75)",
+                fontSize: 17,
+              }}
+              onChange={(e) =>
+                setAttributes({ ...attributes, website_url: e.target.value })
+              }
+              value={attributes.website_url}
+              type="text"
+              placeholder="website url"
+            />
+            <div style={{ width: "100%", display: "flex", justifyContent: "right" }}>
+              <button
+                style={{
+                  marginTop: 10,
+                  width: 70,
+                  backgroundColor: "whitespace",
+                  border: "none",
+                  borderRadius: 5,
+                  padding: 5,
+                  cursor: "pointer",
+                  fontSize: 15,
+                }}
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -217,28 +281,14 @@ function HackerInterest({ user }) {
 
 function AdminDashboard({ user }) {
   const [sponsorUpdate, setUpdatePage] = React.useState(true);
-  // todo drive loading and error state lower
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(null);
-
   return (
     <>
       <div>
         <button onClick={() => setUpdatePage(true)}>Sponsor Account</button>
         <button onClick={() => setUpdatePage(false)}>Hacker Interest</button>
       </div>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          {" "}
-          {sponsorUpdate ? (
-            <SponsorUpdate setLoading={setLoading} user={user} />
-          ) : (
-            <HackerInterest setLoading={setLoading} user={user} />
-          )}
-        </>
-      )}
+
+      {sponsorUpdate ? <SponsorUpdate user={user} /> : <HackerInterest user={user} />}
     </>
   );
 }

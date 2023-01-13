@@ -115,7 +115,9 @@ function Main() {
               </div>
             </a>
           </li>
-          <Link to="/sponsors">sponsors</Link>
+          {user && user?.attributes["cognito:groups"]?.includes("sponsor") ? 
+          <Link to="/admin">admin</Link> :
+          <Link to="/sponsors">sponsors</Link> }
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
           <Link to="/profile">profile</Link>

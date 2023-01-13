@@ -13,6 +13,7 @@ import queryString from "query-string";
 import logo from "./svg/logo.svg";
 import UserProfile from "./js/userProfile";
 import SponsorsPage from "./js/sponsors";
+import SponsorAdminPage from "./js/sponsorAdmins"
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_URL;
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
@@ -88,11 +89,12 @@ if (hash && hash.jwt) {
 function Main() {
   const [user, setUser] = useState(null);
   useEffect(() => {
-    try {
-      setUser(getCurrentUser());
-    } catch (e) {
-      login();
-    }
+    if(window.location.pathname !== "/admin")
+      try {
+        setUser(getCurrentUser());
+      } catch (e) {
+        login();
+      }
   }, []);
   let user_url = user && user.username ? "/users/" + user.username : "/";
 
@@ -126,6 +128,7 @@ function Main() {
            >
            </Route>
           <Route path="/sponsors">{user && <SponsorsPage/>}</Route>
+          <Route path="/admin">{<SponsorAdminPage setUser={setUser} user={user}/>}</Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
           <Route path="/view_profile/:id" component = {ViewProfile}>{user && <ViewProfile />}</Route>
           {/*<Route path="/sponsors">{user && <JobsPage user={user} />}</Route>*/}

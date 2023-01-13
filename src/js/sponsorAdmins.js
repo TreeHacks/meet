@@ -33,15 +33,55 @@ function AdminRegister() {
       {registered ? (
         <p>Successfully registered! Please check your email</p>
       ) : (
-        <form onSubmit={handleRegistration}>
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            type="text"
-            placeholder="Email"
-          />
-          <button type="submit">Submit</button>
-        </form>
+        <div
+          style={{
+            display: "flex",
+            width: "100vw",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <form
+            style={{
+              marginTop: 50,
+              display: "flex",
+              flexDirection: "column",
+              width: "250px",
+              border: "1px solid rgba(12, 176, 138, 0.75)",
+              borderRadius: 5,
+              padding: 20,
+            }}
+            onSubmit={handleRegistration}
+          >
+            <h3>Create an Account</h3>
+            <input
+              style={{
+                padding: 5,
+                border: "1px solid rgba(12, 176, 138, 0.75)",
+              }}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              type="text"
+              placeholder="Email"
+            />
+            <div style={{ width: "100%", display: "flex", justifyContent: "right" }}>
+              <button
+                style={{
+                  marginTop: 10,
+                  width: 70,
+                  backgroundColor: "whitespace",
+                  border: "none",
+                  borderRadius: 5,
+                  padding: 5,
+                  cursor: "pointer",
+                }}
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       )}
 
       <p>

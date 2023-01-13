@@ -89,7 +89,10 @@ if (hash && hash.jwt) {
 function Main() {
   const [user, setUser] = useState(null);
   useEffect(() => {
-    if(window.location.pathname !== "/admin")
+    const token = new URLSearchParams(window.location.search).get("tkn");
+
+    // if an admin isn't registering an account
+    if(!token)
       try {
         setUser(getCurrentUser());
       } catch (e) {
@@ -115,7 +118,6 @@ function Main() {
           <Link to="/sponsors">sponsors</Link>
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
-          {/*<Link to="/sponsors">sponsors</Link>*/}
           <Link to="/profile">profile</Link>
           {/* TODO: is this necessary? */}
           {/* <Link to={user_url}>account</Link> */}
@@ -128,7 +130,7 @@ function Main() {
            >
            </Route>
           <Route path="/sponsors">{user && <SponsorsPage/>}</Route>
-          <Route path="/admin">{<SponsorAdminPage setUser={setUser} user={user}/>}</Route>
+          <Route path="/admin">{<SponsorAdminPage user={user}/>}</Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
           <Route path="/view_profile/:id" component = {ViewProfile}>{user && <ViewProfile />}</Route>
           {/*<Route path="/sponsors">{user && <JobsPage user={user} />}</Route>*/}

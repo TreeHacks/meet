@@ -146,31 +146,39 @@ function SponsorUpdate({ user }) {
     e.preventDefault();
     setLoading(true);
     try {
-      if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-
-        await fetch(`http://localhost:9000/api/sponsor/logo?e=${user.attributes.email}`, {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `${localStorage.getItem("jwt")}`,
-          },
-        });
-      }
-
       await API.put("treehacks", "/sponsor", {
         body: {
           updated_by: user.attributes.email,
           ...attributes,
         },
       });
+
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch(
+          `http://localhost:9000/api/sponsor/logo?e=${user.attributes.email}`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${localStorage.getItem("jwt")}`,
+            },
+          }
+        );
+
+        const { data } = await res.json();
+        setAttributes(data);
+      }
     } catch (err) {
       setError();
     } finally {
       setLoading(false);
     }
   };
+
+  console.log("a", attributes);
 
   return (
     <>
@@ -199,12 +207,14 @@ function SponsorUpdate({ user }) {
             onSubmit={handleSubmit}
           >
             <h3 style={{ fontSize: 24 }}>Update Sponsor Profile</h3>
-            <img
-              src={attributes.logo_url}
-              alt="company logo"
-              width="100%"
-              height="100%"
-            />
+            {attributes?.logo_url && (
+              <img
+                src={attributes.logo_url}
+                alt="company logo"
+                width="100%"
+                height="100%"
+              />
+            )}
             <input
               type="file"
               title="logo"
@@ -217,7 +227,7 @@ function SponsorUpdate({ user }) {
                 fontSize: 17,
               }}
               onChange={(e) => setAttributes({ ...attributes, name: e.target.value })}
-              value={attributes.name}
+              value={attributes?.name}
               type="text"
               placeholder="company name"
             />
@@ -230,7 +240,7 @@ function SponsorUpdate({ user }) {
               onChange={(e) =>
                 setAttributes({ ...attributes, description: e.target.value })
               }
-              value={attributes.description}
+              value={attributes?.description}
               type="text"
               placeholder="description"
             />
@@ -243,7 +253,7 @@ function SponsorUpdate({ user }) {
               onChange={(e) =>
                 setAttributes({ ...attributes, website_url: e.target.value })
               }
-              value={attributes.website_url}
+              value={attributes?.website_url}
               type="text"
               placeholder="website url"
             />

@@ -1,6 +1,7 @@
 import React from "react";
 import API from "@aws-amplify/api";
 import Masonry from "react-masonry-component";
+import Loading from "./loading";
 
 function SponsorsList({ sponsors, setSponsors, user }) {
   const likeSponsor = (sponsorId) => {
@@ -72,52 +73,71 @@ function SponsorsList({ sponsors, setSponsors, user }) {
               const isSponsor = user.attributes["cognito:groups"].includes("sponsor");
 
               return (
-                <li
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    listStyle: "none",
-                    gap: 15,
-                    border: "1px solid rgba(12, 176, 138, 0.75)",
-                    padding: 30,
-                  }}
-                  key={`sponsor-${sponsor._id}}`}
-                >
-                  {sponsor.name && (
-                    <h1 style={{ padding: 0, margin: 0, marginBottom: 10 }}>
-                      {sponsor.name}
-                    </h1>
-                  )}
-                  {sponsor.description && (
-                    <p style={{ padding: 0, margin: 0 }}>{sponsor.description}</p>
-                  )}
-                  {sponsor.logo_url && <img src={sponsor.logo_url} />}
-                  <p style={{ padding: 0, margin: 0 }}>
+                <div className={"entry"} style={{ width: 220, padding: 20 }}>
+                  <div className="header">
+                    {sponsor?.logo_url && (
+                      <img
+                        src={sponsor.logo_url}
+                        alt="sponsor logo"
+                        style={{ objectFit: "cover" }}
+                      />
+                    )}
+                    <h3>{sponsor.name}</h3>
+                  </div>
+                  <div className={"idea"}>
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
                       href={sponsor.website_url}
                     >
-                      Website
+                      website
                     </a>
-                  </p>
-                  <button
-                    style={{
-                      cursor: "pointer",
-                      background: "transparent",
-                      border: "1px solid rgba(12, 176, 138, 0.75)",
-                    }}
-                    onClick={() =>
-                      alreadyLiked ? removeLike(sponsor._id) : likeSponsor(sponsor._id)
-                    }
-                  >
-                    {alreadyLiked ? "Remove Interest" : "Show Interest"}
-                  </button>
-                </li>
+                  </div>
+                  <div className="tags">
+                    {sponsor.description && (
+                      <div className="tag" style={{ backgroundColor: "#105E54" }}>
+                        {sponsor.description}
+                      </div>
+                    )}
+                    <button
+                      style={{
+                        cursor: "pointer",
+                        background: "transparent",
+                        border: "1px solid rgba(12, 176, 138, 0.75)",
+                      }}
+                      onClick={() =>
+                        alreadyLiked ? removeLike(sponsor._id) : likeSponsor(sponsor._id)
+                      }
+                    >
+                      {alreadyLiked ? "Remove Interest" : "Show Interest"}
+                    </button>
+                    {/* {verticals && // for prizes
+                      verticals.length > 0 &&
+                      verticals.map((vertical) => (
+                        <div
+                          className="tag"
+                          key={vertical}
+                          style={{
+                            backgroundColor: colors[this.getColorNum(vertical)],
+                          }}
+                        >
+                          {vertical}
+                        </div>
+                      ))} */}
+                  </div>
+                  {/* <div className="contact">
+                    <ReactGA.OutboundLink
+                      eventLabel="viewProfile"
+                      to={`/view_profile/${id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      view profile
+                    </ReactGA.OutboundLink>
+                  </div> */}
+                </div>
               );
-            })}{" "}
+            })}
           </Masonry>
         </div>
       </div>
@@ -127,15 +147,26 @@ function SponsorsList({ sponsors, setSponsors, user }) {
 
 export default function SponsorsPage({ user }) {
   const [sponsors, setSponsors] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     const getSponsors = async () => {
+      setLoading(true);
       const { data } = await API.get("treehacks", "/sponsors", {});
       setSponsors(data);
+      setLoading(false);
     };
 
     getSponsors();
   }, []);
 
-  return <SponsorsList sponsors={sponsors} user={user} setSponsors={setSponsors} />;
+  return (
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <SponsorsList sponsors={sponsors} user={user} setSponsors={setSponsors} />
+      )}
+    </>
+  );
 }

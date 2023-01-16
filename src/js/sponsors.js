@@ -55,16 +55,11 @@ function SponsorsList({ sponsors, setSponsors, user }) {
     <>
       <div id="table">
         <div className="content">
-          {/* <div className="search">
-            <input
-              type="text"
-              value={this.state.query || ""}
-              onChange={(e) =>
-                this.setState({ query: e.target.value }, () => this.search())
-              }
-              placeholder="Search for ideas..."
-            />
-          </div> */}
+          {sponsors && sponsors.length === 0 && (
+            <>
+              <p>No sponsors have registered yet</p>
+            </>
+          )}
           <Masonry className={"gallery"} options={{}}>
             {sponsors.map((sponsor) => {
               const alreadyLiked = sponsor.users?.hacker_emails.includes(

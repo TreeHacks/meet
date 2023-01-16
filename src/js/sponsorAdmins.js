@@ -492,6 +492,9 @@ function HackerInterest({ user }) {
               padding: 0,
             }}
           >
+            {hackers && hackers.length === 0 && (
+              <>No Hackers have shown interest in your company yet.</>
+            )}
             {hackers.map((hacker) => (
               <li key={`hacker-${hacker._id}`} style={{ width: 300 }}>
                 <p>

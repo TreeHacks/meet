@@ -6,7 +6,12 @@ import Loading from "./loading";
 const ADMIN_LOGIN_URL = `${process.env.REACT_APP_LOGIN_URL}?redirect=${window.location.origin}${window.location.pathname}`;
 
 function AdminRegister() {
-  const [email, setEmail] = React.useState("");
+  // Todo drive state lower
+  const [attributes, setAttributes] = React.useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+  });
   const [registered, setRegistered] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
@@ -19,7 +24,9 @@ function AdminRegister() {
       const { data } = await API.post("treehacks", "/sponsor/admin", {
         body: {
           token,
-          email,
+          email: attributes.email,
+          first_name: attributes.firstName,
+          last_name: attributes.lastName,
         },
       });
       setRegistered(true);
@@ -55,6 +62,7 @@ function AdminRegister() {
                 border: "1px solid rgba(12, 176, 138, 0.75)",
                 borderRadius: 5,
                 padding: 20,
+                gap: 10,
               }}
               onSubmit={handleRegistration}
             >
@@ -65,8 +73,34 @@ function AdminRegister() {
                   border: "1px solid rgba(12, 176, 138, 0.75)",
                   fontSize: 17,
                 }}
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                onChange={(e) =>
+                  setAttributes({ ...attributes, firstName: e.target.value })
+                }
+                value={attributes.firstName}
+                type="text"
+                placeholder="First Name"
+              />
+              <input
+                style={{
+                  padding: 5,
+                  border: "1px solid rgba(12, 176, 138, 0.75)",
+                  fontSize: 17,
+                }}
+                onChange={(e) =>
+                  setAttributes({ ...attributes, lastName: e.target.value })
+                }
+                value={attributes.lastName}
+                type="text"
+                placeholder="Last Name"
+              />
+              <input
+                style={{
+                  padding: 5,
+                  border: "1px solid rgba(12, 176, 138, 0.75)",
+                  fontSize: 17,
+                }}
+                onChange={(e) => setAttributes({ ...attributes, email: e.target.value })}
+                value={attributes.email}
                 type="email"
                 placeholder="Email"
               />
@@ -101,18 +135,100 @@ function AdminRegister() {
   );
 }
 
-function SponsorPrize() {
+function SponsorPrizes({ prizes, setPrizes }) {
   return (
-    <form>
-      <input type="text" placeholder="prize name" />
-      <input type="text" placeholder="prize description" />
-      <input type="text" placeholder="prize image" />
-      <input type="text" placeholder="prize value" />
-      <input type="text" placeholder="prize quantity" />
-      <input type="text" placeholder="prize sponsor" />
-      <input type="text" placeholder="prize sponsor description" />
-      <input type="text" placeholder="prize sponsor logo" />
-    </form>
+    <>
+      {prizes.map((prize, i) => {
+        const handlePrizeChange = (e) => {
+          const newPrizes = [...prizes];
+          newPrizes[i] = {
+            ...newPrizes[i],
+            [e.target.name]: e.target.value,
+          };
+          setPrizes(newPrizes);
+        };
+
+        const deletePrize = () => {
+          const newPrizes = [...prizes];
+          newPrizes.splice(i, 1);
+          setPrizes(newPrizes);
+        };
+
+        return (
+          <>
+            <p>Prize {i + 1}</p>
+            <input
+              onChange={handlePrizeChange}
+              style={{
+                padding: 5,
+                width: "100%",
+                border: "1px solid rgba(12, 176, 138, 0.75)",
+                fontSize: 17,
+              }}
+              name="name"
+              value={prize.name}
+              type="text"
+              placeholder="prize name"
+            />
+            <input
+              onChange={handlePrizeChange}
+              style={{
+                padding: 5,
+                width: "100%",
+                border: "1px solid rgba(12, 176, 138, 0.75)",
+                fontSize: 17,
+              }}
+              name="description"
+              value={prize.description}
+              type="text"
+              placeholder="prize description"
+            />
+            <input
+              onChange={handlePrizeChange}
+              style={{
+                padding: 5,
+                width: "100%",
+                border: "1px solid rgba(12, 176, 138, 0.75)",
+                fontSize: 17,
+              }}
+              name="reward"
+              value={prize.reward}
+              type="text"
+              placeholder="prize reward"
+            />
+            <input
+              list="types"
+              style={{
+                padding: 5,
+                width: "100%",
+                border: "1px solid rgba(12, 176, 138, 0.75)",
+                fontSize: 17,
+              }}
+              placeholder="prize type"
+              name="type"
+              value={prize.type}
+              onChange={handlePrizeChange}
+            />
+            <button
+              style={{
+                marginTop: 10,
+                width: 140,
+                backgroundColor: "transparent",
+                border: "1px solid rgba(176, 16, 18, 1)",
+                borderRadius: 5,
+                padding: 5,
+                cursor: "pointer",
+                fontSize: 15,
+              }}
+              type="button"
+              onClick={deletePrize}
+            >
+              Delete
+            </button>{" "}
+          </>
+        );
+      })}
+    </>
   );
 }
 
@@ -178,7 +294,20 @@ function SponsorUpdate({ user }) {
     }
   };
 
-  console.log("a", attributes);
+  const addPrize = () => {
+    setAttributes({
+      ...attributes,
+      prizes: [
+        ...attributes.prizes,
+        {
+          name: "",
+          description: "",
+          reward: "",
+          type: "",
+        },
+      ],
+    });
+  };
 
   return (
     <>
@@ -191,6 +320,7 @@ function SponsorUpdate({ user }) {
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
+            padding: 20,
           }}
         >
           <form
@@ -198,7 +328,7 @@ function SponsorUpdate({ user }) {
               marginTop: 50,
               display: "flex",
               flexDirection: "column",
-              width: "250px",
+              width: "500px",
               border: "1px solid rgba(12, 176, 138, 0.75)",
               borderRadius: 5,
               padding: 20,
@@ -257,6 +387,26 @@ function SponsorUpdate({ user }) {
               type="text"
               placeholder="website url"
             />
+            <SponsorPrizes
+              prizes={attributes.prizes}
+              setPrizes={(prizes) => setAttributes({ ...attributes, prizes })}
+            />
+            <button
+              style={{
+                marginTop: 10,
+                width: 140,
+                backgroundColor: "transparent",
+                border: "1px solid rgba(12, 176, 138, 0.75)",
+                borderRadius: 5,
+                padding: 5,
+                cursor: "pointer",
+                fontSize: 15,
+              }}
+              onClick={addPrize}
+              type="button"
+            >
+              Add Prize
+            </button>
             <div style={{ width: "100%", display: "flex", justifyContent: "right" }}>
               <button
                 style={{
@@ -265,13 +415,13 @@ function SponsorUpdate({ user }) {
                   backgroundColor: "whitespace",
                   border: "none",
                   borderRadius: 5,
-                  padding: 5,
+                  padding: 7,
                   cursor: "pointer",
-                  fontSize: 15,
+                  fontSize: 17,
                 }}
                 type="submit"
               >
-                Submit
+                Save
               </button>
             </div>
           </form>

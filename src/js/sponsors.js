@@ -73,7 +73,10 @@ function SponsorsList({ sponsors, setSponsors, user }) {
               const isSponsor = user.attributes["cognito:groups"].includes("sponsor");
 
               return (
-                <div className={"entry"} style={{ width: 220, padding: 20 }}>
+                <div
+                  className={"entry"}
+                  style={{ width: 220, padding: 20, position: "relative", margin: 30 }}
+                >
                   <div className="header">
                     {sponsor?.logo_url && (
                       <img
@@ -82,9 +85,18 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                         style={{ objectFit: "cover" }}
                       />
                     )}
-                    <h3>{sponsor.name}</h3>
+                    <h3
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                      }}
+                    >
+                      {sponsor.name}
+                    </h3>
                   </div>
-                  <div className={"idea"}>
+                  {sponsor.description && <div style={{}}>{sponsor.description}</div>}
+
+                  {sponsor.website_url && (
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
@@ -92,26 +104,33 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                     >
                       website
                     </a>
-                  </div>
-                  <div className="tags">
-                    {sponsor.description && (
-                      <div className="tag" style={{ backgroundColor: "#105E54" }}>
-                        {sponsor.description}
-                      </div>
-                    )}
-                    <button
-                      style={{
-                        cursor: "pointer",
-                        background: "transparent",
-                        border: "1px solid rgba(12, 176, 138, 0.75)",
-                      }}
-                      onClick={() =>
-                        alreadyLiked ? removeLike(sponsor._id) : likeSponsor(sponsor._id)
-                      }
-                    >
-                      {alreadyLiked ? "Remove Interest" : "Show Interest"}
-                    </button>
-                    {/* {verticals && // for prizes
+                  )}
+
+                  {sponsor.prizes &&
+                    sponsor.prizes.length > 0 &&
+                    sponsor.prizes.map((prize) => {
+                      return (
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginTop: 10,
+                            paddingBottom: 10,
+                          }}
+                        >
+                          <h4 style={{ margin: 0, padding: 0 }}>Prize: {prize.name}</h4>
+                          <p style={{ margin: 0, padding: 0 }}>
+                            Description: {prize.description}
+                          </p>
+                          <p style={{ margin: 0, padding: 0 }}>Reward: {prize.reward}</p>
+                          <p style={{ margin: 0, padding: 0 }}>Type: {prize.type}</p>
+                        </div>
+                      );
+                    })}
+
+                  {/* {sponsor.prizes && // for prizes
                       verticals.length > 0 &&
                       verticals.map((vertical) => (
                         <div
@@ -124,7 +143,29 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                           {vertical}
                         </div>
                       ))} */}
-                  </div>
+                  <button
+                    style={{
+                      cursor: "pointer",
+                      background: "transparent",
+                      border: "none",
+                      position: "absolute",
+                      bottom: 10,
+                      right: 10,
+                    }}
+                    onClick={() =>
+                      alreadyLiked ? removeLike(sponsor._id) : likeSponsor(sponsor._id)
+                    }
+                  >
+                    <span
+                      style={{
+                        color: alreadyLiked ? "transparent" : "rgba(12, 176, 138, 0.75)",
+                        WebkitTextStroke: "1px rgba(12, 176, 138, 0.75)",
+                        fontSize: 20,
+                      }}
+                    >
+                      &hearts;
+                    </span>
+                  </button>
                   {/* <div className="contact">
                     <ReactGA.OutboundLink
                       eventLabel="viewProfile"

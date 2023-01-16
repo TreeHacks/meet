@@ -298,7 +298,7 @@ function SponsorUpdate({ user }) {
     setAttributes({
       ...attributes,
       prizes: [
-        ...attributes.prizes,
+        ...(attributes?.prizes || []),
         {
           name: "",
           description: "",
@@ -345,9 +345,26 @@ function SponsorUpdate({ user }) {
                 height="100%"
               />
             )}
+            <label
+              for="upload-photo"
+              style={{
+                padding: 5,
+                width: 140,
+                border: "none",
+                borderBottom: "1px solid rgba(12, 176, 138, 0.75)",
+                fontSize: 17,
+                marginBottom: 10,
+                cursor: "pointer",
+              }}
+            >
+              {file ? file.name : "Upload Logo"}
+            </label>
+
             <input
               type="file"
               title="logo"
+              id="upload-photo"
+              style={{ display: "none" }}
               onChange={(e) => setFile(e.target.files[0])}
             />
             <input
@@ -388,7 +405,7 @@ function SponsorUpdate({ user }) {
               placeholder="website url"
             />
             <SponsorPrizes
-              prizes={attributes.prizes}
+              prizes={attributes?.prizes || []}
               setPrizes={(prizes) => setAttributes({ ...attributes, prizes })}
             />
             <button

@@ -65,6 +65,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
               const alreadyLiked = sponsor.users?.hacker_emails.includes(
                 user.attributes.email
               );
+
               const isSponsor = user.attributes["cognito:groups"].includes("sponsor");
 
               return (
@@ -153,7 +154,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                   >
                     <span
                       style={{
-                        color: alreadyLiked ? "transparent" : "rgba(12, 176, 138, 0.75)",
+                        color: alreadyLiked ? "rgba(12, 176, 138, 0.75)" :  "transparent",
                         WebkitTextStroke: "1px rgba(12, 176, 138, 0.75)",
                         fontSize: 20,
                       }}

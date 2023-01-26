@@ -456,13 +456,20 @@ function HackerInterest({ user }) {
   React.useEffect(() => {
     const getSponsor = async () => {
       setLoading(true);
-      const { data } = await API.get(
-        "treehacks",
-        `/sponsor/hackers?email=${user.attributes.email}`,
-        {}
-      );
-      setHackers(data);
-      setLoading(false);
+      setError(undefined)
+      try {
+        const { data, error } = await API.get(
+          "treehacks",
+          `/sponsor/hackers?email=${user.attributes.email}`,
+          {}
+        );
+        if (error) throw new Error(error);
+        setHackers(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
     getSponsor();
   }, []);
@@ -492,7 +499,8 @@ function HackerInterest({ user }) {
               padding: 0,
             }}
           >
-            {hackers && hackers.length === 0 && (
+            {error && <p>{error}</p>}
+            {hackers && hackers.length === 0 && !error && (
               <>No Hackers have shown interest in your company yet.</>
             )}
             {hackers.map((hacker) => (

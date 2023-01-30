@@ -78,7 +78,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                       <img
                         src={sponsor.logo_url}
                         alt="sponsor logo"
-                        style={{ objectFit: "cover" }}
+                        style={{ objectFit: "contain" }}
                       />
                     )}
                     <h3

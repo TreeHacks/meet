@@ -120,7 +120,7 @@ function Main() {
           <Link to="/sponsors">sponsors</Link> }
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
-          <Link to="/profile">profile</Link>
+          {user && !user?.attributes["cognito:groups"]?.includes("sponsor") && <Link to="/profile">profile</Link>}
           {/* TODO: is this necessary? */}
           {/* <Link to={user_url}>account</Link> */}
           <Link to="/logout" onClick={logout}>log out</Link>

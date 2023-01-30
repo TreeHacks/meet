@@ -97,7 +97,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       href={
-                        sponsor.website_url.include("http")
+                        sponsor.website_url.includes("http")
                           ? sponsor.website_url
                           : `https://${sponsor.website_url}`
                       }

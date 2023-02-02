@@ -332,10 +332,21 @@ class Table extends React.Component {
       return (
         <div id="table">
           <div className="content">
-            <div className="header">
-              <p>
-                Welcome to TreeHacks Meet! Use this page to find others
-                attending TreeHacks 2023.
+            <div
+              className="header"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <h1 style={{ marginTop: "0px", marginBottom: "10px" }}>
+                Welcome to TreeHacks Meet!
+              </h1>
+              <p style={{ width: "80%" }}>
+                Use this page to find others attending TreeHacks 2023. Toggle
+                between pages to find different people. Organizers are marked
+                with an icon of Hoover Tower so you can reach out to them!
+                Mentors are marked with a laptop icon for you to reach out to.
               </p>
             </div>
             <div className="search">
@@ -482,6 +493,7 @@ class Entry extends React.Component {
     let profilePictureLink = props.json["forms"]["meet_info"]["profilePicture"];
     let commitment = props.json["forms"]["meet_info"]["commitment"];
     const isOrganizer = props.json["forms"]["meet_info"]["isOrganizer"];
+    const isMentor = props.json["forms"]["meet_info"]["isMentor"];
 
     var slackURL = "";
     if (props.json["forms"]["meet_info"]["slackURL"]) {
@@ -503,6 +515,12 @@ class Entry extends React.Component {
               />
             )}
 
+            {isMentor && (
+              <img
+                src={require("../assets/laptop.png")}
+                style={{ height: "30px", marginTop: "25px" }}
+              />
+            )}
             <div className="header">
               {profilePictureLink && (
                 <div>
@@ -518,7 +536,10 @@ class Entry extends React.Component {
               </h3>
             </div>
           </div>
-          <div className={"idea " + (isOrganizer ? "organizerCard" : "")}>
+          <div
+            className={"idea " + (isOrganizer ? "organizerCard" : "")}
+            style={{ border: "none" }}
+          >
             <Linkify componentDecorator={LinkDecorator}>
               <p>{idea}</p>
             </Linkify>

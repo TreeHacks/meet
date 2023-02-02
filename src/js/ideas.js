@@ -34,13 +34,15 @@ class Table extends React.Component {
     this.state = {
       query: "",
       user_json: [],
-      results: []
+      results: [],
+      loading: false,
     };
     this._search = this._search.bind(this);
     this.search = debounce(this._search, 800);
   }
 
   async componentDidMount() {
+    this.setState({loading: true,})
     const body = await API.get("treehacks", "/users_meet", {});
     console.log(body);
     let user_list = [];
@@ -65,7 +67,7 @@ class Table extends React.Component {
       ],
       useExtendedSearch: true
     });
-    this.setState({ user_json: user_list, fuse }, () => this._search());
+    this.setState({ user_json: user_list, fuse, loading: false }, () => this._search());
   }
 
   _search() {
@@ -90,7 +92,7 @@ class Table extends React.Component {
 
     const style = {};
     //if (false) {
-    if (this.state.user_json.length == 0) {
+    if (this.state.loading) {
       return <Loading />;
     }
     else {

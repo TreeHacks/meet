@@ -78,7 +78,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                       <img
                         src={sponsor.logo_url}
                         alt="sponsor logo"
-                        style={{ objectFit: "cover" }}
+                        style={{ objectFit: "contain" }}
                       />
                     )}
                     <h3
@@ -96,7 +96,11 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={sponsor.website_url}
+                      href={
+                        sponsor.website_url.includes("http")
+                          ? sponsor.website_url
+                          : `https://${sponsor.website_url}`
+                      }
                     >
                       website
                     </a>
@@ -154,7 +158,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                   >
                     <span
                       style={{
-                        color: alreadyLiked ? "rgba(12, 176, 138, 0.75)" :  "transparent",
+                        color: alreadyLiked ? "rgba(12, 176, 138, 0.75)" : "transparent",
                         WebkitTextStroke: "1px rgba(12, 176, 138, 0.75)",
                         fontSize: 20,
                       }}

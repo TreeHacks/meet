@@ -273,16 +273,13 @@ function SponsorUpdate({ user }) {
         const formData = new FormData();
         formData.append("file", file);
 
-        const res = await fetch(
-          `http://localhost:9000/api/sponsor/logo?e=${user.attributes.email}`,
-          {
-            method: "POST",
-            body: formData,
-            headers: {
-              Authorization: `${localStorage.getItem("jwt")}`,
-            },
-          }
-        );
+        const res = await fetch(`${process.env.REACT_APP_ENDPOINT_URL}/sponsor/logo?e=${user.attributes.email}`, {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `${localStorage.getItem("jwt")}`,
+          },
+        });
 
         const { data } = await res.json();
         setAttributes(data);
@@ -456,7 +453,7 @@ function HackerInterest({ user }) {
   React.useEffect(() => {
     const getSponsor = async () => {
       setLoading(true);
-      setError(undefined)
+      setError(undefined);
       try {
         const { data, error } = await API.get(
           "treehacks",

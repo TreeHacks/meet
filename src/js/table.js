@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import API from "@aws-amplify/api";
 import Masonry from "react-masonry-component";
 import Fuse from "fuse.js";
@@ -10,7 +10,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import Form from "react-jsonschema-form";
+import MeetForm from "./view_profile";
 
 // ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -134,6 +136,18 @@ const uiFilterSchema = {
 
 const log = (type) => console.log.bind(console, type);
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 class Table extends React.Component {
   constructor(props) {
     super(props);
@@ -145,6 +159,7 @@ class Table extends React.Component {
       filters: [],
       filterFormData: {},
       loading: false,
+      openModal: false,
     };
     this._search = this._search.bind(this);
     this._filter = this._filter.bind(this);
@@ -154,6 +169,9 @@ class Table extends React.Component {
 
     this.search = debounce(this._search, 800);
     this.filter = debounce(this._filter, 800);
+
+    this.handleClose = this.handleClose.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
   }
 
   async componentDidMount() {
@@ -290,6 +308,13 @@ class Table extends React.Component {
     this.setState({ filters }, () => this._filter());
   }
 
+  handleOpen(e) {
+    this.setState({ openModal: true });
+  }
+  handleClose(event) {
+    this.setState({ openModal: false });
+  }
+
   render() {
     let { results } = this.state;
 
@@ -309,8 +334,8 @@ class Table extends React.Component {
           <div className="content">
             <div className="header">
               <p>
-                Welcome to TreeHacks Meet! Use this page to find others attending
-                TreeHacks 2023.
+                Welcome to TreeHacks Meet! Use this page to find others
+                attending TreeHacks 2023.
               </p>
             </div>
             <div className="search">
@@ -366,7 +391,11 @@ class Table extends React.Component {
               <div>
                 <TabPanel value={this.state.tabSelection} index={0}>
                   <Masonry className={"gallery"} options={style}>
-                    {childElements ? <>{childElements}</> : <p>No signups yet</p>}
+                    {childElements ? (
+                      <>{childElements}</>
+                    ) : (
+                      <p>No signups yet</p>
+                    )}
                   </Masonry>
                 </TabPanel>
 
@@ -397,6 +426,25 @@ class Table extends React.Component {
 }
 
 class Entry extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      openModal: false,
+    };
+
+    this.handleClose = this.handleClose.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+  }
+
+  handleClose() {
+    this.setState({ openModal: false });
+  }
+
+  handleOpen() {
+    this.setState({ openModal: true });
+  }
+
   getColorNum(vertical) {
     if (vertical.charAt(0) < "J") {
       return 0;
@@ -442,62 +490,89 @@ class Entry extends React.Component {
       slackURL = "https://www.slack.com";
     }
     return (
-      <div className={"entry " + (isOrganizer ? "organizerCard" : "")}>
-        <div className="header">
-          {profilePictureLink && (
-            <img
-              src={profilePictureLink}
-              alt="profile picture"
-              style={{ objectFit: "cover" }}
-            />
-          )}
-          <h3>
-            {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}{" "}
-          </h3>
-        </div>
-        <div className={"idea " + (isOrganizer ? "organizerCard" : "")}>
-          <Linkify componentDecorator={LinkDecorator}>
-            <p>{idea}</p>
-          </Linkify>
-        </div>
-        <div className="tags">
-          {commitment && (
-            <div className="tag" style={{ backgroundColor: "#105E54" }}>
-              Commitment: {commitment}
+      <>
+        <div
+          className={"entry " + (isOrganizer ? "organizerCard" : "")}
+          onClick={this.handleOpen}
+        >
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            {isOrganizer && (
+              <img
+                src={require("../assets/hoover.png")}
+                style={{ height: "40px", marginTop: "20px" }}
+              />
+            )}
+
+            <div className="header">
+              {profilePictureLink && (
+                <div>
+                  <img
+                    src={profilePictureLink}
+                    alt="profile picture"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+              )}
+              <h3>
+                {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}{" "}
+              </h3>
+            </div>
+          </div>
+          <div className={"idea " + (isOrganizer ? "organizerCard" : "")}>
+            <Linkify componentDecorator={LinkDecorator}>
+              <p>{idea}</p>
+            </Linkify>
+          </div>
+          <div className="tags">
+            {commitment && (
+              <div className="tag" style={{ backgroundColor: "#105E54" }}>
+                Commitment: {commitment}
+              </div>
+            )}
+            {verticals &&
+              verticals.length > 0 &&
+              verticals.map((vertical) => (
+                <div
+                  className="tag"
+                  key={vertical}
+                  style={{
+                    backgroundColor: colors[this.getColorNum(vertical)],
+                  }}
+                >
+                  {vertical}
+                </div>
+              ))}
+          </div>
+          {isOrganizer && (
+            <div style={{ marginBottom: "100" }}>
+              <a href={slackURL}>
+                <img src={require("../assets/slackLogo.png")} width="70" />
+              </a>
             </div>
           )}
-          {verticals &&
-            verticals.length > 0 &&
-            verticals.map((vertical) => (
-              <div
-                className="tag"
-                key={vertical}
-                style={{
-                  backgroundColor: colors[this.getColorNum(vertical)],
-                }}
-              >
-                {vertical}
-              </div>
-            ))}
-        </div>
-        {isOrganizer && (
-          <div style={{ marginBottom: "100" }}>
-            <a href={slackURL}>
-              <img src={require("../assets/slackLogo.png")} width="70" />
-            </a>
+          <div className="contact">
+            <ReactGA.OutboundLink
+              eventLabel="viewProfile"
+              to={`/view_profile/${id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              view profile
+            </ReactGA.OutboundLink>
           </div>
-        )}
-        <div className="contact">
-          <ReactGA.OutboundLink
-            eventLabel="viewProfile"
-            to={`/view_profile/${id}`}
-            target="_blank"
-            rel="noopener noreferrer"
+
+          {/*  <Modal
+            open={this.state.openModal}
+            onClose={this.handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
-            view profile
-          </ReactGA.OutboundLink>
+            <div>
+              <MeetForm id={"eroi"} throughModal={true} />
+            </div>
+          </Modal> */}
         </div>
-      </div>
+      </>
     );
   }
 }

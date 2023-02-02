@@ -50,7 +50,6 @@
     display: flex;
   }
 
-
   .gallery {
     width: 100%;
 
@@ -76,7 +75,6 @@
       left: 50%;
       transform: translateX(-50%);
     }
-
   }
 
   .entry-wrapper.jobsPage {
@@ -94,7 +92,6 @@
       width: 30%;
     }
   }
-
 
   .entry-wrapper {
     background-color: $background-color;
@@ -136,7 +133,8 @@
   }
 
   .organizerCard {
-    background: #E8FEF3 !important;
+    //background: #E8FEF3 !important;
+    border: 1px solid green;
   }
 
   .header {
@@ -168,7 +166,7 @@
     .header {
       flex-direction: column;
       max-width: none;
-    } 
+    }
 
     img {
       display: inline-block;

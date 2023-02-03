@@ -216,12 +216,18 @@ function SponsorsList({ sponsors, setSponsors, user }) {
 export default function SponsorsPage({ user }) {
   const [sponsors, setSponsors] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(undefined);
 
   React.useEffect(() => {
     const getSponsors = async () => {
       setLoading(true);
-      const { data } = await API.get("treehacks", "/sponsors", {});
-
+      const body = await API.get("treehacks", "/sponsors", {});
+      const data = body["data"];
+      if (body["status"] !== 200) {
+        setError("You have don't have access");
+        setLoading(false);
+        return;
+      }
       setSponsors(data);
       setLoading(false);
     };
@@ -234,11 +240,29 @@ export default function SponsorsPage({ user }) {
       {loading ? (
         <Loading />
       ) : (
-        <SponsorsList
-          sponsors={sponsors}
-          user={user}
-          setSponsors={setSponsors}
-        />
+        <>
+          {error ? (
+            <div
+              style={{
+                backgroundColor: "white",
+                borderRadius: "20px",
+                margin: "0 auto",
+                padding: "20px",
+                border: "1px solid green",
+                width: "fit-content",
+                marginTop: "20px",
+              }}
+            >
+              Error: {error}
+            </div>
+          ) : (
+            <SponsorsList
+              sponsors={sponsors}
+              user={user}
+              setSponsors={setSponsors}
+            />
+          )}
+        </>
       )}
     </>
   );

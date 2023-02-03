@@ -222,6 +222,7 @@ export default function SponsorsPage({ user }) {
     const getSponsors = async () => {
       setLoading(true);
       const body = await API.get("treehacks", "/sponsors", {});
+      console.log(body);
       const data = body["data"];
       if (body["status"] !== 200) {
         setError("You have don't have access");

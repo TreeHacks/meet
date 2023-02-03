@@ -221,17 +221,7 @@ export default function SponsorsPage({ user }) {
     const getSponsors = async () => {
       setLoading(true);
       const { data } = await API.get("treehacks", "/sponsors", {});
-      data.push(data[0]);
-      data.push(data[0]);
-      data.push(data[0]);
-      data.push(data[0]);
-      data.push(data[0]);
-      data.push(data[0]);
-      data.push(data[0]);
-      data.push(data[0]);
 
-      data.push(data[0]);
-      data.push(data[0]);
       setSponsors(data);
       setLoading(false);
     };

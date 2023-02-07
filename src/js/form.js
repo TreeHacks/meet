@@ -161,11 +161,24 @@ class MeetForm extends React.Component {
       "treehacks",
       `/users/${this.props.user.username}/forms/meet_info`,
       {}
-    );
-    const status = meet_info["status"];
-    this.setState({ dataFetched: true });
+    )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        // console.(error);
+        // console.log(error.response.status);
+        // console.log(error.response.data);
+        return error;
+      });
+
+    const status = meet_info.response?.status ? meet_info.response.status : 200;
+    this.setState({ loading: false });
     if (status !== 200) {
       this.setState({ error: "You have don't have access" });
+      this.setState({
+        dataFetched: true,
+      });
       return;
     }
 

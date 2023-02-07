@@ -221,14 +221,26 @@ export default function SponsorsPage({ user }) {
   React.useEffect(() => {
     const getSponsors = async () => {
       setLoading(true);
-      const body = await API.get("treehacks", "/sponsors", {});
-      console.log(body);
-      if (body["status"] !== 200) {
+
+      const body = await API.get("treehacks", "/sponsors", {})
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          // console.(error);
+          // console.log(error.response.status);
+          // console.log(error.response.data);
+          return error;
+        });
+
+      const status = body.response?.status ? body.response.status : 200;
+
+      if (status !== 200) {
         setError("You have don't have access");
         setLoading(false);
         return;
       }
-      const data = body["data"];
+      const data = body.data;
       setSponsors(data);
       setLoading(false);
     };

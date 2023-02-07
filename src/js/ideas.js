@@ -45,8 +45,19 @@ class Table extends React.Component {
 
   async componentDidMount() {
     this.setState({ loading: true });
-    const body = await API.get("treehacks", "/users_meet", {});
-    const status = body["status"];
+
+    const body = await API.get("treehacks", "/users_meet")
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        // console.(error);
+        // console.log(error.response.status);
+        // console.log(error.response.data);
+        return error;
+      });
+
+    const status = body.response?.status ? body.response.status : 200;
     this.setState({ loading: false });
     if (status !== 200) {
       this.setState({ error: "You have don't have access" });

@@ -11,6 +11,12 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Form from "react-jsonschema-form";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Backdrop from "@mui/material/Backdrop";
+import { setState } from "react-jsonschema-form/lib/utils";
+import ViewProfile from "./view_profile";
 // ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TOKEN);
 ReactGA.pageview(window.location.pathname + window.location.search);
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
@@ -135,6 +141,7 @@ class Table extends React.Component {
       filterFormData: {},
       loading: false,
       error: undefined,
+      openModal: false,
     };
     this._search = this._search.bind(this);
     this._filter = this._filter.bind(this);
@@ -277,11 +284,11 @@ class Table extends React.Component {
   }
   render() {
     let { results } = this.state;
-    const childElements = results.map((single_json) => (
+    /* const childElements = results.map((single_json) => (
       <div className="entry-wrapper" key={single_json._id}>
-        <Entry json={single_json} />
+        <EntryComponent json={single_json} />
       </div>
-    ));
+    )); */
     const style = {};
     if (this.state.loading) {
       // if (this.state.user_json.length == 0) {
@@ -307,10 +314,21 @@ class Table extends React.Component {
           ) : (
             <div id="table">
               <div className="content">
-                <div className="header">
-                  <p>
-                    Welcome to TreeHacks Meet! Use this page to find others
-                    attending TreeHacks 2023.
+                <div
+                  className="header"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <h1 style={{ marginTop: "0px", marginBottom: "10px" }}>
+                    Welcome to Meet 2023!
+                  </h1>
+                  <p style={{ width: "80%" }}>
+                    Use this page to find others attending TreeHacks 2023.
+                    Toggle between pages to find different people. Members of
+                    the TreeHacks 2023 Organizing team are marked by the team
+                    they work on so you can ask questions appropriately.
                   </p>
                 </div>
                 <div className="search">
@@ -322,7 +340,7 @@ class Table extends React.Component {
                         this.search()
                       )
                     }
-                    placeholder="Search for anything..."
+                    placeholder="Search by name, idea, anything!"
                   />
                 </div>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -365,8 +383,8 @@ class Table extends React.Component {
                   <div>
                     <TabPanel value={this.state.tabSelection} index={0}>
                       <Masonry className={"gallery"} options={style}>
-                        {childElements ? (
-                          <>{childElements}</>
+                        {results ? (
+                          <ChildComponent results={results} />
                         ) : (
                           <p>No signups yet</p>
                         )}
@@ -374,17 +392,17 @@ class Table extends React.Component {
                     </TabPanel>
                     <TabPanel value={this.state.tabSelection} index={1}>
                       <Masonry className={"gallery"} options={style}>
-                        {childElements}
+                        <ChildComponent results={results} />
                       </Masonry>
                     </TabPanel>
                     <TabPanel value={this.state.tabSelection} index={2}>
                       <Masonry className={"gallery"} options={style}>
-                        {childElements}
+                        <ChildComponent results={results} />
                       </Masonry>
                     </TabPanel>
                     <TabPanel value={this.state.tabSelection} index={3}>
                       <Masonry className={"gallery"} options={style}>
-                        {childElements}
+                        <ChildComponent results={results} />
                       </Masonry>
                     </TabPanel>
                   </div>
@@ -397,105 +415,187 @@ class Table extends React.Component {
     }
   }
 }
-class Entry extends React.Component {
-  getColorNum(vertical) {
+
+function EntryComponent({ json }) {
+  const getColorNum = (vertical) => {
     if (vertical.charAt(0) < "J") {
       return 0;
     } else if (vertical.charAt(0) < "Q") {
       return 1;
     }
     return 2;
-  }
-  shouldComponentUpdate(nextProps) {
+  };
+
+  const shouldComponentUpdate = (nextProps) => {
     return nextProps.json !== this.props.json;
-  }
-  contactTracker() {
+  };
+  const contactTracker = () => {
     ReactGA.event({
       category: "User",
       action: "Contacted user",
     });
+  };
+
+  const props = json;
+  let first_name_orig = json["forms"]["meet_info"]["first_name"] || "";
+  var firstLetter = first_name_orig.charAt(0);
+  let first_name = firstLetter.toUpperCase() + first_name_orig.substring(1);
+  let last_letter = (json["forms"]["meet_info"]["last_initial"] || "")
+    .charAt(0)
+    .toUpperCase();
+  let idea = json["forms"]["meet_info"]["profileDesc"];
+  let verticals = json["forms"]["meet_info"]["verticals"];
+  let id = json["user"]["id"];
+  let pronouns = json["forms"]["meet_info"]["pronouns"];
+  let contact_url = ENDPOINT_URL + "/users/" + id + "/contact";
+  let profile_url = "/users/" + id;
+  let profilePictureLink = json["forms"]["meet_info"]["profilePicture"];
+  let commitment = json["forms"]["meet_info"]["commitment"];
+  const isOrganizer = json["forms"]["meet_info"]["isOrganizer"];
+  var slackURL = "";
+  if (json["forms"]["meet_info"]["slackURL"]) {
+    slackURL = json["forms"]["meet_info"]["slackURL"];
+  } else {
+    slackURL = "https://www.slack.com";
   }
-  render() {
-    const props = this.props;
-    let first_name_orig = props.json["forms"]["meet_info"]["first_name"] || "";
-    var firstLetter = first_name_orig.charAt(0);
-    let first_name = firstLetter.toUpperCase() + first_name_orig.substring(1);
-    let last_letter = (props.json["forms"]["meet_info"]["last_initial"] || "")
-      .charAt(0)
-      .toUpperCase();
-    let idea = props.json["forms"]["meet_info"]["profileDesc"];
-    let verticals = props.json["forms"]["meet_info"]["verticals"];
-    let id = props.json["user"]["id"];
-    let pronouns = props.json["forms"]["meet_info"]["pronouns"];
-    let contact_url = ENDPOINT_URL + "/users/" + id + "/contact";
-    let profile_url = "/users/" + id;
-    let profilePictureLink = props.json["forms"]["meet_info"]["profilePicture"];
-    let commitment = props.json["forms"]["meet_info"]["commitment"];
-    const isOrganizer = props.json["forms"]["meet_info"]["isOrganizer"];
-    var slackURL = "";
-    if (props.json["forms"]["meet_info"]["slackURL"]) {
-      slackURL = props.json["forms"]["meet_info"]["slackURL"];
-    } else {
-      slackURL = "https://www.slack.com";
-    }
-    return (
-      <div className={"entry " + (isOrganizer ? "organizerCard" : "")}>
-        <div className="header">
-          {profilePictureLink && (
-            <img
-              src={profilePictureLink}
-              alt="profile picture"
-              style={{ objectFit: "cover" }}
-            />
-          )}
-          <h3>
-            {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}{" "}
-          </h3>
-        </div>
-        <div className={"idea " + (isOrganizer ? "organizerCard" : "")}>
-          <Linkify componentDecorator={LinkDecorator}>
-            <p>{idea}</p>
-          </Linkify>
-        </div>
-        <div className="tags">
-          {commitment && (
-            <div className="tag" style={{ backgroundColor: "#105E54" }}>
-              Commitment: {commitment}
-            </div>
-          )}
-          {verticals &&
-            verticals.length > 0 &&
-            verticals.map((vertical) => (
-              <div
-                className="tag"
-                key={vertical}
-                style={{
-                  backgroundColor: colors[this.getColorNum(vertical)],
-                }}
-              >
-                {vertical}
-              </div>
-            ))}
-        </div>
-        {isOrganizer && (
-          <div style={{ marginBottom: "100" }}>
-            <a href={slackURL}>
-              <img src={require("../assets/slackLogo.png")} width="70" />
-            </a>
+
+  const [open, setOpen] = React.useState(false);
+  const [openData, setOpenData] = React.useState({});
+
+  const clickMe = (parameter) => (event) => {
+    setOpen(true);
+    setOpenData(parameter);
+  };
+
+  const handleClose = (parameter) => (event) => {
+    setOpen(false);
+  };
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    overflowY: "scroll",
+    transform: "translate(-50%, -50%)",
+    height: "80%",
+    width: "70%",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  return (
+    <div className={"entry " + (isOrganizer ? "organizerCard" : "")}>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose()}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <ViewProfile idFromModal={openData} />
+          </Box>
+        </Fade>
+      </Modal>
+      <div className="header">
+        {profilePictureLink && (
+          <img
+            src={profilePictureLink}
+            alt="profile picture"
+            style={{ objectFit: "cover" }}
+          />
+        )}
+        <h3>
+          {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}{" "}
+        </h3>
+      </div>
+      <div className={"idea " + (isOrganizer ? "organizerCard" : "")}>
+        <Linkify componentDecorator={LinkDecorator}>
+          <p>
+            {isOrganizer && (
+              <>
+                <span style={{ fontWeight: "bold" }}>
+                  TreeHacks 2023 Organizer
+                </span>
+                <br />
+              </>
+            )}
+
+            {idea}
+          </p>
+        </Linkify>
+      </div>
+      <div className="tags">
+        {commitment && (
+          <div className="tag" style={{ backgroundColor: "#105E54" }}>
+            Commitment: {commitment}
           </div>
         )}
-        <div className="contact">
-          <ReactGA.OutboundLink
-            eventLabel="viewProfile"
-            to={`/view_profile/${id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            view profile
-          </ReactGA.OutboundLink>
-        </div>
+        {verticals &&
+          verticals.length > 0 &&
+          verticals.map((vertical) => (
+            <div
+              className="tag"
+              key={vertical}
+              style={{
+                backgroundColor: colors[getColorNum(vertical)],
+              }}
+            >
+              {vertical}
+            </div>
+          ))}
       </div>
-    );
-  }
+      {isOrganizer && (
+        <div style={{ marginBottom: "100" }}>
+          <a href={slackURL}>
+            <img src={require("../assets/slackLogo.png")} width="70" />
+          </a>
+        </div>
+      )}
+      <div className="contact">
+        {/*  <ReactGA.OutboundLink
+          eventLabel="viewProfile"
+          to={`/view_profile/${id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          view profile
+        </ReactGA.OutboundLink> */}
+        <Button
+          onClick={clickMe(json)}
+          id="viewButton"
+          style={{
+            textTransform: "none",
+            backgroundColor: "transparent",
+            color: "#0CB08A",
+            fontFamily: "Avenir",
+            fontSize: "16px",
+            fontWeight: "400",
+          }}
+        >
+          view profile
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function ChildComponent({ results }) {
+  return (
+    <>
+      {results &&
+        results.map((single_json) => (
+          <div className="entry-wrapper" key={single_json._id}>
+            <EntryComponent json={single_json} />
+          </div>
+        ))}
+    </>
+  );
 }
 export default Table;

@@ -214,12 +214,28 @@ class MeetForm extends React.Component {
       let contact_url = ENDPOINT_URL + "/users/" + this.state.id + "/contact";
       return (
         <div id="form">
-          <Form
+          {console.log(this.state.formSchema)}
+          <h1
+            style={{ marginTop: "0px", marginBottom: "10px", color: "#0CB08A" }}
+          >
+            {this.state.formSchema.title}
+          </h1>
+          <h2>{this.state.formSchema.properties.idea.default}</h2>
+          <h2>{this.state.formSchema.properties.verticals.default}</h2>
+          <h2>{this.state.formSchema.properties.pronouns.default}</h2>
+          <h2>{this.state.formSchema.properties.skills.default}</h2>
+          <h2>{this.state.formSchema.properties.userType.default}</h2>
+          <h2>{this.state.formSchema.properties.commitment.default}</h2>
+          <h2>{this.state.formSchema.properties.timezoneOffset.default}</h2>
+          <h2>{this.state.formSchema.properties.linkedinLink.default}</h2>
+          <h2>{this.state.formSchema.properties.portfolioLink.default}</h2>
+          <h2>{this.state.formSchema.properties.githubLink.default}</h2>
+          <h2>{this.state.formSchema.properties.devpostLink.default}</h2>
+          {/* <Form
             schema={this.state.formSchema}
             uiSchema={uiSchema}
             children={true}
-          />
-
+          /> */}
           <div className="main-button white-text">
             <ReactGA.OutboundLink
               eventLabel="Contact"

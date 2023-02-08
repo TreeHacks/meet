@@ -2,6 +2,12 @@ import React from "react";
 import API from "@aws-amplify/api";
 import Loading from "./loading";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Backdrop from "@mui/material/Backdrop";
 
 function SponsorsList({ sponsors, setSponsors, user }) {
   const likeSponsor = (sponsorId) => {
@@ -54,21 +60,146 @@ function SponsorsList({ sponsors, setSponsors, user }) {
 
     setSponsors(newSponsors);
   };
+  const [open, setOpen] = React.useState(false);
+  const [modalData, setModalData] = React.useState({});
+  const handleOpen = (data) => {
+    console.log("eopened");
+    setOpen(true);
+    setModalData(data);
+  };
 
-  const style = {};
+  const handleClose = () => setOpen(false);
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    overflowY: "scroll",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    height: "80%",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+  };
   return (
     <>
       <div id="table">
         <div className="sponsorContent">
           {sponsors && sponsors.length === 0 && (
             <>
-              <p>No sponsors have registered yet</p>
+              <div
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: "20px",
+                  margin: "0 auto",
+                  padding: "20px",
+                  border: "1px solid green",
+                  width: "fit-content",
+                  marginTop: "20px",
+                }}
+              >
+                <p>No sponsors have registered yet</p>
+              </div>
             </>
           )}
-          <ResponsiveMasonry
-            columnsCountBreakPoints={{ 350: 1, 750: 2, 950: 3, 1000: 4 }}
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropProps={{
+              timeout: 500,
+            }}
           >
-            <Masonry columnsCount={4}>
+            <Fade in={open}>
+              <Box sx={style}>
+                <div
+                  className={"entry"}
+                  style={{
+                    padding: 20,
+                    width: "auto",
+                    position: "relative",
+                    margin: 15,
+                  }}
+                >
+                  <div className="header">
+                    {modalData?.logo_url && (
+                      <img
+                        src={modalData.logo_url}
+                        alt="sponsor logo"
+                        style={{
+                          objectFit: "contain",
+                          width: 100,
+                          marginBottom: "20px",
+                        }}
+                      />
+                    )}
+                    <h3
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                      }}
+                    >
+                      {modalData.name}
+                    </h3>
+                  </div>
+                  {modalData.description && (
+                    <div style={{}}>{modalData.description}</div>
+                  )}
+
+                  {modalData.website_url && (
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={
+                        modalData.website_url.includes("http")
+                          ? modalData.website_url
+                          : `https://${modalData.website_url}`
+                      }
+                    >
+                      website
+                    </a>
+                  )}
+
+                  {modalData.prizes && modalData.prizes.length > 0 && (
+                    <div>
+                      {modalData.prizes.map((prize) => {
+                        return (
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              marginTop: 10,
+                              paddingBottom: 10,
+                            }}
+                          >
+                            <h4 style={{ margin: 0, padding: 0 }}>
+                              Prize: {prize.name}
+                            </h4>
+                            <p style={{ margin: 0, padding: 0 }}>
+                              Description: {prize.description}
+                            </p>
+                            <p style={{ margin: 0, padding: 0 }}>
+                              Reward: {prize.reward}
+                            </p>
+                            <p style={{ margin: 0, padding: 0 }}>
+                              Type: {prize.type}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </Box>
+            </Fade>
+          </Modal>
+          <ResponsiveMasonry
+            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+          >
+            <Masonry>
               {sponsors.map((sponsor) => {
                 const alreadyLiked = sponsor.users?.hacker_emails.includes(
                   user.attributes.email
@@ -81,8 +212,8 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                   <div
                     className={"entry"}
                     style={{
-                      width: 220,
                       padding: 20,
+                      width: "auto",
                       position: "relative",
                       margin: 15,
                     }}
@@ -122,8 +253,10 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                       </a>
                     )}
 
+                    {/* if you have prizes and its less than 2, we display all of them */}
                     {sponsor.prizes &&
                       sponsor.prizes.length > 0 &&
+                      sponsor.prizes.length <= 2 &&
                       sponsor.prizes.map((prize) => {
                         return (
                           <div
@@ -152,19 +285,55 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                         );
                       })}
 
-                    {/* {sponsor.prizes && // for prizes
-                  verticals.length > 0 &&
-                  verticals.map((vertical) => (
-                    <div
-                      className="tag"
-                      key={vertical}
-                      style={{
-                        backgroundColor: colors[this.getColorNum(vertical)],
-                      }}
-                    >
-                      {vertical}
-                    </div>
-                  ))} */}
+                    {/* if you have prizes and its more than 2, we display only 2, and the rest will be shown in see more */}
+                    {sponsor.prizes &&
+                      sponsor.prizes.length > 0 &&
+                      sponsor.prizes.length > 2 && (
+                        <div>
+                          {sponsor.prizes.slice(0, 2).map((prize) => {
+                            return (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  marginTop: 10,
+                                  paddingBottom: 10,
+                                }}
+                              >
+                                <h4 style={{ margin: 0, padding: 0 }}>
+                                  Prize: {prize.name}
+                                </h4>
+                                <p style={{ margin: 0, padding: 0 }}>
+                                  Description: {prize.description}
+                                </p>
+                                <p style={{ margin: 0, padding: 0 }}>
+                                  Reward: {prize.reward}
+                                </p>
+                                <p style={{ margin: 0, padding: 0 }}>
+                                  Type: {prize.type}
+                                </p>
+                              </div>
+                            );
+                          })}
+                          <Button
+                            onClick={() => handleOpen(sponsor)}
+                            style={{
+                              backgroundColor: "#0CB08A",
+                              color: "white",
+                              marginTop: "5px",
+                              borderRadius: "20px",
+                              textTransform: "none",
+                              paddingLeft: "10px",
+                              paddingRight: "10px",
+                            }}
+                          >
+                            See more
+                          </Button>
+                        </div>
+                      )}
+
                     <button
                       style={{
                         cursor: "pointer",
@@ -192,16 +361,6 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                         &hearts;
                       </span>
                     </button>
-                    {/* <div className="contact">
-                <ReactGA.OutboundLink
-                  eventLabel="viewProfile"
-                  to={`/view_profile/${id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  view profile
-                </ReactGA.OutboundLink>
-              </div> */}
                   </div>
                 );
               })}
@@ -241,6 +400,7 @@ export default function SponsorsPage({ user }) {
         return;
       }
       const data = body.data;
+
       setSponsors(data);
       setLoading(false);
     };

@@ -5,7 +5,6 @@ import Loading from "./loading";
 import { Redirect } from "react-router";
 
 const schema = {
-  title: "Tell us about yourself!",
   type: "object",
   required: [],
   properties: {
@@ -245,6 +244,12 @@ class MeetForm extends React.Component {
             </div>
           ) : (
             <div id="form">
+              <h1
+                style={{ marginTop: "0px", marginBottom: "10px" }}
+                id="formHeader"
+              >
+                Tell us about yourself!
+              </h1>
               <Form
                 schema={this.state.formSchema}
                 uiSchema={uiSchema}

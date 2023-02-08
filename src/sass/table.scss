@@ -8,20 +8,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     #form {
-      display: contents;
-      display: flex;
       align-self: start;
-
       .checkboxes {
         column-count: 1;
         margin: 10px 0px;
       }
 
       .field-array {
-        width: 11vw;
-        max-width: 800px;
+        width: 100%;
+        max-width: 600px;
       }
     }
 
@@ -71,10 +67,12 @@
 
   .directory-container {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 
   .gallery {
-    width: 100%;
+    width: 80%;
 
     @media screen and (min-width: 768px) {
       width: 750px;
@@ -157,7 +155,6 @@
 
   .organizerCard {
     //background: #E8FEF3 !important;
-    border: 1px solid green;
   }
 
   .header {
@@ -225,7 +222,7 @@
   }
 
   .idea {
-    margin-top: -20px;
+    margin-top: -25px;
     max-height: 150px;
     padding: 0 10px;
     overflow: auto;
@@ -317,6 +314,9 @@
 
   .contact {
     padding: 0 10px;
+  }
+  #viewButton {
+    -webkit-tap-highlight-color: transparent;
   }
 
   .search {

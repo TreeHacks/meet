@@ -4,16 +4,16 @@ import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import "./index.scss";
 import Table from "./js/table";
 import MeetForm from "./js/form";
-import JobsPage from "./js/jobs.js"
-import IdeasPage from "./js/ideas.js"
-import ViewProfile from "./js/view_profile.js"
+import JobsPage from "./js/jobs.js";
+import IdeasPage from "./js/ideas.js";
+import ViewProfile from "./js/view_profile.js";
 import * as serviceWorker from "./js/serviceWorker";
 import API from "@aws-amplify/api";
 import queryString from "query-string";
 import logo from "./svg/logo.svg";
 import UserProfile from "./js/userProfile";
 import SponsorsPage from "./js/sponsors";
-import SponsorAdminPage from "./js/sponsorAdmins"
+import SponsorAdminPage from "./js/sponsorAdmins";
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_URL;
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
@@ -26,9 +26,9 @@ API.configure({
     {
       name: "treehacks",
       endpoint: ENDPOINT_URL,
-      custom_header: custom_header
-    }
-  ]
+      custom_header: custom_header,
+    },
+  ],
 });
 
 export function parseJwt(token) {
@@ -55,11 +55,11 @@ function getCurrentUser() {
         name: parsed["name"],
         email: parsed["email"],
         email_verified: parsed["email_verified"],
-        "cognito:groups": parsed["cognito:groups"]
+        "cognito:groups": parsed["cognito:groups"],
       };
       return {
         username: parsed["sub"],
-        attributes
+        attributes,
       };
     }
   }
@@ -92,7 +92,7 @@ function Main() {
     const token = new URLSearchParams(window.location.search).get("tkn");
 
     // if an admin isn't registering an account
-    if(!token)
+    if (!token)
       try {
         setUser(getCurrentUser());
       } catch (e) {
@@ -115,28 +115,36 @@ function Main() {
               </div>
             </a>
           </li>
-          {user && user?.attributes["cognito:groups"]?.includes("sponsor") ? 
-          <Link to="/admin">admin</Link> :
-          <Link to="/sponsors">sponsors</Link> }
+          {user && user?.attributes["cognito:groups"]?.includes("sponsor") ? (
+            <Link to="/admin">admin</Link>
+          ) : (
+            <Link to="/sponsors">sponsors</Link>
+          )}
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
-          {user && !user?.attributes["cognito:groups"]?.includes("sponsor") && <Link to="/profile">profile</Link>}
+          {user && !user?.attributes["cognito:groups"]?.includes("sponsor") && (
+            <Link to="/profile">edit profile</Link>
+          )}
           {/* TODO: is this necessary? */}
           {/* <Link to={user_url}>account</Link> */}
-          <Link to="/logout" onClick={logout}>log out</Link>
+          <Link to="/logout" onClick={logout}>
+            log out
+          </Link>
         </div>
         <Switch>
           <Route path="/profile">{user && <MeetForm user={user} />}</Route>
-          <Route path="/users/:userId" render={ props =>
-             <UserProfile {...props} />}
-           >
-           </Route>
-          <Route path="/sponsors">{user && <SponsorsPage user={user}/>}</Route>
-          <Route path="/admin">{<SponsorAdminPage user={user}/>}</Route>
+          <Route
+            path="/users/:userId"
+            render={(props) => <UserProfile {...props} />}
+          ></Route>
+          <Route path="/sponsors">{user && <SponsorsPage user={user} />}</Route>
+          <Route path="/admin">{<SponsorAdminPage user={user} />}</Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
-          <Route path="/view_profile/:id" component = {ViewProfile}>{user && <ViewProfile />}</Route>
+          {/* <Route path="/view_profile/:id" component={ViewProfile}>
+            {user && <ViewProfile />}
+          </Route> */}
           {/*<Route path="/sponsors">{user && <JobsPage user={user} />}</Route>*/}
-          <Route path="/">
+          <Route path="/" style={{ margin: "0px" }}>
             <Table user={user} />
           </Route>
         </Switch>

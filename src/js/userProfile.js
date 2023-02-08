@@ -1,7 +1,7 @@
 import React from "react";
 import API from "@aws-amplify/api";
 import Loading from "./loading";
-import ReactGA from 'react-ga';
+import ReactGA from "react-ga";
 
 const ENDPOINT_URL = process.env.REACT_APP_ENDPOINT_URL;
 
@@ -11,7 +11,7 @@ class UserProfile extends React.Component {
     this.state = {
       userInfo: undefined,
       dataFetched: false,
-    }
+    };
   }
 
   async componentDidMount() {
@@ -22,7 +22,6 @@ class UserProfile extends React.Component {
       `/users/${this.props.match.params.userId}/forms/meet_info`,
       {}
     );
-    console.log(meet_info);
     if (meet_info) {
       this.setState({
         userInfo: meet_info,
@@ -38,8 +37,8 @@ class UserProfile extends React.Component {
     }
     return (
       <div className="user-profile">
-        <UserProfileHeader 
-          userInfo={this.state.userInfo} 
+        <UserProfileHeader
+          userInfo={this.state.userInfo}
           userId={this.props.match.params.userId}
         />
         <UserProfileSummary userInfo={this.state.userInfo} />
@@ -53,13 +52,10 @@ class UserProfile extends React.Component {
 
 function UserProfileHeader(props) {
   // TO DO: Display user's information and edit design.
-  let contact_url =
-    ENDPOINT_URL + "/users/" + props.userId + "/contact";
+  let contact_url = ENDPOINT_URL + "/users/" + props.userId + "/contact";
   return (
     <div className="user-profile-header">
-      <div className="full-name"> 
-        Full Name
-      </div>
+      <div className="full-name">Full Name</div>
       <div className="contact">
         <ReactGA.OutboundLink
           eventLabel="Contact"
@@ -78,12 +74,8 @@ function UserProfileSummary(props) {
   // TO DO: Display user's information and edit design.
   return (
     <div className="user-profile-summary">
-      <div className="field-name"> 
-        Summary
-      </div>
-      <div className="field-text"> 
-        This information is not available.
-      </div>
+      <div className="field-name">Summary</div>
+      <div className="field-text">This information is not available.</div>
     </div>
   );
 }
@@ -92,12 +84,8 @@ function UserProfileProject(props) {
   // TO DO: Display user's information and edit design.
   return (
     <div className="user-profile-project">
-      <div className="field-name"> 
-        TreeHacks Project
-      </div>
-      <div className="field-text"> 
-        This information is not available.
-      </div>
+      <div className="field-name">TreeHacks Project</div>
+      <div className="field-text">This information is not available.</div>
     </div>
   );
 }
@@ -106,12 +94,8 @@ function UserProfileExperience(props) {
   // TO DO: Display user's information and edit design.
   return (
     <div className="user-profile-experience">
-      <div className="field-name"> 
-        Experience
-      </div>
-      <div className="field-text"> 
-        This information is not available.
-      </div>
+      <div className="field-name">Experience</div>
+      <div className="field-text">This information is not available.</div>
     </div>
   );
 }
@@ -120,12 +104,8 @@ function UserProfileOtherInfo(props) {
   // TO DO: Display user's information and edit design.
   return (
     <div className="user-profile-other-info">
-      <div className="field-name"> 
-        Other Information
-      </div>
-      <div className="field-text"> 
-        This information is not available.
-      </div>
+      <div className="field-name">Other Information</div>
+      <div className="field-text">This information is not available.</div>
     </div>
   );
 }

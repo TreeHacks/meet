@@ -63,7 +63,6 @@ function SponsorsList({ sponsors, setSponsors, user }) {
   const [open, setOpen] = React.useState(false);
   const [modalData, setModalData] = React.useState({});
   const handleOpen = (data) => {
-    console.log("eopened");
     setOpen(true);
     setModalData(data);
   };

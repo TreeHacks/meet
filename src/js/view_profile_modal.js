@@ -214,7 +214,6 @@ class MeetForm extends React.Component {
       let contact_url = ENDPOINT_URL + "/users/" + this.state.id + "/contact";
       return (
         <div id="form">
-          {console.log(this.state.formSchema)}
           <h1
             style={{ marginTop: "0px", marginBottom: "10px", color: "#0CB08A" }}
           >

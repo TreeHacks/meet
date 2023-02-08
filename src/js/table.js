@@ -468,7 +468,7 @@ function EntryComponent({ json }) {
   const [open, setOpen] = React.useState(false);
   const [openData, setOpenData] = React.useState({});
 
-  const clickMe = (parameter) => (event) => {
+  const handleOpen = (parameter) => (event) => {
     setOpen(true);
     setOpenData(parameter);
   };
@@ -574,7 +574,7 @@ function EntryComponent({ json }) {
           view profile
         </ReactGA.OutboundLink> */}
         <Button
-          onClick={clickMe(json)}
+          onClick={handleOpen(json)}
           id="viewButton"
           style={{
             textTransform: "none",

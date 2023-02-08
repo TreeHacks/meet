@@ -213,7 +213,10 @@ class Table extends React.Component {
           results = [
             ...results,
             ...this.state.user_json.filter(
-              (user) => user.forms.meet_info.skills == filterQuery
+              (user) =>
+                user.forms.meet_info.skills == filterQuery ||
+                (user.forms.meet_info.skills &&
+                  user.forms.meet_info.skills.indexOf(filterQuery) >= 0)
             ),
           ];
         });
@@ -224,7 +227,10 @@ class Table extends React.Component {
           results = [
             ...results,
             ...this.state.user_json.filter(
-              (user) => user.forms.meet_info.verticals == filterQuery
+              (user) =>
+                user.forms.meet_info.verticals == filterQuery ||
+                (user.forms.meet_info.verticals &&
+                  user.forms.meet_info.verticals.indexOf(filterQuery) >= 0)
             ),
           ];
         });

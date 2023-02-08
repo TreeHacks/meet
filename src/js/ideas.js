@@ -103,17 +103,7 @@ class Table extends React.Component {
       results = this.state.fuse.search(`=${this.state.query}`);
     } else {
       results = this.state.user_json;
-      if (results.length > 0) {
-        results.push(results[0]);
-        results.push(results[0]);
-        results.push(results[0]);
-        results.push(results[0]);
 
-        results.push(results[0]);
-        results.push(results[0]);
-        results.push(results[0]);
-        results.push(results[0]);
-      }
       shuffle(results);
     }
     this.setState({ results });

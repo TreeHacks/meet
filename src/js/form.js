@@ -87,11 +87,17 @@ const uiSchema = {
   profileDesc: {
     "ui:widget": "textarea",
     "ui:placeholder": "Tell other hackers about yourself!",
+    "ui:options": {
+      rows: 3,
+    },
   },
   idea: {
     "ui:widget": "textarea",
     "ui:placeholder":
       "Pitch an idea that interests you! This will be shared on the ideas page.",
+    "ui:options": {
+      rows: 5,
+    },
   },
   pronouns: {
     "ui:placeholder": "Gender pronouns (optional)",

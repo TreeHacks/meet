@@ -155,7 +155,7 @@
 
   #descText {
     width: 200px;
-    height: 66px;
+    height: 88px;
     line-height: 22px;
     word-break: break-all;
     display: -webkit-box;
@@ -163,11 +163,44 @@
     -moz-box-orient: vertical;
     -ms-box-orient: vertical;
     box-orient: vertical;
-    -webkit-line-clamp: 3;
-    -moz-line-clamp: 3;
-    -ms-line-clamp: 3;
-    line-clamp: 3;
+    -webkit-line-clamp: 4;
+    -moz-line-clamp: 4;
+    -ms-line-clamp: 4;
+    line-clamp: 4;
     overflow: hidden;
+  }
+
+  #ideaText {
+    height: 88px;
+    text-align: left;
+    line-height: 22px;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -ms-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-line-clamp: 4;
+    -moz-line-clamp: 4;
+    -ms-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+  }
+
+  #ideaTextOrganizer {
+    text-align: left;
+  }
+
+  #interestedText {
+    text-align: left;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }
+
+  #verticalsDiv {
+    display: flex;
+    flex-direction: column;
   }
 
   .organizerCard {
@@ -239,7 +272,6 @@
   }
 
   .idea {
-    margin-top: -25px;
     max-height: 150px;
     padding: 0 10px;
     overflow: auto;
@@ -292,6 +324,7 @@
 
   .tags {
     padding: 10px 10px;
+    padding-bottom: 0px;
 
     .tag {
       display: inline-block;
@@ -301,9 +334,11 @@
       font-size: 14px;
       padding: 2px 5px 3px 16px;
       margin: 5px 5px;
+      margin-left: 0px;
+      margin-top: 0px;
       font-weight: bold;
       border-radius: 5px;
-
+      /* 
       &:before {
         content: "";
         position: absolute;
@@ -325,12 +360,13 @@
         -webkit-border-radius: 50%;
         border-radius: 50%;
         background: $box-color;
-      }
+      } */
     }
   }
 
   .contact {
     padding: 0 10px;
+    margin-top: 10px;
   }
   #viewButton {
     -webkit-tap-highlight-color: transparent;

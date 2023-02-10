@@ -117,7 +117,7 @@ const filterSchema = {
 const uiFilterSchema = {
   verticals: {
     "ui:widget": "checkboxes",
-    "ui:column": "is-4",
+    "ui:column": "is-2",
   },
   skills: {
     "ui:widget": "checkboxes",
@@ -142,6 +142,7 @@ class Table extends React.Component {
       loading: false,
       error: undefined,
       openModal: false,
+      showForm: true,
     };
     this._search = this._search.bind(this);
     this._filter = this._filter.bind(this);
@@ -262,6 +263,7 @@ class Table extends React.Component {
     this.setState({ tabSelection: newValue });
     let results = this.state.user_json;
     if (newValue == 1) {
+      this.setState({ showForm: true });
       results = results.filter((user) => {
         return (
           user.forms.meet_info.isMentor != true &&
@@ -269,9 +271,13 @@ class Table extends React.Component {
         );
       });
     } else if (newValue == 2) {
+      this.setState({ showForm: false });
       results = results.filter((user) => user.forms.meet_info.isMentor);
     } else if (newValue == 3) {
+      this.setState({ showForm: false });
       results = results.filter((user) => user.forms.meet_info.isOrganizer);
+    } else if (newValue == 0) {
+      this.setState({ showForm: true });
     } else {
       shuffle(results);
     }
@@ -362,7 +368,14 @@ class Table extends React.Component {
                   </Tabs>
                 </Box>
                 <div className="directory-container">
-                  <div id="form" className="filter">
+                  <div
+                    id="form"
+                    className="filter"
+                    style={{
+                      marginTop: "0px",
+                      display: this.state.showForm ? "block" : "none",
+                    }}
+                  >
                     <Form
                       schema={filterSchema}
                       uiSchema={uiFilterSchema}
@@ -387,14 +400,30 @@ class Table extends React.Component {
                     </Form>
                   </div>
                   <div>
-                    <TabPanel value={this.state.tabSelection} index={0}>
-                      <Masonry className={"gallery"} options={style}>
-                        {results ? (
-                          <ChildComponent results={results} />
-                        ) : (
-                          <p>No signups yet</p>
-                        )}
-                      </Masonry>
+                    <TabPanel
+                      value={this.state.tabSelection}
+                      index={0}
+                      style={{
+                        padding: "0px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          margin: "0px",
+                          padding: "0px",
+                          width: "100%",
+                        }}
+                      >
+                        <Masonry className={"gallery"} options={style}>
+                          {results ? (
+                            <ChildComponent results={results} />
+                          ) : (
+                            <p>No signups yet</p>
+                          )}
+                        </Masonry>
+                      </div>
                     </TabPanel>
                     <TabPanel value={this.state.tabSelection} index={1}>
                       <Masonry className={"gallery"} options={style}>
@@ -458,6 +487,7 @@ function EntryComponent({ json }) {
   let profilePictureLink = json["forms"]["meet_info"]["profilePicture"];
   let commitment = json["forms"]["meet_info"]["commitment"];
   const isOrganizer = json["forms"]["meet_info"]["isOrganizer"];
+  const isMentor = json["forms"]["meet_info"]["isMentor"];
   var slackURL = "";
   if (json["forms"]["meet_info"]["slackURL"]) {
     slackURL = json["forms"]["meet_info"]["slackURL"];
@@ -491,7 +521,15 @@ function EntryComponent({ json }) {
   };
 
   return (
-    <div className={"entry " + (isOrganizer ? "organizerCard" : "")}>
+    <div
+      className={"entry " + (isOrganizer ? "organizerCard" : "")}
+      style={{
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+        paddingLeft: "5px",
+        paddingRight: "5px",
+      }}
+    >
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -509,7 +547,19 @@ function EntryComponent({ json }) {
           </Box>
         </Fade>
       </Modal>
-      <div className="header">
+      <div
+        className="header"
+        style={{
+          justifyContent: "flex-start",
+          alignItems: "center",
+          alignContent: "center",
+          paddingBottom: "0px",
+          display: "flex",
+          flexDirection: "row",
+          paddingTop: "5px",
+          marginTop: isOrganizer && "15px",
+        }}
+      >
         {profilePictureLink && (
           <img
             src={profilePictureLink}
@@ -517,48 +567,86 @@ function EntryComponent({ json }) {
             style={{ objectFit: "cover" }}
           />
         )}
-        <h3>
+        <h3
+          style={{
+            textAlign: "left",
+            marginBottom: "0px",
+            marginTop: isOrganizer && "0px",
+          }}
+        >
           {first_name} {last_letter} {pronouns && "(" + pronouns + ")"}{" "}
         </h3>
       </div>
-      <div className={"idea " + (isOrganizer ? "organizerCard" : "")}>
-        <Linkify componentDecorator={LinkDecorator}>
-          <p>
-            {isOrganizer && (
-              <>
-                <span style={{ fontWeight: "bold" }}>
-                  TreeHacks 2023 Organizer
-                </span>
-                <br />
-              </>
-            )}
+      <div
+        className={"idea " + (isOrganizer ? "organizerCard" : "")}
+        style={{
+          padding: 0,
+          justifyContent: "flex-start",
+          paddingLeft: 10,
+          paddingRight: 10,
+        }}
+      >
+        <p id={isOrganizer ? "ideaTextOrganizer" : "ideaText"}>
+          {isOrganizer && (
+            <>
+              <span
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                TreeHacks 2023 Organizer
+              </span>
+              <br />
+            </>
+          )}
+          {isMentor && (
+            <>
+              <span
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                TreeHacks 2023 Mentor
+              </span>
+              <br />
+            </>
+          )}
 
-            {idea}
-          </p>
-        </Linkify>
+          {idea}
+        </p>
       </div>
       <div className="tags">
-        {commitment && (
-          <div className="tag" style={{ backgroundColor: "#105E54" }}>
-            Commitment: {commitment}
-          </div>
+        {(verticals || commitment) && (
+          <p id="interestedText">Interests & Commitment</p>
         )}
-        {verticals &&
-          verticals.length > 0 &&
-          verticals.map((vertical) => (
-            <div
-              className="tag"
-              key={vertical}
-              style={{
-                backgroundColor: colors[getColorNum(vertical)],
-              }}
-            >
-              {vertical}
+        <div id="verticalsDiv">
+          {/* {verticals &&
+            verticals.length > 0 &&
+            verticals.map((vertical) => (
+              <div
+                className="tag"
+                key={vertical}
+                style={{
+                  backgroundColor: colors[getColorNum(vertical)],
+                }}
+              >
+                {vertical}
+              </div>
+            ))} */}
+          {verticals && (
+            <p style={{ marginTop: "0px", textAlign: "left" }}>
+              {verticals.join(", ")}
+            </p>
+          )}
+          {commitment && (
+            <div className="tag" style={{ backgroundColor: "#105E54" }}>
+              Commitment: {commitment}
             </div>
-          ))}
+          )}
+        </div>
       </div>
       {isOrganizer && (
-        <div style={{ marginBottom: "100" }}>
+        <div style={{ marginLeft: "10px" }}>
           <a href={slackURL}>
             <img src={require("../assets/slackLogo.png")} width="70" />
           </a>
@@ -573,7 +661,7 @@ function EntryComponent({ json }) {
         >
           view profile
         </ReactGA.OutboundLink> */}
-        <Button
+        <a
           onClick={handleOpen(json)}
           id="viewButton"
           style={{
@@ -585,8 +673,8 @@ function EntryComponent({ json }) {
             fontWeight: "400",
           }}
         >
-          view profile
-        </Button>
+          view full profile
+        </a>
       </div>
     </div>
   );

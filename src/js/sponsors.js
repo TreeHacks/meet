@@ -129,7 +129,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                         alt="sponsor logo"
                         style={{
                           objectFit: "contain",
-                          width: "80%",
+                          width: "70%",
                           height: "120px",
                         }}
                       />
@@ -137,6 +137,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                     <h3
                       style={{
                         margin: 0,
+                        marginTop: 10,
                         padding: 0,
                       }}
                     >
@@ -226,7 +227,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                         alt="sponsor logo"
                         style={{
                           objectFit: "contain",
-                          width: "80%",
+                          width: "70%",
                           height: "120px",
                         }}
                       />

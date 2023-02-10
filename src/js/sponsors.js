@@ -74,11 +74,12 @@ function SponsorsList({ sponsors, setSponsors, user }) {
     left: "50%",
     overflowY: "scroll",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: 500,
     height: "80%",
     bgcolor: "background.paper",
     boxShadow: 24,
   };
+
   return (
     <>
       <div id="table">
@@ -128,8 +129,8 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                         alt="sponsor logo"
                         style={{
                           objectFit: "contain",
-                          width: 100,
-                          marginBottom: "20px",
+                          width: "80%",
+                          height: "120px",
                         }}
                       />
                     )}
@@ -142,10 +143,6 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                       {modalData.name}
                     </h3>
                   </div>
-                  {modalData.description && (
-                    <div style={{}}>{modalData.description}</div>
-                  )}
-
                   {modalData.website_url && (
                     <a
                       target="_blank"
@@ -158,6 +155,11 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                     >
                       website
                     </a>
+                  )}
+                  {modalData.description && (
+                    <div style={{ marginTop: "10px" }}>
+                      {modalData.description}
+                    </div>
                   )}
 
                   {modalData.prizes && modalData.prizes.length > 0 && (
@@ -196,7 +198,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
             </Fade>
           </Modal>
           <ResponsiveMasonry
-            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1000: 4 }}
           >
             <Masonry>
               {sponsors.map((sponsor) => {
@@ -212,36 +214,45 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                     className={"entry"}
                     style={{
                       padding: 20,
+                      paddingTop: 20,
                       width: "auto",
                       position: "relative",
                       margin: 15,
                     }}
                   >
-                    <div className="header">
-                      {sponsor?.logo_url && (
-                        <img
-                          src={sponsor.logo_url}
-                          alt="sponsor logo"
-                          style={{ objectFit: "contain" }}
-                        />
-                      )}
-                      <h3
+                    {sponsor?.logo_url && (
+                      <img
+                        src={sponsor.logo_url}
+                        alt="sponsor logo"
                         style={{
-                          margin: 0,
-                          padding: 0,
+                          objectFit: "contain",
+                          width: "80%",
+                          height: "120px",
                         }}
-                      >
-                        {sponsor.name}
-                      </h3>
-                    </div>
-                    {sponsor.description && (
-                      <div style={{}}>{sponsor.description}</div>
+                      />
                     )}
-
+                    <h3
+                      style={{
+                        marginLeft: 20,
+                        marginRight: 20,
+                        padding: 0,
+                        marginTop: 20,
+                        marginBottom: 0,
+                        textAlign: "left",
+                        width: "100%",
+                      }}
+                    >
+                      {sponsor.name}
+                    </h3>
                     {sponsor.website_url && (
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
+                        style={{
+                          textAlign: "left",
+                          width: "100%",
+                          marginBottom: 10,
+                        }}
                         href={
                           sponsor.website_url.includes("http")
                             ? sponsor.website_url
@@ -251,9 +262,40 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                         website
                       </a>
                     )}
+                    {sponsor.description && (
+                      <div
+                        id="descText"
+                        style={{
+                          paddingTop: 0,
+                          marginLeft: 20,
+                          marginRight: 20,
+                          padding: 0,
+                          textAlign: "left",
+                          width: "100%",
+                        }}
+                      >
+                        {/*  {sponsor.description.length > 150
+                          ? sponsor.description.substring(0, 150) + "..."
+                          : sponsor.description.padStart(150, " ")} */}
+                        {sponsor.description}
+                      </div>
+                    )}
+
+                    <a
+                      target="_blank"
+                      onClick={() => handleOpen(sponsor)}
+                      rel="noopener noreferrer"
+                      style={{
+                        textAlign: "left",
+                        width: "100%",
+                        marginTop: 10,
+                      }}
+                    >
+                      click to view more
+                    </a>
 
                     {/* if you have prizes and its less than 2, we display all of them */}
-                    {sponsor.prizes &&
+                    {/* {sponsor.prizes &&
                       sponsor.prizes.length > 0 &&
                       sponsor.prizes.length <= 2 &&
                       sponsor.prizes.map((prize) => {
@@ -282,10 +324,10 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                             </p>
                           </div>
                         );
-                      })}
+                      })} */}
 
                     {/* if you have prizes and its more than 2, we display only 2, and the rest will be shown in see more */}
-                    {sponsor.prizes &&
+                    {/* {sponsor.prizes &&
                       sponsor.prizes.length > 0 &&
                       sponsor.prizes.length > 2 && (
                         <div>
@@ -331,7 +373,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                             See more
                           </Button>
                         </div>
-                      )}
+                      )} */}
 
                     <button
                       style={{
@@ -339,7 +381,7 @@ function SponsorsList({ sponsors, setSponsors, user }) {
                         background: "transparent",
                         border: "none",
                         position: "absolute",
-                        bottom: 10,
+                        top: 10,
                         right: 10,
                       }}
                       onClick={() =>

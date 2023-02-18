@@ -19,12 +19,11 @@ body {
 
   #menu {
     position: absolute;
-    width: 100vw;
+    width: 100%;
     height: 80px;
     background-color: $box-color;
     box-shadow: 0 5px 30px -5px rgba(0, 0, 0, 0.2);
     z-index: 101;
-
 
     #page-elems {
       height: 80px;
@@ -57,19 +56,19 @@ body {
       }
 
       @media screen and (max-width: 992px) {
-          #navbar-logo {
-            display: none !important;
-            background-color: red;
-          }
-
-          a {
-            font-size: $base-font-size;
-          }
-
-          a:last-of-type {
-            color: #f0163e;
-          }
+        #navbar-logo {
+          display: none !important;
+          background-color: red;
         }
+
+        a {
+          font-size: $base-font-size;
+        }
+
+        /*  a:last-of-type {
+          color: #f0163e;
+        } */
+      }
 
       #navbar-logo {
         margin-top: 2px;

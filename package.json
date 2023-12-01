@@ -42,10 +42,9 @@
     "node": "14.15.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server.js",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -62,6 +61,5 @@
       "last 1 safari version"
     ]
   },
-  "heroku-postbuild": "npm run build",
   "devDependencies": {}
 }

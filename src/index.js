@@ -122,6 +122,7 @@ function Main() {
           )}
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
+          <Link to="/ideas">find teammates</Link>
           {user && !user?.attributes["cognito:groups"]?.includes("sponsor") && (
             <Link to="/profile">edit profile</Link>
           )}

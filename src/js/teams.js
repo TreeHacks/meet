@@ -129,10 +129,12 @@ class MeetForm extends React.Component {
     } else if (calledApproved.includes(caller)) {
       return;
     } else {
-      callerPending += "," + called;
+      callerPending += called + ",";
       calledPending = [...new Set([...calledPending.split(','), ...callerPending.split(',')])].join(',');
       callerPending = calledPending;
     }
+    console.log("in add", callerPending);
+    console.log("in add", callerApproved);
     return { callerPending, callerApproved };
   }
 

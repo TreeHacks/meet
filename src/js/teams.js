@@ -52,9 +52,10 @@ class MeetForm extends React.Component {
   async componentDidMount() {
     console.log("user", this.props.user);
     console.log("username", this.props.user.username);
+    console.log("email", this.props.user.attributes.email);
     var meet_info = await API.get(
       "treehacks",
-      `/users/${this.props.user.username}/forms/meet_info`,
+      `/users/${this.props.user.attributes.email}/forms/meet_info`,
       {}
     )
       .then((response) => {

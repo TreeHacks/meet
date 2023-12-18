@@ -165,6 +165,7 @@ class MeetForm extends React.Component {
     } else {
       user_id = this.props.match.params.id;
     }
+    console.log("user id", user_id);
     this.setState({ id: user_id });
     const body = await API.get("treehacks", "/users_meet", {});
     var filteredResults = body.results

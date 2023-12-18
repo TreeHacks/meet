@@ -50,6 +50,8 @@ class MeetForm extends React.Component {
   }
 
   async componentDidMount() {
+    console.log("user", this.props.user);
+    console.log("username", this.props.user.username);
     var meet_info = await API.get(
       "treehacks",
       `/users/${this.props.user.username}/forms/meet_info`,
@@ -93,18 +95,34 @@ class MeetForm extends React.Component {
 
   async submitForm(e) {
     console.log(e.formData);
+
+    // Split the inputted string, eg. "add:username@gmail.com"
+    var inputCombined = e.formData.action;
+    var inputAction = inputCombined.split(separator)[0];
+    var inputId = inputCombined.split(separator)[1];
+
+    console.log(inputAction, inputId);
+
+    if (inputAction == "add") {
+      
+    } else if (inputAction == "rem") {
+      
+    } else {
+      // Say error
+    }
+    
     // TODO: So this is where all of the .add and .remove logic will come in. It'll be updating the payload!
-    const payload = {
-      body: { ...e.formData },
-    };
-    delete payload["body"]["userType"];
-    console.log("pload", payload);
-    const resp = await API.put(
-        "treehacks",
-        `/users/${this.props.user.username}/forms/meet_info`,
-        payload
-    );
-    console.log(resp);
+    // const payload = {
+    //  body: { ...e.formData },
+    //};
+    //delete payload["body"]["userType"];
+    //console.log("pload", payload);
+    //const resp = await API.put(
+    //    "treehacks",
+    //    `/users/${this.props.user.username}/forms/meet_info`,
+     //   payload
+    //);
+    //console.log(resp);
     this.setState({ redirect: true });
   }
 

@@ -159,6 +159,8 @@ class MeetForm extends React.Component {
     };
     delete payload["body"]["userType"];
     console.log("pload", payload);
+
+    // TODO: And here I'd be looping through the things that are in "approved" or "pending", and updating their lists accordingly
     const resp = await API.put(
         "treehacks",
         `/users/${this.props.user.username}/forms/meet_info`,

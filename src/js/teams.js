@@ -86,7 +86,7 @@ class MeetForm extends React.Component {
     console.log("username", this.props.user.username);
     console.log("email", this.props.user.attributes.email);
 
-    var {pending_list, approved_list} = this.getLists(this.props.user.username);
+    var {pending_list, approved_list} = await this.getLists(this.props.user.username);
     console.log("from helper", pending_list);
     console.log("from helper", approved_list);
     
@@ -110,8 +110,8 @@ class MeetForm extends React.Component {
     console.log("doing add");
     console.log(caller);
     console.log(called);
-    var { calledPending, calledApproved} = this.getLists(called);
-    var { callerPending, callerApproved} = this.getLists(caller); 
+    var { calledPending, calledApproved} = await this.getLists(called);
+    var { callerPending, callerApproved} = await this.getLists(caller); 
     var pendingList = [];
   }
 

@@ -98,8 +98,8 @@ class MeetForm extends React.Component {
 
     // Split the inputted string, eg. "add:username@gmail.com"
     var inputCombined = e.formData.action;
-    var inputAction = inputCombined.split(separator)[0];
-    var inputId = inputCombined.split(separator)[1];
+    var inputAction = inputCombined.split(":")[0];
+    var inputId = inputCombined.split(":")[1];
 
     console.log(inputAction, inputId);
 

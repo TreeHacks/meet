@@ -335,12 +335,12 @@ class Table extends React.Component {
                   }}
                 >
                   <h1 style={{ marginTop: "0px", marginBottom: "10px" }}>
-                    Welcome to Meet 2023!
+                    Welcome to Meet 2024!
                   </h1>
                   <p style={{ width: "80%" }}>
-                    Use this page to find others attending TreeHacks 2023.
+                    Use this page to find others attending TreeHacks 2024.
                     Toggle between pages to find different people. Members of
-                    the TreeHacks 2023 Organizing team are marked by the team
+                    the TreeHacks 2024 Organizing team are marked by the team
                     they work on so you can ask questions appropriately.
                   </p>
                 </div>

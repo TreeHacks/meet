@@ -75,6 +75,8 @@ class MeetForm extends React.Component {
     var pending_list = meet_info.pendingList;
     var approved_list = meet_info.approvedList;
 
+    console.log('username', this.props.user.username);
+
     if (pending_list){
       this.state.formSchema["properties"]["pendingList"]["default"] = pending_list;
     }

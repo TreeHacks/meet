@@ -116,15 +116,23 @@ class MeetForm extends React.Component {
     console.log(callerPending);
     var pendingList = [];
 
+    // TODO: Right now no safety implemented on capping the sizes
+    
     if (calledPending.includes(caller)) {
       callerApproved += "," + called;
-      
+      // Basically a union of caller and called approved
+      calledApproved = [...new Set([...calledApproved.split(','), ...callerApproved.split(',')])].join(',');
+      callerApproved = calledApproved;
+      calledPending = calledPending.replace("," + caller, "");
+      calledPending = [...new Set([...calledPending.split(','), ...callerPending.split(',')])].join(',');
+      callerPending = calledPending;
     } else if (calledApproved.includes(caller)) {
       return;
     } else {
-
+      callerPending += "," + called;
+      calledPending = [...new Set([...calledPending.split(','), ...callerPending.split(',')])].join(',');
+      callerPending = calledPending;
     }
-    
   }
 
   async submitForm(e) {
@@ -135,7 +143,7 @@ class MeetForm extends React.Component {
     var inputAction = inputCombined.split(":")[0];
     var inputId = inputCombined.split(":")[1];
 
-    console.log(inputAction, inputId);
+    console.log("action", inputAction, inputId);
 
     //if (inputAction == "add") {
     //  this.add(this.props.user.username, inputId);
@@ -146,17 +154,17 @@ class MeetForm extends React.Component {
     //}
     
     // TODO: So this is where all of the .add and .remove logic will come in. It'll be updating the payload!
-    // const payload = {
-    //  body: { ...e.formData },
-    //};
-    //delete payload["body"]["userType"];
-    //console.log("pload", payload);
-    //const resp = await API.put(
-    //    "treehacks",
-    //    `/users/${this.props.user.username}/forms/meet_info`,
-     //   payload
-    //);
-    //console.log(resp);
+    const payload = {
+      body: { pendingList: e.formData.action, approvedList: inputId },
+    };
+    delete payload["body"]["userType"];
+    console.log("pload", payload);
+    const resp = await API.put(
+        "treehacks",
+        `/users/${this.props.user.username}/forms/meet_info`,
+        payload
+    );
+    console.log(resp);
     this.setState({ redirect: true });
   }
 

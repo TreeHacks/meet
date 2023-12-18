@@ -112,7 +112,19 @@ class MeetForm extends React.Component {
     console.log(called);
     var { pendLis: calledPending, apprLis: calledApproved } = await this.getLists(called);
     var { pendLis: callerPending, apprLis: callerApproved } = await this.getLists(caller); 
+    console.log(calledPending);
+    console.log(callerPending);
     var pendingList = [];
+
+    if (calledPending.includes(caller)) {
+      callerApproved += "," + called;
+      
+    } else if (calledApproved.includes(caller)) {
+      return;
+    } else {
+
+    }
+    
   }
 
   async submitForm(e) {

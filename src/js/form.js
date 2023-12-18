@@ -228,6 +228,7 @@ class MeetForm extends React.Component {
         "Please enter your GMT timezone in a valid format (e.g GMT +0800, GMT -1130)"
       );
     } else {
+      console.log("pload", payload);
       const resp = await API.put(
         "treehacks",
         `/users/${this.props.user.username}/forms/meet_info`,

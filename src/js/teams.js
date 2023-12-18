@@ -72,7 +72,10 @@ class MeetForm extends React.Component {
       return;
     }
 
-    return { meet_info.pendingList, meet_info.approvedList };
+    var pendLis = meet_info.pendingList;
+    var apprLis = meet_info.approvedList
+
+    return { pendLis ,  apprLis };
   }
 
   async componentDidMount() {

@@ -133,6 +133,7 @@ class MeetForm extends React.Component {
       calledPending = [...new Set([...calledPending.split(','), ...callerPending.split(',')])].join(',');
       callerPending = calledPending;
     }
+    return { callerPending, callerApproved };
   }
 
   async submitForm(e) {
@@ -145,13 +146,16 @@ class MeetForm extends React.Component {
 
     console.log("action", inputAction, inputId);
 
-    //if (inputAction == "add") {
-    //  this.add(this.props.user.username, inputId);
-    //} else if (inputAction == "rem") {
+    if (inputAction == "add") {
+      var { callerPending: newPending, callerApproved: newApproved } = await this.add(this.props.user.username, inputId);;
+    } //else if (inputAction == "rem") {
     //  this.remove(this.props.user.username, inputId);
     //} else {
       // Say error
     //}
+
+    console.log("new pending", newPending);
+    console.log("new approved", newApproved);
     
     // TODO: So this is where all of the .add and .remove logic will come in. It'll be updating the payload!
     const payload = {

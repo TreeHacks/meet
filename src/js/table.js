@@ -185,6 +185,7 @@ class Table extends React.Component {
     //     user_list.map(e => ({ ...e, _id: e._id + i }))
     //   );
     // }
+    console.log("user list", user_list);
     var fuse = new Fuse(user_list, {
       keys: ["forms.meet_info.profileDesc", "forms.meet_info.first_name"],
       useExtendedSearch: true,

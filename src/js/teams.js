@@ -161,7 +161,7 @@ class MeetForm extends React.Component {
     
     // TODO: So this is where all of the .add and .remove logic will come in. It'll be updating the payload!
     const payload = {
-      body: { pendingList: e.formData.action, approvedList: inputId },
+      body: { pendingList: newPending, approvedList: newApproved },
     };
     delete payload["body"]["userType"];
     console.log("pload", payload);

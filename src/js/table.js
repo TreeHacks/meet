@@ -681,6 +681,7 @@ function EntryComponent({ json }) {
 }
 
 function ChildComponent({ results }) {
+  console.log(results);
   return (
     <>
       {results &&

@@ -6,6 +6,7 @@ import Table from "./js/table";
 import MeetForm from "./js/form";
 import JobsPage from "./js/jobs.js";
 import IdeasPage from "./js/ideas.js";
+import TeamsPage from "./js/teams.js";
 import ViewProfile from "./js/view_profile.js";
 import * as serviceWorker from "./js/serviceWorker";
 import API from "@aws-amplify/api";
@@ -122,7 +123,7 @@ function Main() {
           )}
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
-          <Link to="/ideas">find teammates</Link>
+          <Link to="/teams">find teammates</Link>
           {user && !user?.attributes["cognito:groups"]?.includes("sponsor") && (
             <Link to="/profile">edit profile</Link>
           )}
@@ -141,6 +142,7 @@ function Main() {
           <Route path="/sponsors">{user && <SponsorsPage user={user} />}</Route>
           <Route path="/admin">{<SponsorAdminPage user={user} />}</Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
+          <Route path="/teams">{user && <TeamsPage user={user} />}</Route>
           {/* <Route path="/view_profile/:id" component={ViewProfile}>
             {user && <ViewProfile />}
           </Route> */}

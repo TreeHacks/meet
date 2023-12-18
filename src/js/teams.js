@@ -49,6 +49,35 @@ class MeetForm extends React.Component {
     };
   }
 
+  async getLists(usernameToFetch) {
+    var meet_info = await API.get(
+      "treehacks",
+      `/users/${usernameToFetch}/forms/meet_info`,
+      {}
+    )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error;
+      });
+
+    const status = meet_info.response?.status ? meet_info.response.status : 200;
+    this.setState({ loading: false });
+    if (status !== 200) {
+      this.setState({ error: "You have don't have access" });
+      this.setState({
+        dataFetched: true,
+      });
+      return;
+    }
+
+    var pending_list = meet_info.pendingList;
+    var approved_list = meet_info.approvedList;
+
+    return pending_list, approved_list;
+  }
+
   async componentDidMount() {
     console.log("user", this.props.user);
     console.log("username", this.props.user.username);
@@ -94,6 +123,14 @@ class MeetForm extends React.Component {
     });
   }
 
+  async add(caller, called) {
+    console.log("doing add");
+    console.log(caller);
+    console.log(called);
+    var calledPending, calledApproved = getLists(called);
+    if 
+  }
+
   async submitForm(e) {
     console.log(e.formData);
 
@@ -105,9 +142,9 @@ class MeetForm extends React.Component {
     console.log(inputAction, inputId);
 
     if (inputAction == "add") {
-      
+      this.add(this.props.user.username, inputId);
     } else if (inputAction == "rem") {
-      
+      this.remove(this.props.user.username, inputId);
     } else {
       // Say error
     }

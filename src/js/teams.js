@@ -72,41 +72,16 @@ class MeetForm extends React.Component {
       return;
     }
 
-    var pending_list = meet_info.pendingList;
-    var approved_list = meet_info.approvedList;
-
-    return pending_list, approved_list;
+    return { meet_info.pendingList, meet_info.approvedList };
   }
 
   async componentDidMount() {
     console.log("user", this.props.user);
     console.log("username", this.props.user.username);
     console.log("email", this.props.user.attributes.email);
-    var meet_info = await API.get(
-      "treehacks",
-      `/users/${this.props.user.username}/forms/meet_info`,
-      {}
-    )
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        return error;
-      });
 
-    const status = meet_info.response?.status ? meet_info.response.status : 200;
-    this.setState({ loading: false });
-    if (status !== 200) {
-      this.setState({ error: "You have don't have access" });
-      this.setState({
-        dataFetched: true,
-      });
-      return;
-    }
-
-    var pending_list = meet_info.pendingList;
-    var approved_list = meet_info.approvedList;
-
+    var {pending_list, approved_list} = getLists(this.props.user.username);
+    
     console.log('username', this.props.user.username);
 
     if (pending_list){
@@ -127,8 +102,9 @@ class MeetForm extends React.Component {
     console.log("doing add");
     console.log(caller);
     console.log(called);
-    var calledPending, calledApproved = getLists(called);
-    if 
+    var { calledPending, calledApproved} = getLists(called);
+    var { callerPending, callerApproved} = getLists(caller); 
+    var pendingList = [];
   }
 
   async submitForm(e) {
@@ -141,13 +117,13 @@ class MeetForm extends React.Component {
 
     console.log(inputAction, inputId);
 
-    if (inputAction == "add") {
-      this.add(this.props.user.username, inputId);
-    } else if (inputAction == "rem") {
-      this.remove(this.props.user.username, inputId);
-    } else {
+    //if (inputAction == "add") {
+    //  this.add(this.props.user.username, inputId);
+    //} else if (inputAction == "rem") {
+    //  this.remove(this.props.user.username, inputId);
+    //} else {
       // Say error
-    }
+    //}
     
     // TODO: So this is where all of the .add and .remove logic will come in. It'll be updating the payload!
     // const payload = {

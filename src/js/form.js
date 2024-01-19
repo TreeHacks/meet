@@ -219,7 +219,13 @@ class MeetForm extends React.Component {
   async submitForm(e) {
     console.log(e.formData);
     const payload = {
-      body: { ...e.formData, isMentor: e.formData.userType === "Mentor" },
+      body: {
+        ...e.formData,
+        isMentor: e.formData.userType === "Mentor",
+        team: {
+          "ananya@stanford.edu": true,
+        }
+      },
     };
     delete payload["body"]["userType"];
 

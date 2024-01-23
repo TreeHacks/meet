@@ -233,7 +233,7 @@ class MeetForm extends React.Component {
 
     console.log(team_info_string);
 
-    const team_info = JSON.parse(team_info_string || "{}");
+    const team_info = typeof team_info_string === "string" ? JSON.parse(team_info_string) : team_info_string;
 
     console.log(team_info);
 

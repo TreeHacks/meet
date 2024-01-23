@@ -253,7 +253,7 @@ class MeetForm extends React.Component {
     // reupload team data
     const serialized = JSON.stringify(team_info);
     const payload = {
-      body: serialized,
+      body: { teamList: serialized },
     };
 
     console.log(serialized);

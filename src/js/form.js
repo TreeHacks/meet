@@ -168,6 +168,8 @@ class MeetForm extends React.Component {
       dataFetched: false,
       redirect: false,
       error: undefined,
+
+      teamEmail: "",
     };
   }
 
@@ -216,16 +218,51 @@ class MeetForm extends React.Component {
     }
   }
 
+  async submitTeamRequest() {
+    const team_info_string = await API.get(
+      "treehacks",
+      `/users/${this.props.user.username}/forms/team_info`,
+      {}
+    )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error;
+      });
+
+    const team_info = JSON.parse(team_info_string);
+
+    // can't have more than four team requests
+    if (Object.keys(team_info).length >= 4) {
+      return;
+    }
+
+    // TODO: check if user is on other's team
+    // if so, confirm their registration
+
+    // add email to user's team list
+    team_info[this.state.teamEmail] = 0;
+
+    // reupload team data
+    const serialized = JSON.stringify(team_info);
+    await API.put(
+      "treehacks",
+      `/users/${this.props.user.username}/forms/team_info`,
+      serialized
+    )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
   async submitForm(e) {
     console.log(e.formData);
     const payload = {
-      body: {
-        ...e.formData,
-        isMentor: e.formData.userType === "Mentor",
-        team: {
-          "ananya@stanford.edu": true,
-        }
-      },
+      body: { ...e.formData, isMentor: e.formData.userType === "Mentor" },
     };
     delete payload["body"]["userType"];
 
@@ -267,22 +304,39 @@ class MeetForm extends React.Component {
               Error: {this.state.error}
             </div>
           ) : (
-            <div id="form">
-              <h1
-                style={{ marginTop: "0px", marginBottom: "10px" }}
-                id="formHeader"
-              >
-                Tell us about yourself!
-              </h1>
-              <Form
-                schema={this.state.formSchema}
-                uiSchema={uiSchema}
-                onChange={log("changed")}
-                onSubmit={(e) => this.submitForm(e)}
-                onError={log("errors")}
-              />
-              {this.state.redirect && <Redirect to="/" />}
-            </div>
+            <>
+              <div id="form">
+                <h1
+                  style={{ marginTop: "0px", marginBottom: "10px" }}
+                  id="formHeader"
+                >
+                  Tell us about yourself!
+                </h1>
+                <Form
+                  schema={this.state.formSchema}
+                  uiSchema={uiSchema}
+                  onChange={log("changed")}
+                  onSubmit={(e) => this.submitForm(e)}
+                  onError={log("errors")}
+                />
+                {this.state.redirect && <Redirect to="/" />}
+              </div>
+
+              <div id="team">
+                <h1
+                  style={{ marginTop: "0px", marginBottom: "10px" }}
+                  id="formHeader"
+                >
+                  Build your team!
+                </h1>
+                
+                <input
+                  value={this.state.teamEmail}
+                  onChange={(e) => this.setState({ teamEmail: e.target.value })}
+                />
+                <button onClick={this.submitTeamRequest}>Request teammate</button>
+              </div>
+            </>
           )}
         </>
       );

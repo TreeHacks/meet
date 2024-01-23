@@ -252,11 +252,15 @@ class MeetForm extends React.Component {
 
     // reupload team data
     const serialized = JSON.stringify(team_info);
+    const payload = {
+      body: serialized,
+    };
+
     console.log(serialized);
     await API.put(
       "treehacks",
       `/users/${this.props.user.username}/forms/team_info`,
-      serialized
+      payload
     )
       .then((response) => {
         return response;

@@ -334,7 +334,7 @@ class MeetForm extends React.Component {
                   value={this.state.teamEmail}
                   onChange={(e) => this.setState({ teamEmail: e.target.value })}
                 />
-                <button onClick={this.submitTeamRequest}>Request teammate</button>
+                <button onClick={() => this.submitTeamRequest()}>Request teammate</button>
               </div>
             </>
           )}

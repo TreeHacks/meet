@@ -231,7 +231,11 @@ class MeetForm extends React.Component {
         return error;
       });
 
-    const team_info = JSON.parse(team_info_string);
+    console.log(team_info_string);
+
+    const team_info = JSON.parse(team_info_string || "{}");
+
+    console.log(team_info);
 
     // can't have more than four team requests
     if (Object.keys(team_info).length >= 4) {
@@ -244,8 +248,11 @@ class MeetForm extends React.Component {
     // add email to user's team list
     team_info[this.state.teamEmail] = 0;
 
+    console.log(team_info);
+
     // reupload team data
     const serialized = JSON.stringify(team_info);
+    console.log(serialized);
     await API.put(
       "treehacks",
       `/users/${this.props.user.username}/forms/team_info`,

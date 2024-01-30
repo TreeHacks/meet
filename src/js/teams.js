@@ -96,8 +96,8 @@ class MeetForm extends React.Component {
 
     const team_info = JSON.parse(team_info_response.teamList || "{}");
 
-    const pending_list = Object.keys(team_info).filter(team_info[pending_list] === 0);
-    const approved_list = Object.keys(team_info).filter(team_info[pending_list] === 1);
+    const pending_list = Object.keys(team_info).filter((email) => team_info[email] === 0);
+    const approved_list = Object.keys(team_info).filter((email) => team_info[email] === 1);
 
     if (pending_list){
       this.state.formSchema["properties"]["pendingList"]["default"] = pending_list;

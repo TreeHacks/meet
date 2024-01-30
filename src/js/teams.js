@@ -107,11 +107,7 @@ class MeetForm extends React.Component {
   }
 
   async add(caller, called) {
-    console.log("doing add");
-    console.log(caller);
-    console.log(called);
-    
-    const team_info = await API.get(
+    const team_info_response = await API.get(
       "treehacks",
       `/users/${caller}/forms/team_info`,
       {}
@@ -122,6 +118,8 @@ class MeetForm extends React.Component {
       .catch((error) => {
         return error;
       });
+
+    const team_info = JSON.parse(team_info_response.teamList || "{}");
 
     // can't have more than four team requests
     if (Object.keys(team_info).length >= 4) {

@@ -100,11 +100,11 @@ class MeetForm extends React.Component {
     const approved_list = Object.keys(team_info).filter((email) => team_info[email] === 1);
 
     if (pending_list){
-      this.state.formSchema["properties"]["pendingList"]["default"] = pending_list;
+      this.state.formSchema["properties"]["pendingList"]["default"] = pending_list.join(", ");
     }
 
     if (approved_list) {
-      this.state.formSchema["properties"]["approvedList"]["default"] = approved_list;
+      this.state.formSchema["properties"]["approvedList"]["default"] = approved_list.join(", ");
     }
 
     // TODO: This isn't the right spot for this

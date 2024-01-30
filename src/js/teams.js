@@ -110,32 +110,44 @@ class MeetForm extends React.Component {
     console.log("doing add");
     console.log(caller);
     console.log(called);
-    var { pendLis: calledPending, apprLis: calledApproved } = await this.getLists(called);
-    var { pendLis: callerPending, apprLis: callerApproved } = await this.getLists(caller); 
-    console.log(calledPending);
-    console.log(callerPending);
-    var pendingList = [];
-
-    // TODO: Right now no safety implemented on capping the sizes
     
-    if (calledPending.includes(caller)) {
-      callerApproved += "," + called;
-      // Basically a union of caller and called approved
-      calledApproved = [...new Set([...calledApproved.split(','), ...callerApproved.split(',')])].join(',');
-      callerApproved = calledApproved;
-      calledPending = calledPending.replace("," + caller, "");
-      calledPending = [...new Set([...calledPending.split(','), ...callerPending.split(',')])].join(',');
-      callerPending = calledPending;
-    } else if (calledApproved.includes(caller)) {
+    const team_info = await API.get(
+      "treehacks",
+      `/users/${caller}/forms/team_info`,
+      {}
+    )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error;
+      });
+
+    // can't have more than four team requests
+    if (Object.keys(team_info).length >= 4) {
       return;
-    } else {
-      callerPending += called + ",";
-      calledPending = [...new Set([...calledPending.split(','), ...callerPending.split(',')])].join(',');
-      callerPending = calledPending;
     }
-    console.log("in add", callerPending);
-    console.log("in add", callerApproved);
-    return { callerPending, callerApproved };
+    
+    // add email to user's team list
+    team_info[called] = 0;
+
+    // reupload team data
+    const serialized = JSON.stringify(team_info);
+    const payload = {
+      body: { teamList: serialized },
+    };
+
+    await API.put(
+      "treehacks",
+      `/users/${caller}/forms/team_info`,
+      payload
+    )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error;
+      });
   }
 
   async submitForm(e) {

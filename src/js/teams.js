@@ -82,15 +82,22 @@ class MeetForm extends React.Component {
   }
 
   async componentDidMount() {
-    console.log("user", this.props.user);
-    console.log("username", this.props.user.username);
-    console.log("email", this.props.user.attributes.email);
+    const team_info_response = await API.get(
+      "treehacks",
+      `/users/${this.props.user.username}/forms/team_info`,
+      {}
+    )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error;
+      });
 
-    var { pendLis: pending_list, apprLis: approved_list } = await this.getLists(this.props.user.username);
-    console.log("from helper", pending_list);
-    console.log("from helper", approved_list);
-    
-    console.log('username', this.props.user.username);
+    const team_info = JSON.parse(team_info_response.teamList || "{}");
+
+    const pending_list = Object.keys(team_info).filter(team_info[pending_list] === 0);
+    const approved_list = Object.keys(team_info).filter(team_info[pending_list] === 1);
 
     if (pending_list){
       this.state.formSchema["properties"]["pendingList"]["default"] = pending_list;
@@ -99,6 +106,7 @@ class MeetForm extends React.Component {
     if (approved_list) {
       this.state.formSchema["properties"]["approvedList"]["default"] = approved_list;
     }
+
     // TODO: This isn't the right spot for this
     this.setState({
         formSchema: this.state.formSchema,

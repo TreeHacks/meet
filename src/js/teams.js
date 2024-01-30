@@ -156,6 +156,43 @@ class MeetForm extends React.Component {
       });
   }
 
+  async remove(caller, called) {
+    const team_info_response = await API.get(
+      "treehacks",
+      `/users/${caller}/forms/team_info`,
+      {}
+    )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error;
+      });
+
+    const team_info = JSON.parse(team_info_response.teamList || "{}");
+    
+    // remove email from user's team list
+    delete team_info[called];
+
+    // reupload team data
+    const serialized = JSON.stringify(team_info);
+    const payload = {
+      body: { teamList: serialized },
+    };
+
+    await API.put(
+      "treehacks",
+      `/users/${caller}/forms/team_info`,
+      payload
+    )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
   async submitForm(e) {
     console.log(e.formData);
 
@@ -168,11 +205,11 @@ class MeetForm extends React.Component {
 
     if (inputAction == "add") {
       var { callerPending: newPending, callerApproved: newApproved } = await this.add(this.props.user.username, inputId);;
-    } //else if (inputAction == "rem") {
-    //  this.remove(this.props.user.username, inputId);
-    //} else {
+    } else if (inputAction == "rem") {
+      this.remove(this.props.user.username, inputId);
+    } else {
       // Say error
-    //}
+    }
 
     console.log("new pending", newPending);
     console.log("new approved", newApproved);

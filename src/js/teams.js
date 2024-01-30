@@ -81,7 +81,7 @@ class MeetForm extends React.Component {
     return { pendLis ,  apprLis };
   }
 
-  async componentDidMount() {
+  async loadLists() {
     const team_info_response = await API.get(
       "treehacks",
       `/users/${this.props.user.username}/forms/team_info`,
@@ -107,11 +107,14 @@ class MeetForm extends React.Component {
       this.state.formSchema["properties"]["approvedList"]["default"] = approved_list.join(", ");
     }
 
-    // TODO: This isn't the right spot for this
     this.setState({
-        formSchema: this.state.formSchema,
-        dataFetched: true,
+      formSchema: this.state.formSchema,
+      dataFetched: true,
     });
+  }
+
+  async componentDidMount() {
+    await this.loadLists();
   }
 
   async add(caller, called) {
@@ -194,45 +197,23 @@ class MeetForm extends React.Component {
   }
 
   async submitForm(e) {
-    console.log(e.formData);
-
     // Split the inputted string, eg. "add:username@gmail.com"
     var inputCombined = e.formData.action;
     var inputAction = inputCombined.split(":")[0];
     var inputId = inputCombined.split(":")[1];
 
-    console.log("action", inputAction, inputId);
-
     if (inputAction == "add") {
-      var { callerPending: newPending, callerApproved: newApproved } = await this.add(this.props.user.username, inputId);;
+      await this.add(this.props.user.username, inputId);;
     } else if (inputAction == "rem") {
-      this.remove(this.props.user.username, inputId);
+      await this.remove(this.props.user.username, inputId);
     } else {
       // Say error
     }
-
-    console.log("new pending", newPending);
-    console.log("new approved", newApproved);
     
-    // TODO: So this is where all of the .add and .remove logic will come in. It'll be updating the payload!
-    const payload = {
-      body: { pendingList: newPending, approvedList: newApproved },
-    };
-    delete payload["body"]["userType"];
-    console.log("pload", payload);
-
-    // TODO: And here I'd be looping through the things that are in "approved" or "pending", and updating their lists accordingly
-    const resp = await API.put(
-        "treehacks",
-        `/users/${this.props.user.username}/forms/meet_info`,
-        payload
-    );
-    console.log(resp);
-    this.setState({ redirect: true });
+    await this.loadLists();
   }
 
   render() {
-    //if (false) {
     if (!this.state.dataFetched) {
       return <Loading />;
     } else {

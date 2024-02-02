@@ -99,6 +99,7 @@ class MeetForm extends React.Component {
     ).catch((error) => {
       console.log("error adding teammate");
       console.log(error);
+      console.dir(error);
       this.setState({ error });
     });
   }
@@ -115,6 +116,7 @@ class MeetForm extends React.Component {
     ).catch((error) => {
       console.log("error removing teammate");
       console.log(error);
+      console.dir(error);
       this.setState({ error });
     });
   }

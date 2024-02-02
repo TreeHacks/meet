@@ -94,7 +94,7 @@ class MeetForm extends React.Component {
       body: { email: called },
     };
 
-    API.put(
+    return API.put(
       "treehacks",
       `/users/${caller}/forms/add_teammate`,
       payload
@@ -103,14 +103,14 @@ class MeetForm extends React.Component {
     });
   }
 
-  async remove(caller, called) {
+  remove(caller, called) {
     this.setState({ error: undefined });
 
     const payload = {
       body: { email: called },
     };
 
-    API.put(
+    return API.put(
       "treehacks",
       `/users/${caller}/forms/remove_teammate`,
       payload

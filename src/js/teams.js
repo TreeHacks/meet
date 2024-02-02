@@ -88,6 +88,8 @@ class MeetForm extends React.Component {
   }
 
   add(caller, called) {
+    this.setState({ error: undefined });
+
     const payload = {
       body: { email: called },
     };
@@ -97,15 +99,13 @@ class MeetForm extends React.Component {
       `/users/${caller}/forms/add_teammate`,
       payload
     ).catch((error) => {
-      console.log("error adding teammate");
-      console.log(error);
-      console.log(error.message);
-      console.dir(error);
-      this.setState({ error });
+      this.setState({ error: error.response.data.message });
     });
   }
 
   async remove(caller, called) {
+    this.setState({ error: undefined });
+
     const payload = {
       body: { email: called },
     };
@@ -115,11 +115,7 @@ class MeetForm extends React.Component {
       `/users/${caller}/forms/remove_teammate`,
       payload
     ).catch((error) => {
-      console.log("error removing teammate");
-      console.log(error);
-      console.log(error.message);
-      console.dir(error);
-      this.setState({ error });
+      this.setState({ error: error.response.data.message });
     });
   }
 

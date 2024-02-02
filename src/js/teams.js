@@ -65,7 +65,9 @@ class MeetForm extends React.Component {
     const team_info = JSON.parse(team_info_response.teamList || "{}");
 
     const pending_list = Object.keys(team_info).filter((email) => team_info[email] === 0);
-    const approved_list = Object.keys(team_info).filter((email) => team_info[email] === 1);
+    const approved_list = Object.keys(team_info).filter(
+      (email) => team_info[email] === 1 && email !== this.props.user.email
+    );
 
     if (pending_list){
       this.state.formSchema["properties"]["pendingList"]["default"] = pending_list.join(", ");
@@ -85,83 +87,32 @@ class MeetForm extends React.Component {
     await this.loadLists();
   }
 
-  async add(caller, called) {
-    const team_info_response = await API.get(
-      "treehacks",
-      `/users/${caller}/forms/team_info`,
-      {}
-    )
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        return error;
-      });
-
-    const team_info = JSON.parse(team_info_response.teamList || "{}");
-
-    // can't have more than four team requests
-    if (Object.keys(team_info).length >= 4) {
-      return;
-    }
-    
-    // add email to user's team list
-    team_info[called] = 0;
-
-    // reupload team data
-    const serialized = JSON.stringify(team_info);
+  add(caller, called) {
     const payload = {
-      body: { teamList: serialized },
+      body: { email: called },
     };
 
-    await API.put(
+    API.put(
       "treehacks",
-      `/users/${caller}/forms/team_info`,
+      `/users/${caller}/forms/add_teammate`,
       payload
-    )
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        return error;
-      });
+    ).catch((error) => {
+      this.setState({ error });
+    });
   }
 
   async remove(caller, called) {
-    const team_info_response = await API.get(
-      "treehacks",
-      `/users/${caller}/forms/team_info`,
-      {}
-    )
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        return error;
-      });
-
-    const team_info = JSON.parse(team_info_response.teamList || "{}");
-    
-    // remove email from user's team list
-    delete team_info[called];
-
-    // reupload team data
-    const serialized = JSON.stringify(team_info);
     const payload = {
-      body: { teamList: serialized },
+      body: { email: called },
     };
 
-    await API.put(
+    API.put(
       "treehacks",
-      `/users/${caller}/forms/team_info`,
+      `/users/${caller}/forms/remove_teammate`,
       payload
-    )
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        return error;
-      });
+    ).catch((error) => {
+      this.setState({ error });
+    });
   }
 
   async submitForm(e) {

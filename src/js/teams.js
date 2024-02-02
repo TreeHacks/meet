@@ -100,16 +100,13 @@ class MeetForm extends React.Component {
       `/users/${caller}/forms/add_teammate`,
       payload
     )
-      .then(() => {
+      .then((response) => {
         console.log("added teammate");
         console.dir(response);
         this.setState({ lastResponse: response });
       })
-      .catch((error) => {
-        console.log("error adding teammate");
-        console.log(error);
-        console.dir(error);
-        this.setState({ error });
+      .catch(() => {
+        this.setState({ error: true });
       });
   }
 

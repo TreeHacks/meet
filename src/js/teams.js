@@ -45,8 +45,7 @@ class MeetForm extends React.Component {
       formSchema: schema,
       dataFetched: false,
       redirect: false,
-      error: false,
-      lastResponse: undefined,
+      error: undefined,
     };
   }
 
@@ -89,8 +88,6 @@ class MeetForm extends React.Component {
   }
 
   add(caller, called) {
-    this.setState({ error: false });
-
     const payload = {
       body: { email: called },
     };
@@ -99,20 +96,15 @@ class MeetForm extends React.Component {
       "treehacks",
       `/users/${caller}/forms/add_teammate`,
       payload
-    )
-      .then((response) => {
-        console.log("added teammate");
-        console.dir(response);
-        this.setState({ lastResponse: response });
-      })
-      .catch(() => {
-        this.setState({ error: true });
-      });
+    ).catch((error) => {
+      console.log("error adding teammate");
+      console.log(error);
+      console.dir(error);
+      this.setState({ error });
+    });
   }
 
   async remove(caller, called) {
-    this.setState({ error: false });
-    
     const payload = {
       body: { email: called },
     };
@@ -121,15 +113,12 @@ class MeetForm extends React.Component {
       "treehacks",
       `/users/${caller}/forms/remove_teammate`,
       payload
-    )
-      .then((response) => {
-        console.log("removed teammate");
-        console.dir(response);
-        this.setState({ lastResponse: response });
-      })
-      .catch(() => {
-        this.setState({ error: true });
-      });
+    ).catch((error) => {
+      console.log("error removing teammate");
+      console.log(error);
+      console.dir(error);
+      this.setState({ error });
+    });
   }
 
   async submitForm(e) {

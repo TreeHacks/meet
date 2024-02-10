@@ -493,7 +493,7 @@ function EntryComponent({ json }) {
 
   // determine number of teammates
   const team = JSON.parse(json["forms"]["team_info"]["teamList"] || "{}");
-  const teammates = Object.keys(team).length;
+  const teammates = Object.keys(team).length || 1;
 
   var slackURL = "";
   if (json["forms"]["meet_info"]["slackURL"]) {
@@ -651,8 +651,6 @@ function EntryComponent({ json }) {
             </div>
           )}
         </div>
-      </div>
-      <div>
         <p id="teamText">Team Size: {teammates} / 4</p>
       </div>
       {isOrganizer && (

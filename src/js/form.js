@@ -218,54 +218,6 @@ class MeetForm extends React.Component {
     }
   }
 
-  async submitTeamRequest() {
-    const team_info_string = await API.get(
-      "treehacks",
-      `/users/${this.props.user.username}/forms/team_info`,
-      {}
-    )
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        return error;
-      });
-
-    const team_info = typeof team_info_string === "string" ? JSON.parse(team_info_string) : team_info_string;
-
-    // can't have more than four team requests
-    if (Object.keys(team_info).length >= 4) {
-      return;
-    }
-
-    // TODO: check if user is on other's team
-    // if so, confirm their registration
-
-    // add email to user's team list
-    team_info[this.state.teamEmail] = 0;
-
-    console.log(team_info);
-
-    // reupload team data
-    const serialized = JSON.stringify(team_info);
-    const payload = {
-      body: { teamList: serialized },
-    };
-
-    console.log(serialized);
-    await API.put(
-      "treehacks",
-      `/users/${this.props.user.username}/forms/team_info`,
-      payload
-    )
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        return error;
-      });
-  }
-
   async submitForm(e) {
     console.log(e.formData);
     const payload = {
@@ -327,21 +279,6 @@ class MeetForm extends React.Component {
                   onError={log("errors")}
                 />
                 {this.state.redirect && <Redirect to="/" />}
-              </div>
-
-              <div id="team">
-                <h1
-                  style={{ marginTop: "0px", marginBottom: "10px" }}
-                  id="formHeader"
-                >
-                  Build your team!
-                </h1>
-                
-                <input
-                  value={this.state.teamEmail}
-                  onChange={(e) => this.setState({ teamEmail: e.target.value })}
-                />
-                <button onClick={() => this.submitTeamRequest()}>Request teammate</button>
               </div>
             </>
           )}

@@ -231,11 +231,7 @@ class MeetForm extends React.Component {
         return error;
       });
 
-    console.log(team_info_string);
-
     const team_info = typeof team_info_string === "string" ? JSON.parse(team_info_string) : team_info_string;
-
-    console.log(team_info);
 
     // can't have more than four team requests
     if (Object.keys(team_info).length >= 4) {

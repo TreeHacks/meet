@@ -489,6 +489,11 @@ function EntryComponent({ json }) {
   let commitment = json["forms"]["meet_info"]["commitment"];
   const isOrganizer = json["forms"]["meet_info"]["isOrganizer"];
   const isMentor = json["forms"]["meet_info"]["isMentor"];
+
+  // determine number of teammates
+  const team = JSON.parse(json["forms"]["team_info"]["teamList"] || "{}");
+  const teammates = Object.keys(team).length;
+
   var slackURL = "";
   if (json["forms"]["meet_info"]["slackURL"]) {
     slackURL = json["forms"]["meet_info"]["slackURL"];
@@ -645,6 +650,9 @@ function EntryComponent({ json }) {
             </div>
           )}
         </div>
+      </div>
+      <div>
+        <p id="teamText">Team Size: {teammates} / 4</p>
       </div>
       {isOrganizer && (
         <div style={{ marginLeft: "10px" }}>

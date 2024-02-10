@@ -177,6 +177,7 @@ class Table extends React.Component {
         user_json.forms.meet_info &&
         user_json.forms.meet_info.showProfile &&
         user_json.forms.meet_info.profileDesc &&
+        user_json.forms.team_info &&
         user_list.push(user_json)
     );
     // For testing with many users

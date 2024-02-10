@@ -651,7 +651,7 @@ function EntryComponent({ json }) {
             </div>
           )}
         </div>
-        <p id="teamText">Team Size: {teammates} / 4</p>
+        <p id="teamText" style={{ textAlign: "left" }}>Team Size: {teammates} / 4</p>
       </div>
       {isOrganizer && (
         <div style={{ marginLeft: "10px" }}>

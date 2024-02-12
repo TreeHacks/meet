@@ -116,6 +116,7 @@ const filterSchema = {
     teammates: {
       title: "Number of Teammates",
       type: "array",
+      uniqueItems: true,
       items: {
         type: "string",
         enum: ["1", "2", "3", "4"],

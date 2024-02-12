@@ -115,11 +115,6 @@ function Main() {
               </div>
             </a>
           </li>
-          {user && user?.attributes["cognito:groups"]?.includes("sponsor") ? (
-            <Link to="/admin">admin</Link>
-          ) : (
-            <Link to="/sponsors">sponsors</Link>
-          )}
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
           <Link to="/teams">form team</Link>
@@ -138,7 +133,6 @@ function Main() {
             path="/users/:userId"
             render={(props) => <UserProfile {...props} />}
           ></Route>
-          <Route path="/admin">{<SponsorAdminPage user={user} />}</Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
           <Route path="/teams">{user && <TeamsPage user={user} />}</Route>
           {/* <Route path="/view_profile/:id" component={ViewProfile}>

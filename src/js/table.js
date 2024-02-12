@@ -66,6 +66,15 @@ const filterSchema = {
   type: "object",
   required: [],
   properties: {
+    teammates: {
+      title: "Number of Teammates",
+      type: "array",
+      uniqueItems: true,
+      items: {
+        type: "string",
+        enum: ["1", "2", "3", "4"],
+      },
+    },
     verticals: {
       title: "Challenges",
       type: "array",
@@ -113,18 +122,13 @@ const filterSchema = {
         enum: ["High", "Medium", "Low"],
       },
     },
-    teammates: {
-      title: "Number of Teammates",
-      type: "array",
-      uniqueItems: true,
-      items: {
-        type: "string",
-        enum: ["1", "2", "3", "4"],
-      },
-    },
   },
 };
 const uiFilterSchema = {
+  teammates: {
+    "ui:widget": "checkboxes",
+    "ui:column": "is-4",
+  },
   verticals: {
     "ui:widget": "checkboxes",
     "ui:column": "is-2",
@@ -134,10 +138,6 @@ const uiFilterSchema = {
     "ui:column": "is-4",
   },
   commitment: {
-    "ui:widget": "checkboxes",
-    "ui:column": "is-4",
-  },
-  teammates: {
     "ui:widget": "checkboxes",
     "ui:column": "is-4",
   }
@@ -371,10 +371,7 @@ class Table extends React.Component {
                     Welcome to Teams 2024!
                   </h1>
                   <p style={{ width: "80%" }}>
-                    Use this page to find others attending TreeHacks 2024.
-                    Toggle between pages to find different people. Members of
-                    the TreeHacks 2024 Organizing team are marked by the team
-                    they work on so you can ask questions appropriately.
+                    Find others attending TreeHacks 2024 and register your team!                  
                   </p>
                 </div>
                 <div className="search">

@@ -134,7 +134,6 @@ const uiFilterSchema = {
     "ui:column": "is-4",
   },
   teammates: {
-    "ui:widget": "checkboxes",
     "ui:column": "is-4",
   }
 };

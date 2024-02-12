@@ -368,7 +368,7 @@ class Table extends React.Component {
                   }}
                 >
                   <h1 style={{ marginTop: "0px", marginBottom: "10px" }}>
-                    Welcome to Meet 2024!
+                    Welcome to Teams 2024!
                   </h1>
                   <p style={{ width: "80%" }}>
                     Use this page to find others attending TreeHacks 2024.

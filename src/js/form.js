@@ -9,13 +9,6 @@ const schema = {
   required: [],
   properties: {
     profileDesc: { type: "string", title: "Profile Description" },
-    numMoreTeammates: {
-      title: "Looking for N teammates",
-      type: "string",
-      default: "0",
-      enumNames: ["0", "1", "2", "3"],
-      enum: ["0", "1", "2", "3"],
-    },
     idea: { type: "string", title: "Challenge ideas" },
     verticals: {
       title: "Challenges I'm interested in",
@@ -97,9 +90,6 @@ const uiSchema = {
     "ui:options": {
       rows: 3,
     },
-  },
-  numMoreTeammates: {
-    "ui:description": "How many more teammates are you looking for?",
   },
   idea: {
     "ui:widget": "textarea",

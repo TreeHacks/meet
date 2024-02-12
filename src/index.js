@@ -13,7 +13,6 @@ import API from "@aws-amplify/api";
 import queryString from "query-string";
 import logo from "./svg/logo.svg";
 import UserProfile from "./js/userProfile";
-import SponsorsPage from "./js/sponsors";
 import SponsorAdminPage from "./js/sponsorAdmins";
 
 const LOGIN_URL = process.env.REACT_APP_LOGIN_URL;
@@ -112,7 +111,7 @@ function Main() {
               <div id="title">
                 <span className="logo-text-tree">tree</span>
                 <span className="logo-text-hacks">hacks</span>
-                <span className="logo-text-meet">meet</span>
+                <span className="logo-text-meet">teams</span>
               </div>
             </a>
           </li>
@@ -123,7 +122,7 @@ function Main() {
           )}
           <Link to="/">people</Link>
           <Link to="/ideas">ideas</Link>
-          <Link to="/teams">find teammates</Link>
+          <Link to="/teams">form team</Link>
           {user && !user?.attributes["cognito:groups"]?.includes("sponsor") && (
             <Link to="/profile">edit profile</Link>
           )}
@@ -139,7 +138,6 @@ function Main() {
             path="/users/:userId"
             render={(props) => <UserProfile {...props} />}
           ></Route>
-          <Route path="/sponsors">{user && <SponsorsPage user={user} />}</Route>
           <Route path="/admin">{<SponsorAdminPage user={user} />}</Route>
           <Route path="/ideas">{user && <IdeasPage user={user} />}</Route>
           <Route path="/teams">{user && <TeamsPage user={user} />}</Route>

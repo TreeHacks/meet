@@ -146,7 +146,7 @@ class Table extends React.Component {
                   <p>
                     Use this page to find ideas you might want to work on,
                     contributed by your fellow hackers. If you want to add an
-                    idea below, pitch it in your Meet profile! <br />
+                    idea below, pitch it in your Teams profile! <br />
                     <br />
                     P.S. This page only shows hackers who have pitched an idea -
                     use the people tab to see a full list of people at TreeHacks

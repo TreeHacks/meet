@@ -4,6 +4,7 @@ import Masonry from "react-masonry-component";
 import Fuse from "fuse.js";
 import Loading from "./loading";
 import debounce from "lodash.debounce";
+import { set } from "lodash";
 import Linkify from "react-linkify";
 import ReactGA from "react-ga";
 import Tabs from "@mui/material/Tabs";
@@ -112,6 +113,11 @@ const filterSchema = {
         enum: ["High", "Medium", "Low"],
       },
     },
+    teammates: {
+      title: "Number of Teammates",
+      type: "integer",
+      enum: [1, 2, 3, 4],
+    },
   },
 };
 const uiFilterSchema = {
@@ -127,8 +133,13 @@ const uiFilterSchema = {
     "ui:widget": "checkboxes",
     "ui:column": "is-4",
   },
+  teammates: {
+    "ui:widget": "range",
+    "ui:column": "is-4",
+  }
 };
 const log = (type) => console.log.bind(console, type);
+const parseTeam = (user) => JSON.parse(user["forms"]["team_info"]["teamList"] || "{}");
 class Table extends React.Component {
   constructor(props) {
     super(props);
@@ -180,6 +191,11 @@ class Table extends React.Component {
         user_json.forms.team_info &&
         user_list.push(user_json)
     );
+
+    user_list = user_list.map(
+      (user) => set(user, "forms.team_info.teamList", parseTeam(user))
+    );
+
     // For testing with many users
     // for (let i = 1; user_list.length < 500; i++) {
     //   user_list = user_list.concat(
@@ -249,6 +265,16 @@ class Table extends React.Component {
             ),
           ];
         });
+      }
+      if (this.state.filters.teammates) {
+        results = [
+          ...results,
+          ...this.state.user_json.filter(
+            (user) =>
+              Object.keys(user.forms.team_info.teamList).length || 1 ===
+              this.state.filters.teammates
+          )
+        ]
       }
       this.setState({ results });
     } else {
@@ -490,10 +516,7 @@ function EntryComponent({ json }) {
   let commitment = json["forms"]["meet_info"]["commitment"];
   const isOrganizer = json["forms"]["meet_info"]["isOrganizer"];
   const isMentor = json["forms"]["meet_info"]["isMentor"];
-
-  // determine number of teammates
-  const team = JSON.parse(json["forms"]["team_info"]["teamList"] || "{}");
-  const teammates = Object.keys(team).length || 1;
+  const teammates = Object.keys(json["forms"]["team_info"]["teamList"]) || 1;
 
   var slackURL = "";
   if (json["forms"]["meet_info"]["slackURL"]) {

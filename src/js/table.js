@@ -272,7 +272,7 @@ class Table extends React.Component {
           ...this.state.user_json.filter(
             (user) =>
               Object.keys(user.forms.team_info.teamList).length || 1 ===
-              Number.parseInt(this.state.filters.teammates)
+              this.state.filters.teammates
           )
         ]
       }

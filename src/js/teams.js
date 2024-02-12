@@ -16,10 +16,12 @@ const schema = {
 
 const uiSchema = {
   action: {
-    "ui:placeholder": "Do 'add:emailaddr@urmom.com' or 'rem:emailaddr@ur.mom'",
+    "ui:description": "Add or remove teammate:",
+    "ui:placeholder": "Do 'add:hacker@example.com' or 'rem:hacker@example.com'",
   },
   pendingList: {
     "ui:widget": "textarea",
+    "ui:description": "Pending teammates:",
     "ui:placeholder": "No pending teammates",
     "ui:options": {
       rows: 3,
@@ -28,6 +30,7 @@ const uiSchema = {
   },
   approvedList: {
     "ui:widget": "textarea",
+    "ui:description": "Approved teammates:",
     "ui:placeholder": "No approved teammates",
     "ui:options": {
       rows: 3,

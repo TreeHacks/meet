@@ -115,8 +115,11 @@ const filterSchema = {
     },
     teammates: {
       title: "Number of Teammates",
-      type: "string",
-      enum: ["1", "2", "3", "4"],
+      type: "array",
+      items: {
+        type: "string",
+        enum: ["1", "2", "3", "4"],
+      },
     },
   },
 };
@@ -134,7 +137,7 @@ const uiFilterSchema = {
     "ui:column": "is-4",
   },
   teammates: {
-    "ui:widget": "checkbox",
+    "ui:widget": "checkboxes",
     "ui:column": "is-4",
   }
 };
@@ -267,12 +270,14 @@ class Table extends React.Component {
         });
       }
       if (this.state.filters.teammates) {
+        const teammateFilter = this.state.filters.teammates.map(Number.parseInt);
+
         results = [
           ...results,
           ...this.state.user_json.filter(
-            (user) =>
-              Object.keys(user.forms.team_info.teamList).length || 1 ===
-              Number.parseInt(this.state.filters.teammates)
+            (user) => teammateFilter.includes(
+              Object.keys(user.forms.team_info.teamList).length || 1
+            )
           )
         ]
       }

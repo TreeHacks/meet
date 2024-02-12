@@ -115,8 +115,8 @@ const filterSchema = {
     },
     teammates: {
       title: "Number of Teammates",
-      type: "string",
-      enum: ["1", "2", "3", "4"],
+      type: "integer",
+      enum: [1, 2, 3, 4],
     },
   },
 };
@@ -134,7 +134,7 @@ const uiFilterSchema = {
     "ui:column": "is-4",
   },
   teammates: {
-    "ui:widget": "checkboxes",
+    "ui:widget": "checkbox",
     "ui:column": "is-4",
   }
 };

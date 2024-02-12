@@ -18,11 +18,10 @@ const schema = {
         type: "string",
         enum: [
           "Healthcare",
-          "New Frontiers",
-          "Web 3.0 and Fintech",
+          "Blockchain and Security",
           "Sustainability",
           "Education",
-          "Privacy and Safety",
+          "Entertainment & Interaction",
         ],
       },
     },
@@ -115,7 +114,7 @@ const uiSchema = {
     "ui:description": "Are you a hacker vs mentor?",
   },
   commitment: {
-    "ui:description": "What is your commitment level for TreeHacks 2023?",
+    "ui:description": "What is your commitment level for TreeHacks 2024?",
   },
   githubLink: {
     "ui:description": "Social Media Links:",

@@ -227,7 +227,7 @@ class MeetForm extends React.Component {
               to={contact_url}
               target="_blank"
             >
-              Contact on Slack
+              Contact
             </ReactGA.OutboundLink>
           </div>
 

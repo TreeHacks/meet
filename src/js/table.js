@@ -627,7 +627,7 @@ function EntryComponent({ json }) {
                   fontWeight: "bold",
                 }}
               >
-                TreeHacks 2023 Organizer
+                TreeHacks 2024 Organizer
               </span>
               <br />
             </>
@@ -639,7 +639,7 @@ function EntryComponent({ json }) {
                   fontWeight: "bold",
                 }}
               >
-                TreeHacks 2023 Mentor
+                TreeHacks 2024 Mentor
               </span>
               <br />
             </>

@@ -115,8 +115,8 @@ const filterSchema = {
     },
     teammates: {
       title: "Number of Teammates",
-      type: "integer",
-      enum: [1, 2, 3, 4],
+      type: "string",
+      enum: ["1", "2", "3", "4"],
     },
   },
 };
@@ -272,7 +272,7 @@ class Table extends React.Component {
           ...this.state.user_json.filter(
             (user) =>
               Object.keys(user.forms.team_info.teamList).length || 1 ===
-              this.state.filters.teammates
+              Number.parseInt(this.state.filters.teammates)
           )
         ]
       }

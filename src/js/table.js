@@ -272,6 +272,8 @@ class Table extends React.Component {
       }
       if (this.state.filters.teammates) {
         const teammateFilter = this.state.filters.teammates.map(Number.parseInt);
+        console.log(teammateFilter);
+        console.log(this.state.filters.teammates);
 
         results = [
           ...results,

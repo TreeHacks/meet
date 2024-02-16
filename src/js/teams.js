@@ -16,7 +16,7 @@ const schema = {
 
 const uiSchema = {
   action: {
-    "ui:description": "Add or remove teammates with their email! Both parties need to add the email from either side for it to move from 'pending' to 'approved'. You can also merge teams by just adding a single member from the other team to your team (capped at 4 people/team). :",
+    "ui:description": "Add or remove teammates with their email! To 'approve' a team, make sure both users add each other:",
     "ui:placeholder": "Do 'add:hacker@example.com' or 'rem:hacker@example.com'",
   },
   pendingList: {
@@ -30,7 +30,7 @@ const uiSchema = {
   },
   approvedList: {
     "ui:widget": "textarea",
-    "ui:description": "Approved teammates:",
+    "ui:description": "Approved teammates (cap of 4 / team):",
     "ui:placeholder": "No approved teammates",
     "ui:options": {
       rows: 3,

@@ -121,6 +121,7 @@ function Main() {
           {user && !user?.attributes["cognito:groups"]?.includes("sponsor") && (
             <Link to="/profile">edit profile</Link>
           )}
+          <a href="https://youtu.be/08bUlbXf5mk">demo</a>
           {/* TODO: is this necessary? */}
           {/* <Link to={user_url}>account</Link> */}
           <Link to="/logout" onClick={logout}>

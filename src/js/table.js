@@ -4,7 +4,7 @@ import Masonry from "react-masonry-component";
 import Fuse from "fuse.js";
 import Loading from "./loading";
 import debounce from "lodash.debounce";
-import { set } from "lodash";
+import { set, pickBy } from "lodash";
 import Linkify from "react-linkify";
 import ReactGA from "react-ga";
 import Tabs from "@mui/material/Tabs";
@@ -143,7 +143,7 @@ const uiFilterSchema = {
   }
 };
 const log = (type) => console.log.bind(console, type);
-const parseTeam = (user) => JSON.parse(user["forms"]["team_info"]["teamList"] || "{}");
+const parseTeam = (user) => pickBy(JSON.parse(user["forms"]["team_info"]["teamList"] || "{}"), val => val === 1);
 class Table extends React.Component {
   constructor(props) {
     super(props);
